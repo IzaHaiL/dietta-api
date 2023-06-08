@@ -36,9 +36,9 @@ Here is a description of the main features that can be accessed through the API 
  4. Update Akun	Api Untuk Memperbaruhi Akun Pengguna	**/user/update/{id}** 	
  5. Delete Akun	Api Untuk Menghapus Akun  Pengguna	**/user/{id}**
  
->  	Video	localhost:8181
+  	Video	localhost:8181
 
-7. Create Data Pedoman	Api Untuk Membuat Data Pedoman Hidup
+ 7. Create Data Pedoman	Api Untuk Membuat Data Pedoman Hidup
     Sehat	**/api/video/add**
  8. Read List Data Pedoman	Api Untuk Membaca Daftar Pedoman Hidup
     Sehat	**/api/video/all**
@@ -49,7 +49,7 @@ Here is a description of the main features that can be accessed through the API 
  11. Delete Data Catatan Makanan	Api Untuk Menghapus Pedoman Hidup
     Sehat	**/video/delete/{id}**
 
-> 	Diary	localhost:8282
+	Diary	localhost:8282
 
  12. Create Catatan Data Makanan	Api Untuk Membuat Catatan Data
     Makanan	**/diary/add**
@@ -62,7 +62,7 @@ Here is a description of the main features that can be accessed through the API 
  16. Delete Data Catatan Makanan	Api Untuk Menghapus Catatan Data
     Makanan	**/diary/{id}**
 
-> 	History	localhost:8383
+ 	History	localhost:8383
 
  17. Create History Olahraga	Api Untuk Membuat History
     Olahraga	**/history/add**
@@ -73,7 +73,7 @@ Here is a description of the main features that can be accessed through the API 
  20. Delete History Olahraga	Api Untuk Memperbaruhi History
     Olahraga	**/history/{id}**
 
-> 	Culinary	localhost:8484
+	Culinary	localhost:8484
 
  21. Create Rekomendasi Makanan Sehat	Api Untuk Membuat Rekomendasi
     Makanan Sehat	**/food/add**
