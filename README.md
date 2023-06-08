@@ -28,15 +28,18 @@ Here is a description of the main features that can be accessed through the API 
 # API
 
 	Eureka	localhost:8888	
-> 	Akun	localhost:8080
+	
+	Akun	localhost:8080
 
  1. Create Akun	Api Untuk Membuat Akun Pengguna	**/user/add** 	
  2. Read List Akun	Api Untuk Membaca Daftar Akun Pengguna	**/user/all** 	
  3. Read Detail Akun	Api Unuk Membaca Detail Akun Pengguna	**/user/{id}**
  4. Update Akun	Api Untuk Memperbaruhi Akun Pengguna	**/user/update/{id}** 	
  5. Delete Akun	Api Untuk Menghapus Akun  Pengguna	**/user/{id}**
- 
-  	Video	localhost:8181
+
+
+		Akun	localhost:8080
+
 
  7. Create Data Pedoman	Api Untuk Membuat Data Pedoman Hidup
     Sehat	**/api/video/add**
