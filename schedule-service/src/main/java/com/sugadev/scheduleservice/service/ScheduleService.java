@@ -41,7 +41,6 @@ public class ScheduleService implements ScheduleServices {
     @Override
     public List<ScheduleDTO> findAll() {
         List<Schedule> schedules = scheduleRepository.findAll();
-        //return schedules.stream().map(schedule -> modelMapper.map(schedule, ScheduleDTO.class)).collect(Collectors.toList());
         return schedules.stream().map(schedule -> modelMapper.map(schedule, ScheduleDTO.class)).collect(Collectors.toList());
     }
 
