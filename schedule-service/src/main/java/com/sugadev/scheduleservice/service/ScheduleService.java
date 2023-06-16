@@ -2,6 +2,7 @@ package com.sugadev.scheduleservice.service;
 
 import com.sugadev.scheduleservice.dto.ResponseDTO;
 import com.sugadev.scheduleservice.dto.ScheduleDTO;
+import com.sugadev.scheduleservice.dto.UserDTO;
 import com.sugadev.scheduleservice.dto.VideoDTO;
 import com.sugadev.scheduleservice.model.Schedule;
 import com.sugadev.scheduleservice.repository.ScheduleRepository;
@@ -44,10 +45,6 @@ public class ScheduleService implements ScheduleServices {
         return schedules.stream().map(schedule -> modelMapper.map(schedule, ScheduleDTO.class)).collect(Collectors.toList());
     }
 
-
-
-
-
     @Override
     public ResponseDTO getScheduleById(Integer sheduleID) {
         ResponseDTO responseDTO = new ResponseDTO();
@@ -60,8 +57,15 @@ public class ScheduleService implements ScheduleServices {
 
         VideoDTO videoDTO = responseEntity.getBody();
 
+        ResponseEntity<UserDTO> responseEntityUser = restTemplate
+                .getForEntity("http://user/user/" + schedule.getId_user(),
+                        UserDTO.class);
+
+        UserDTO userDTO = responseEntityUser.getBody();
+
         System.out.println(responseEntity.getStatusCode());
 
+        responseDTO.setUser(userDTO);
         responseDTO.setSchedule(scheduleDTO);
         responseDTO.setVideo(videoDTO);
 
@@ -78,8 +82,6 @@ public class ScheduleService implements ScheduleServices {
 
         existing.setTitle(scheduleDTO.getTitle());
         existing.setDate(scheduleDTO.getDate());
-
-
 
         Schedule updatedSchedule = scheduleRepository.save(existing);
         return modelMapper.map(updatedSchedule, ScheduleDTO.class);

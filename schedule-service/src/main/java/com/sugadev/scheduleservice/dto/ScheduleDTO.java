@@ -10,4 +10,5 @@ public class ScheduleDTO {
     private String title;
     private String date;
     private int id_video;
+    private int id_user;
 }

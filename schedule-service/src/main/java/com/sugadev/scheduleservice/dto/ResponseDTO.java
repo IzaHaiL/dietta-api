@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ResponseDTO {
 
+    private UserDTO user;
     private ScheduleDTO schedule;
     private VideoDTO video;
 }

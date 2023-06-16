@@ -25,4 +25,5 @@ public class Schedule {
     @Column(name = "date")
     private String date;
     private int id_video;
+    private int id_user;
 }
