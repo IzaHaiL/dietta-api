@@ -19,7 +19,7 @@ Here is a description of the main features that can be accessed through the API 
 6.  Diary Feature: Through the Dietta API, developers can provide a journal or health record feature to users. Users can record activities, food intake, sleep, or other health information in their personal diary. The Dietta API allows developers to store and access this data, as well as provide recommendations based on the information recorded in the user's diary.
 
 
-# REREQUIREMENT
+# PREREQUIREMENT
 
  - Java SDK Version 20
  - Java Spring Boot
