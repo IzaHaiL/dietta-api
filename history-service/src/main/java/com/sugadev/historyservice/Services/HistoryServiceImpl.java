@@ -1,6 +1,8 @@
 package com.sugadev.historyservice.Services;
 
+
 import com.sugadev.historyservice.Dto.HistoryDTO;
+
 import com.sugadev.historyservice.Dto.ResponseDTO;
 import com.sugadev.historyservice.Dto.UserDTO;
 import com.sugadev.historyservice.Model.History;
@@ -26,16 +28,20 @@ public class HistoryServiceImpl implements HistoryService {
     RestTemplate restTemplate;
 
     @Override
+
     public HistoryDTO saveHistory(HistoryDTO historyDto) {
         History history = modelMapper.map(historyDto, History.class);
         History savedHistory = historyRepository.save(history);
         return modelMapper.map(savedHistory, HistoryDTO.class);
+
     }
     @Override
     public ResponseDTO getHistory(Integer historyId) {
         ResponseDTO responseDTO = new ResponseDTO();
         History history = historyRepository.findById(historyId).get();
+
         HistoryDTO historyDto = modelMapper.map(history, HistoryDTO.class);
+
 
         ResponseEntity<UserDTO> responseEntity = restTemplate
                 .getForEntity("Http://user/user/" + history.getIdUser(),
@@ -52,6 +58,7 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
+
     public List<HistoryDTO> getAllHistory() {
         List<History> histories = historyRepository.findAll();
         return histories.stream()
@@ -61,6 +68,8 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public void deleteHistory(Integer historyId) {historyRepository.deleteById(historyId);}
+
+
 
 //    @Override
 //    public HistoryDto updateHistory(int id, HistoryDto historyDto) {
@@ -80,5 +89,7 @@ public class HistoryServiceImpl implements HistoryService {
 //        History updatedHistory = historyRepository.save(existingHistory);
 //        return modelMapper.map(updatedHistory, HistoryDto.class);
 
+
 //    }
+
 }

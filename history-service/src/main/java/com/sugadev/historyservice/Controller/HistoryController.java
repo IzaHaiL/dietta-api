@@ -1,6 +1,9 @@
 package com.sugadev.historyservice.Controller;
 
+
 import com.sugadev.historyservice.Dto.HistoryDTO;
+
+
 import com.sugadev.historyservice.Dto.ResponseDTO;
 import com.sugadev.historyservice.Model.History;
 import com.sugadev.historyservice.Services.HistoryService;
@@ -24,8 +27,10 @@ public class HistoryController {
 
 
         @PostMapping("/add")
+
         public ResponseEntity<HistoryDTO> saveHistory(@RequestBody HistoryDTO historyDto){
             HistoryDTO createdHistory = historyService.saveHistory(historyDto);
+
             return new ResponseEntity<>(createdHistory, HttpStatus.CREATED);
         }
         @GetMapping("{id}")
@@ -35,8 +40,10 @@ public class HistoryController {
         }
 
         @GetMapping("/all")
+
         public ResponseEntity<List<HistoryDTO>>getAllHistory(){
             List<HistoryDTO> historyDto = historyService.getAllHistory();
+
             return new ResponseEntity<>(historyDto, HttpStatus.OK);
         }
 

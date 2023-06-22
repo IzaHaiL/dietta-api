@@ -12,5 +12,7 @@ import lombok.Setter;
 public class ResponseDTO {
 
     private UserDTO user;
+
     private HistoryDTO history;
+
 }
