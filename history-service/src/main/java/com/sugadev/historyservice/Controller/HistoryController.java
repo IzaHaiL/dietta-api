@@ -5,6 +5,7 @@ import com.sugadev.historyservice.Dto.HistoryDTO;
 
 
 import com.sugadev.historyservice.Dto.ResponseDTO;
+import com.sugadev.historyservice.Dto.ResponseDTOV2;
 import com.sugadev.historyservice.Model.History;
 import com.sugadev.historyservice.Services.HistoryService;
 import lombok.AllArgsConstructor;
@@ -38,6 +39,16 @@ public class HistoryController {
             ResponseDTO responseDTO = historyService.getHistory(historyId);
             return new ResponseEntity<>(responseDTO, HttpStatus.OK);
         }
+
+    @GetMapping("/v2/{id}")
+    public ResponseEntity<ResponseDTOV2> getHistory2(@PathVariable("id") Integer history2Id){
+        ResponseDTOV2 responseDTOV2 = historyService.getHistory2(history2Id);
+        return new ResponseEntity<>(responseDTOV2, HttpStatus.OK);
+
+
+    }
+
+
 
         @GetMapping("/all")
 

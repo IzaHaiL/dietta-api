@@ -9,11 +9,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseDTO {
+public class ResponseDTOV2 {
 
     private UserDTO user;
 
     private HistoryDTO history;
-    private  ScheduleDTO schedule;
+
+    private ScheduleDTOV2 schedule2;
 
 }

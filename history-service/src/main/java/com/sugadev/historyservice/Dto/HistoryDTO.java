@@ -1,5 +1,6 @@
 package com.sugadev.historyservice.Dto;
 
+
 import lombok.Data;
 
 @Data

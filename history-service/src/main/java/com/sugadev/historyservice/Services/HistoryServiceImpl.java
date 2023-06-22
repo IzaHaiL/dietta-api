@@ -1,10 +1,8 @@
 package com.sugadev.historyservice.Services;
 
 
-import com.sugadev.historyservice.Dto.HistoryDTO;
+import com.sugadev.historyservice.Dto.*;
 
-import com.sugadev.historyservice.Dto.ResponseDTO;
-import com.sugadev.historyservice.Dto.UserDTO;
 import com.sugadev.historyservice.Model.History;
 import com.sugadev.historyservice.Repository.HistoryRepository;
 import lombok.AllArgsConstructor;
@@ -49,16 +47,54 @@ public class HistoryServiceImpl implements HistoryService {
 
         UserDTO userDTO = responseEntity.getBody();
 
+
+        ResponseEntity<ScheduleDTO> responseEntity2 = restTemplate
+                .getForEntity("Http://schedule/schedule/" + history.getId_schedule(),
+                        ScheduleDTO.class);
+
+        ScheduleDTO scheduleDTO = responseEntity2.getBody();
+
         System.out.println(responseEntity.getStatusCode());
 
         responseDTO.setUser(userDTO);
         responseDTO.setHistory(historyDto);
+        responseDTO.setSchedule(scheduleDTO);
 
         return responseDTO;
     }
 
-    @Override
 
+    @Override
+    public ResponseDTOV2 getHistory2(Integer history2Id) {
+        ResponseDTOV2 responseDTOV2 = new ResponseDTOV2();
+        History history = historyRepository.findById(history2Id).get();
+
+        HistoryDTO historyDto = modelMapper.map(history, HistoryDTO.class);
+
+
+        ResponseEntity<UserDTO> responseEntity = restTemplate
+                .getForEntity("Http://user/user/" + history.getIdUser(),
+                        UserDTO.class);
+
+        UserDTO userDTO = responseEntity.getBody();
+
+
+        ResponseEntity<ScheduleDTOV2> responseEntity2 = restTemplate
+                .getForEntity("Http://schedule/schedule/" + history.getId_schedule(),
+                        ScheduleDTOV2.class);
+
+        ScheduleDTOV2 scheduleDTOV2 = responseEntity2.getBody();
+
+        System.out.println(responseEntity.getStatusCode());
+
+        responseDTOV2.setUser(userDTO);
+        responseDTOV2.setHistory(historyDto);
+        responseDTOV2.setSchedule2(scheduleDTOV2);
+
+        return responseDTOV2;
+    }
+
+    @Override
     public List<HistoryDTO> getAllHistory() {
         List<History> histories = historyRepository.findAll();
         return histories.stream()

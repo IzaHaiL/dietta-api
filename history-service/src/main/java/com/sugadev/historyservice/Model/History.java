@@ -42,5 +42,7 @@ public class History {
     @Column(name = "jarak")
     private int jarak;
 
+    private int id_schedule;
+
 
 }
