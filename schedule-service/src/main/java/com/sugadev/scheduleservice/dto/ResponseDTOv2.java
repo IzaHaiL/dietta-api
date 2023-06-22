@@ -1,18 +1,17 @@
-package com.sugadev.historyservice.Dto;
+package com.sugadev.scheduleservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseDTO {
+public class ResponseDTOv2 {
 
     private UserDTO user;
-
-    private HistoryDTO history;
-
+    private ScheduleDTOv2 schedule;
+    private VideoDTO video;
 }

@@ -1,6 +1,8 @@
 package com.sugadev.historyservice.Services;
 
-import com.sugadev.historyservice.Dto.HistoryDto;
+
+import com.sugadev.historyservice.Dto.HistoryDTO;
+
 import com.sugadev.historyservice.Dto.ResponseDTO;
 import com.sugadev.historyservice.Dto.UserDTO;
 import com.sugadev.historyservice.Model.History;
@@ -26,16 +28,20 @@ public class HistoryServiceImpl implements HistoryService {
     RestTemplate restTemplate;
 
     @Override
-    public HistoryDto saveHistory(HistoryDto historyDto) {
+
+    public HistoryDTO saveHistory(HistoryDTO historyDto) {
         History history = modelMapper.map(historyDto, History.class);
         History savedHistory = historyRepository.save(history);
-        return modelMapper.map(savedHistory, HistoryDto.class);
+        return modelMapper.map(savedHistory, HistoryDTO.class);
+
     }
     @Override
     public ResponseDTO getHistory(Integer historyId) {
         ResponseDTO responseDTO = new ResponseDTO();
         History history = historyRepository.findById(historyId).get();
-        HistoryDto historyDto = modelMapper.map(history, HistoryDto.class);
+
+        HistoryDTO historyDto = modelMapper.map(history, HistoryDTO.class);
+
 
         ResponseEntity<UserDTO> responseEntity = restTemplate
                 .getForEntity("Http://user/user/" + history.getIdUser(),
@@ -53,12 +59,18 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
 
-    public List<HistoryDto> getAllHistory() {
+    public List<HistoryDTO> getAllHistory() {
         List<History> histories = historyRepository.findAll();
         return histories.stream()
-                .map(history -> modelMapper.map(history, HistoryDto.class))
+                .map(history -> modelMapper.map(history, HistoryDTO.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteHistory(Integer historyId) {historyRepository.deleteById(historyId);}
+
+
+
 //    @Override
 //    public HistoryDto updateHistory(int id, HistoryDto historyDto) {
 //        History existingHistory = historyRepository.findById(id)
@@ -76,8 +88,8 @@ public class HistoryServiceImpl implements HistoryService {
 //
 //        History updatedHistory = historyRepository.save(existingHistory);
 //        return modelMapper.map(updatedHistory, HistoryDto.class);
+
+
 //    }
 
-    @Override
-    public void deleteHistory(Integer historyId) {historyRepository.deleteById(historyId);}
 }

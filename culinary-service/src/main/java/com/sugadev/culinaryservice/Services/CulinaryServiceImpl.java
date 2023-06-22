@@ -47,7 +47,9 @@ public class CulinaryServiceImpl implements CulinaryService {
         Culinary existingCulinary = culinaryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Detail not found by id : " + id));
 
-        existingCulinary.setIdCulinary(culinaryDTO.getIdCulinary());
+
+//        existingCulinary.setIdCulinary(culinaryDTO.getIdCulinary());
+
         existingCulinary.setFoodname(culinaryDTO.getFoodname());
         existingCulinary.setProtein(culinaryDTO.getProtein());
         existingCulinary.setLemak(culinaryDTO.getLemak());

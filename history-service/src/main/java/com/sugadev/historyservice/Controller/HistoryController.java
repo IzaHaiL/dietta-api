@@ -1,6 +1,9 @@
 package com.sugadev.historyservice.Controller;
 
-import com.sugadev.historyservice.Dto.HistoryDto;
+
+import com.sugadev.historyservice.Dto.HistoryDTO;
+
+
 import com.sugadev.historyservice.Dto.ResponseDTO;
 import com.sugadev.historyservice.Model.History;
 import com.sugadev.historyservice.Services.HistoryService;
@@ -17,14 +20,17 @@ import java.util.List;
 @AllArgsConstructor
 
 public class HistoryController {
+
         @Autowired
         private HistoryService historyService;
         private ModelMapper modelMapper;
 
 
         @PostMapping("/add")
-        public ResponseEntity<HistoryDto> saveHistory(@RequestBody HistoryDto historyDto){
-            HistoryDto createdHistory = historyService.saveHistory(historyDto);
+
+        public ResponseEntity<HistoryDTO> saveHistory(@RequestBody HistoryDTO historyDto){
+            HistoryDTO createdHistory = historyService.saveHistory(historyDto);
+
             return new ResponseEntity<>(createdHistory, HttpStatus.CREATED);
         }
         @GetMapping("{id}")
@@ -34,8 +40,10 @@ public class HistoryController {
         }
 
         @GetMapping("/all")
-        public ResponseEntity<List<HistoryDto>>getAllHistory(){
-            List<HistoryDto> historyDto = historyService.getAllHistory();
+
+        public ResponseEntity<List<HistoryDTO>>getAllHistory(){
+            List<HistoryDTO> historyDto = historyService.getAllHistory();
+
             return new ResponseEntity<>(historyDto, HttpStatus.OK);
         }
 
