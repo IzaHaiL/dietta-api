@@ -2,7 +2,6 @@ package com.sugadev.scheduleservice.controller;
 
 import com.sugadev.scheduleservice.dto.ResponseDTO;
 import com.sugadev.scheduleservice.dto.ScheduleDTO;
-import com.sugadev.scheduleservice.dto.ScheduleDTOv2;
 import com.sugadev.scheduleservice.model.Schedule;
 import com.sugadev.scheduleservice.service.ScheduleServices;
 import lombok.AllArgsConstructor;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @AllArgsConstructor
-@RequestMapping("/schedule/v1")
+@RequestMapping("/schedule")
 @RestController
 public class ScheduleController {
 

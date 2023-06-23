@@ -49,7 +49,7 @@ public class HistoryServiceImpl implements HistoryService {
 
 
         ResponseEntity<ScheduleDTO> responseEntity2 = restTemplate
-                .getForEntity("Http://schedule/schedule/" + history.getId_schedule(),
+                .getForEntity("Http://schedule/schedule/" + history.getIdSchedule(),
                         ScheduleDTO.class);
 
         ScheduleDTO scheduleDTO = responseEntity2.getBody();
@@ -80,7 +80,7 @@ public class HistoryServiceImpl implements HistoryService {
 
 
         ResponseEntity<ScheduleDTOV2> responseEntity2 = restTemplate
-                .getForEntity("Http://schedule/schedule/" + history.getId_schedule(),
+                .getForEntity("Http://schedule/schedule/" + history.getIdSchedule(),
                         ScheduleDTOV2.class);
 
         ScheduleDTOV2 scheduleDTOV2 = responseEntity2.getBody();
