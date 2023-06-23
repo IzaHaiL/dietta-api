@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class ScheduleDTOV2 {
-    private int id_schedule;
 
+    private int idSchedule;
     private String title;
 
 

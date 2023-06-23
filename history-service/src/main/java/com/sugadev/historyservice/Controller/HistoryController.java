@@ -40,13 +40,13 @@ public class HistoryController {
             return new ResponseEntity<>(responseDTO, HttpStatus.OK);
         }
 
-    @GetMapping("/v2/{id}")
-    public ResponseEntity<ResponseDTOV2> getHistory2(@PathVariable("id") Integer history2Id){
-        ResponseDTOV2 responseDTOV2 = historyService.getHistory2(history2Id);
-        return new ResponseEntity<>(responseDTOV2, HttpStatus.OK);
+        @GetMapping("/v2/{id}")
+        public ResponseEntity<ResponseDTOV2> getHistory2(@PathVariable("id") Integer history2Id){
+            ResponseDTOV2 responseDTOV2 = historyService.getHistory2(history2Id);
+            return new ResponseEntity<>(responseDTOV2, HttpStatus.OK);
 
 
-    }
+        }
 
 
 

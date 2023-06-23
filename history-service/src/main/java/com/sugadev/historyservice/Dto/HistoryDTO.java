@@ -15,4 +15,5 @@ public class HistoryDTO {
     private int longitude;
     private int jarak;
     private int idUser;
+    private int idSchedule;
 }
