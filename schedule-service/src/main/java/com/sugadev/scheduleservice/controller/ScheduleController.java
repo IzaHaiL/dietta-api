@@ -43,6 +43,12 @@ public class ScheduleController {
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/history/{id}")
+    public ResponseEntity<List<ScheduleDTO>> getScheduleHistory(@PathVariable("id") Integer id) {
+        List<ScheduleDTO> scheduleDTO = scheduleServices.getPrevVersion(id);
+        return new ResponseEntity<>(scheduleDTO, HttpStatus.OK);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<ScheduleDTO> updateSchedule(@PathVariable("id") Integer id, @RequestBody ScheduleDTO scheduleDTO) {
         ScheduleDTO updateSchedule = scheduleServices.updateSchedule(id, scheduleDTO);

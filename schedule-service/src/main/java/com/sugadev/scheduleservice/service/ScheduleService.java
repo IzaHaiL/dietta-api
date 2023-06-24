@@ -5,6 +5,7 @@ import com.sugadev.scheduleservice.dto.ScheduleDTO;
 import com.sugadev.scheduleservice.dto.UserDTO;
 import com.sugadev.scheduleservice.dto.VideoDTO;
 import com.sugadev.scheduleservice.model.Schedule;
+import com.sugadev.scheduleservice.model.ScheduleHistory;
 import com.sugadev.scheduleservice.repository.ScheduleRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,8 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +25,7 @@ public class ScheduleService implements ScheduleServices {
     ScheduleRepository scheduleRepository;
 
     ModelMapper modelMapper;
-     RestTemplate restTemplate;
+    RestTemplate restTemplate;
 
     @Override
     public ScheduleDTO saveSchedule(ScheduleDTO scheduleDTO) {
@@ -34,8 +33,6 @@ public class ScheduleService implements ScheduleServices {
         Schedule savedSchedule = scheduleRepository.save(schedule);
         return modelMapper.map(savedSchedule, ScheduleDTO.class);
     }
-
-
 
 
     @Override
@@ -72,9 +69,6 @@ public class ScheduleService implements ScheduleServices {
     }
 
 
-
-
-
     @Override
     public ScheduleDTO updateSchedule(int sheduleID, ScheduleDTO scheduleDTO) {
         Schedule existing = scheduleRepository.findById(sheduleID).orElseThrow(() -> new IllegalArgumentException("Detail not found by id : " + scheduleDTO.getId_schedule()));
@@ -84,6 +78,12 @@ public class ScheduleService implements ScheduleServices {
 
         Schedule updatedSchedule = scheduleRepository.save(existing);
         return modelMapper.map(updatedSchedule, ScheduleDTO.class);
+    }
+
+    @Override
+    public List<ScheduleDTO> getPrevVersion(Integer scheduleID) {
+        List<ScheduleHistory> schedules = scheduleRepository.getProductVersionHistory(scheduleID);
+        return schedules.stream().map(schedule -> modelMapper.map(schedule, ScheduleDTO.class)).collect(Collectors.toList());
     }
 
     @Override
