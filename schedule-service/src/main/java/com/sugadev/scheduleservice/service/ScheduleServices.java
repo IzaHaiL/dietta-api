@@ -16,4 +16,6 @@ public interface ScheduleServices {
     List<ScheduleDTO> findAll();
 
     ScheduleDTO updateSchedule( int sheduleID,ScheduleDTO scheduleDTO);
+
+    List<ScheduleDTO> getPrevVersion(Integer scheduleID);
 }

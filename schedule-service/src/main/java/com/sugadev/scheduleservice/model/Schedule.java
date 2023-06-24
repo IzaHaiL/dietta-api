@@ -26,4 +26,16 @@ public class Schedule {
     private String date;
     private int id_video;
     private int id_user;
+    @Version
+    private int version;
+
+    public void createVersion(){
+        ScheduleHistory scheduleHistory = new ScheduleHistory();
+        scheduleHistory.setSchedule(this);
+        scheduleHistory.setTitle(this.title);
+        scheduleHistory.setDate(this.date);
+        scheduleHistory.setId_video(this.id_video);
+        scheduleHistory.setId_user(this.id_user);
+        scheduleHistory.setVersion(this.version);
+    }
 }
