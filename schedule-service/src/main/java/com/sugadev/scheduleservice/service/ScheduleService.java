@@ -35,23 +35,23 @@ public class ScheduleService implements ScheduleServices {
 
 
  //add kedua table sekaligus
-//    public ScheduleDTO saveScheduleAndVersion(ScheduleDTO scheduleDTO) {
-//        Schedule schedule = modelMapper.map(scheduleDTO, Schedule.class);
-//        Schedule savedSchedule = scheduleRepository.save(schedule);
-//        ScheduleHistory scheduleHistory = modelMapper.map(scheduleDTO, ScheduleHistory.class);
-//        scheduleHistory.setSchedule(savedSchedule);
-//        scheduleHistory.setIdScheHistory(savedSchedule.getId_schedule());
-//        ScheduleHistory savedScheduleHistory = scheduleHistoryRepository.save(scheduleHistory);
-//        return modelMapper.map(savedSchedule, ScheduleDTO.class);
-//    }
-
-
-    @Override
     public ScheduleDTO saveScheduleAndVersion(ScheduleDTO scheduleDTO) {
         Schedule schedule = modelMapper.map(scheduleDTO, Schedule.class);
         Schedule savedSchedule = scheduleRepository.save(schedule);
+        ScheduleHistory scheduleHistory = modelMapper.map(scheduleDTO, ScheduleHistory.class);
+        scheduleHistory.setSchedule(savedSchedule);
+        scheduleHistory.setIdScheHistory(savedSchedule.getId_schedule());
+        ScheduleHistory savedScheduleHistory = scheduleHistoryRepository.save(scheduleHistory);
         return modelMapper.map(savedSchedule, ScheduleDTO.class);
     }
+
+
+//    @Override
+//    public ScheduleDTO saveScheduleAndVersion(ScheduleDTO scheduleDTO) {
+//        Schedule schedule = modelMapper.map(scheduleDTO, Schedule.class);
+//        Schedule savedSchedule = scheduleRepository.save(schedule);
+//        return modelMapper.map(savedSchedule, ScheduleDTO.class);
+//    }
 
 
 
@@ -104,17 +104,9 @@ public class ScheduleService implements ScheduleServices {
         Schedule existing = scheduleRepository.findById(scheduleID)
                 .orElseThrow(() -> new IllegalArgumentException("Detail not found by id: " + scheduleID));
 
-        // Ambil data yang ada di table schedule kemudian di masukin ke id scheule history
-        ScheduleHistory scheduleHistory = new ScheduleHistory();
-        scheduleHistory.setId_schedule(existing.getId_schedule());
-        scheduleHistory.setTitle(existing.getTitle());
-        scheduleHistory.setDate(existing.getDate());
-        scheduleHistory.setId_user(existing.getId_user());
-        scheduleHistory.setId_video(existing.getId_video());
-        scheduleHistory.setVersion(existing.getVersion());
-        scheduleHistory.setSchedule(existing);
 
-        scheduleHistoryRepository.save(scheduleHistory);
+
+
 
 
         existing.setTitle(scheduleDTO.getTitle());
@@ -124,11 +116,19 @@ public class ScheduleService implements ScheduleServices {
     //    existing.setVersion(scheduleDTO.getVersion());
 
 
-
-
-
-
         Schedule updatedSchedule = scheduleRepository.save(existing);
+
+        // Ambil data yang ada di table schedule kemudian di masukin ke id scheule history
+        ScheduleHistory scheduleHistory = new ScheduleHistory();
+        scheduleHistory.setId_schedule(updatedSchedule.getId_schedule());
+        scheduleHistory.setTitle(updatedSchedule.getTitle());
+        scheduleHistory.setDate(updatedSchedule.getDate());
+        scheduleHistory.setId_user(updatedSchedule.getId_user());
+        scheduleHistory.setId_video(updatedSchedule.getId_video());
+        scheduleHistory.setVersion(updatedSchedule.getVersion());
+        scheduleHistory.setSchedule(updatedSchedule);
+
+        scheduleHistoryRepository.save(scheduleHistory);
 
         return modelMapper.map(updatedSchedule, ScheduleDTO.class);
     }
