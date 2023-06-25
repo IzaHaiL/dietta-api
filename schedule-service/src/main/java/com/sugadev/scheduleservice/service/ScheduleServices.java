@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ScheduleServices {
 
-    ScheduleDTO saveSchedule(ScheduleDTO scheduleDTO);
+    ScheduleDTO saveScheduleAndVersion(ScheduleDTO scheduleDTO);
 
     ResponseDTO getScheduleById(Integer sheduleID);
 
@@ -18,4 +18,6 @@ public interface ScheduleServices {
     ScheduleDTO updateSchedule( int sheduleID,ScheduleDTO scheduleDTO);
 
     List<ScheduleDTO> getPrevVersion(Integer scheduleID);
+
+
 }
