@@ -26,10 +26,11 @@ public class ScheduleController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<ScheduleDTO> saveSchedule(@RequestBody ScheduleDTO scheduleDTO) {
-        ScheduleDTO sche = scheduleServices.saveSchedule(scheduleDTO);
+    public ResponseEntity<ScheduleDTO> saveScheduleAndVersion(@RequestBody ScheduleDTO scheduleDTO) {
+        ScheduleDTO sche = scheduleServices.saveScheduleAndVersion(scheduleDTO);
         return new ResponseEntity<>(sche, HttpStatus.CREATED);
     }
+
 
     @GetMapping("/all")
     public ResponseEntity<List<ScheduleDTO>> findAll() {
