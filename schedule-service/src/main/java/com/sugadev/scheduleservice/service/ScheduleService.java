@@ -34,14 +34,22 @@ public class ScheduleService implements ScheduleServices {
     RestTemplate restTemplate;
 
 
+ //add kedua table sekaligus
+//    public ScheduleDTO saveScheduleAndVersion(ScheduleDTO scheduleDTO) {
+//        Schedule schedule = modelMapper.map(scheduleDTO, Schedule.class);
+//        Schedule savedSchedule = scheduleRepository.save(schedule);
+//        ScheduleHistory scheduleHistory = modelMapper.map(scheduleDTO, ScheduleHistory.class);
+//        scheduleHistory.setSchedule(savedSchedule);
+//        scheduleHistory.setIdScheHistory(savedSchedule.getId_schedule());
+//        ScheduleHistory savedScheduleHistory = scheduleHistoryRepository.save(scheduleHistory);
+//        return modelMapper.map(savedSchedule, ScheduleDTO.class);
+//    }
 
+
+    @Override
     public ScheduleDTO saveScheduleAndVersion(ScheduleDTO scheduleDTO) {
         Schedule schedule = modelMapper.map(scheduleDTO, Schedule.class);
         Schedule savedSchedule = scheduleRepository.save(schedule);
-        ScheduleHistory scheduleHistory = modelMapper.map(scheduleDTO, ScheduleHistory.class);
-        scheduleHistory.setSchedule(savedSchedule);
-        scheduleHistory.setIdScheHistory(savedSchedule.getId_schedule());
-        ScheduleHistory savedScheduleHistory = scheduleHistoryRepository.save(scheduleHistory);
         return modelMapper.map(savedSchedule, ScheduleDTO.class);
     }
 
@@ -80,16 +88,13 @@ public class ScheduleService implements ScheduleServices {
         return responseDTO;
     }
 
-
+// Update Biasa
 //    @Override
 //    public ScheduleDTO updateSchedule(int sheduleID, ScheduleDTO scheduleDTO) {
 //        Schedule existing = scheduleRepository.findById(sheduleID).orElseThrow(() -> new IllegalArgumentException("Detail not found by id : " + scheduleDTO.getId_schedule()));
-//
 //        existing.setTitle(scheduleDTO.getTitle());
 //        existing.setDate(scheduleDTO.getDate());
-//
 //        Schedule updatedSchedule = scheduleRepository.save(existing);
-//
 //        return modelMapper.map(updatedSchedule, ScheduleDTO.class);
 //    }
 
@@ -99,22 +104,28 @@ public class ScheduleService implements ScheduleServices {
         Schedule existing = scheduleRepository.findById(scheduleID)
                 .orElseThrow(() -> new IllegalArgumentException("Detail not found by id: " + scheduleID));
 
+        // Ambil data yang ada di table schedule kemudian di masukin ke id scheule history
         ScheduleHistory scheduleHistory = new ScheduleHistory();
+        scheduleHistory.setId_schedule(existing.getId_schedule());
         scheduleHistory.setTitle(existing.getTitle());
         scheduleHistory.setDate(existing.getDate());
         scheduleHistory.setId_user(existing.getId_user());
         scheduleHistory.setId_video(existing.getId_video());
         scheduleHistory.setVersion(existing.getVersion());
-        scheduleHistory.setSchedule(existing); // Set the Schedule entity to establish the relationship
+        scheduleHistory.setSchedule(existing);
 
         scheduleHistoryRepository.save(scheduleHistory);
 
-      // existing.setId_schedule(scheduleDTO.getId_schedule());
+
         existing.setTitle(scheduleDTO.getTitle());
         existing.setDate(scheduleDTO.getDate());
         existing.setId_user(scheduleDTO.getId_user());
         existing.setId_video(scheduleDTO.getId_video());
-       // existing.setVersion(scheduleDTO.getVersion());
+    //    existing.setVersion(scheduleDTO.getVersion());
+
+
+
+
 
 
         Schedule updatedSchedule = scheduleRepository.save(existing);

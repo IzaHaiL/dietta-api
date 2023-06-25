@@ -22,6 +22,8 @@ public class ScheduleHistory {
     @JoinColumn(name = "id_schedule")
     private Schedule schedule;
 
+    @Column(insertable=false, updatable=false)
+    private int id_schedule;
     private String title;
     private String date;
     private int id_video;
