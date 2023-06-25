@@ -45,13 +45,13 @@ Here is a description of the main features that can be accessed through the API 
 
 
  7. Create Data Pedoman	Api Untuk Membuat Data Pedoman Hidup
-    Sehat	**/api/video/add**
+    Sehat	**/video/add**
  8. Read List Data Pedoman	Api Untuk Membaca Daftar Pedoman Hidup
-    Sehat	**/api/video/all**
+    Sehat	**/video/all**
  9. Read Detail Data Pedoman	Api Unuk Membaca Detail Pedoman Hidup
-    Sehat	**/api/video/{id}**
+    Sehat	**/video/{id}**
  10. Update Data Pedoman	Api Untuk Memperbaruhi Pedoman Hidup
-    Sehat	**/api/video/update/{id}**
+    Sehat	**/video/update/{id}**
  11. Delete Data Catatan Makanan	Api Untuk Menghapus Pedoman Hidup
     Sehat	**/video/delete/{id}**
 
@@ -76,7 +76,7 @@ Here is a description of the main features that can be accessed through the API 
     Olahraga	**/history/all**
  19. Read Detail History Olahraga	Api Unuk Membaca Detail History
     Olahraga	**/history/{id}**
- 20. Delete History Olahraga	Api Untuk Memperbaruhi History
+ 20. Delete History Olahraga	Api Untuk Menghapus History
     Olahraga	**/history/{id}**
 
 	Culinary	localhost:8484
@@ -94,12 +94,14 @@ Here is a description of the main features that can be accessed through the API 
 
 	Schedule	localhost:8585	
  26. Create Jadwal Olahraga	Api Untuk Membuat Jadwal Olahraga
-    	**/api/schedule/add**
+    	**/schedule/add**
  27. Read List Jadwal Olahraga	Api Untuk Membaca Daftar Jadwal Olahraga
-    	**/api/schedule/all**
+    	**/schedule/all**
  28. Read Detail Jadwal Olahraga	Api Unuk Membaca Detail Jadwal Olahraga
-    	**/api/schedule/{id}**
+    	**/schedule/{id}**
  29. Update Jadwal Olahraga	Api Untuk Memperbaruhi Jadwal Olahraga
-    	**/api/schedule/update/{id}**
+    	**/schedule/update/{id}**
  30. Delete Jadwal Olahraga	Api Untuk Menghapus Jadwal Olahraga
-    	**/api/schedule/{id}**
+    	**/schedule/{id}**
+ 30. Read Schedule History	Api Untuk Menghapus Jadwal Olahraga
+    	**/schedule/history/{id}**
