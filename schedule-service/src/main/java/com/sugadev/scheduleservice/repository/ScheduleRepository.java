@@ -16,4 +16,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     @Query("SELECT sv FROM com.sugadev.scheduleservice.model.ScheduleHistory sv WHERE sv.schedule.id = :id ORDER BY sv.version ASC")
     List<ScheduleHistory> getProductVersionHistory(@Param("id") int idSchedule);
 
+    @Query("SELECT svd FROM com.sugadev.scheduleservice.model.ScheduleHistory svd WHERE svd.idScheHistory = :id")
+    List<ScheduleHistory> getProductVersionDetail(@Param("id") int idScheHistory);
+
 }

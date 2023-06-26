@@ -2,6 +2,7 @@ package com.sugadev.scheduleservice.controller;
 
 import com.sugadev.scheduleservice.dto.ResponseDTO;
 import com.sugadev.scheduleservice.dto.ScheduleDTO;
+import com.sugadev.scheduleservice.dto.ScheduleHistoryDTO;
 import com.sugadev.scheduleservice.model.Schedule;
 import com.sugadev.scheduleservice.service.ScheduleServices;
 import lombok.AllArgsConstructor;
@@ -44,10 +45,16 @@ public class ScheduleController {
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/history/{id}")
-    public ResponseEntity<List<ScheduleDTO>> getScheduleHistory(@PathVariable("id") Integer id) {
-        List<ScheduleDTO> scheduleDTO = scheduleServices.getPrevVersion(id);
-        return new ResponseEntity<>(scheduleDTO, HttpStatus.OK);
+    @GetMapping("/history/sche/{id}")
+    public ResponseEntity<List<ScheduleHistoryDTO>> getScheduleHistory(@PathVariable("id") Integer id) {
+        List<ScheduleHistoryDTO> scheduleHistoryDTOS = scheduleServices.getPrevVersion(id);
+        return new ResponseEntity<>(scheduleHistoryDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping("/version/{id}")
+    public ResponseEntity<ScheduleHistoryDTO> getScheduleHistoryDetail(@PathVariable("id") Integer id) {
+        ScheduleHistoryDTO scheduleHistoryDTOS = scheduleServices.getPrevVersionDetail(id);
+        return new ResponseEntity<>(scheduleHistoryDTOS, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")

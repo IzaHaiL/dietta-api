@@ -12,8 +12,7 @@ import lombok.Setter;
 public class ResponseDTO {
 
     private UserDTO user;
-
     private HistoryDTO history;
-    private  ScheduleDTO schedule;
+    private ScheduleHistoryDTO scheduleHistory;
 
 }

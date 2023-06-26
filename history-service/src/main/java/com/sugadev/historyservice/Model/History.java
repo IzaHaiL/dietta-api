@@ -42,8 +42,8 @@ public class History {
     @Column(name = "jarak")
     private int jarak;
 
-    @Column(name = "id_schedule")
-    private int idSchedule;
+    @Column(name = "id_sche_history")
+    private int idScheduleHistory;
 
 
 }
