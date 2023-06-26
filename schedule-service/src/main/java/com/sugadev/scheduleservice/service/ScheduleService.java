@@ -1,9 +1,6 @@
 package com.sugadev.scheduleservice.service;
 
-import com.sugadev.scheduleservice.dto.ResponseDTO;
-import com.sugadev.scheduleservice.dto.ScheduleDTO;
-import com.sugadev.scheduleservice.dto.UserDTO;
-import com.sugadev.scheduleservice.dto.VideoDTO;
+import com.sugadev.scheduleservice.dto.*;
 import com.sugadev.scheduleservice.model.Schedule;
 import com.sugadev.scheduleservice.model.ScheduleHistory;
 import com.sugadev.scheduleservice.repository.ScheduleHistoryRepository;
@@ -105,15 +102,11 @@ public class ScheduleService implements ScheduleServices {
                 .orElseThrow(() -> new IllegalArgumentException("Detail not found by id: " + scheduleID));
 
 
-
-
-
-
         existing.setTitle(scheduleDTO.getTitle());
         existing.setDate(scheduleDTO.getDate());
         existing.setId_user(scheduleDTO.getId_user());
         existing.setId_video(scheduleDTO.getId_video());
-    //    existing.setVersion(scheduleDTO.getVersion());
+        //    existing.setVersion(scheduleDTO.getVersion());
 
 
         Schedule updatedSchedule = scheduleRepository.save(existing);
@@ -136,9 +129,16 @@ public class ScheduleService implements ScheduleServices {
 
 
     @Override
-    public List<ScheduleDTO> getPrevVersion(Integer scheduleID) {
+    public List<ScheduleHistoryDTO> getPrevVersion(Integer scheduleID) {
         List<ScheduleHistory> schedules = scheduleRepository.getProductVersionHistory(scheduleID);
-        return schedules.stream().map(schedule -> modelMapper.map(schedule, ScheduleDTO.class)).collect(Collectors.toList());
+        return schedules.stream().map(schedule -> modelMapper.map(schedule, ScheduleHistoryDTO.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public ScheduleHistoryDTO getPrevVersionDetail(Integer scheduleID) {
+        ScheduleHistory scheduleHistory = scheduleHistoryRepository.findById(scheduleID)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + scheduleID));
+        return modelMapper.map(scheduleHistory, ScheduleHistoryDTO.class);
     }
 
 

@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 public class HistoryDTO {
     private int idHistory;
-
     private String title;
     private String starttime;
     private String endtime;
@@ -15,5 +14,5 @@ public class HistoryDTO {
     private int longitude;
     private int jarak;
     private int idUser;
-    private int idSchedule;
+    private int idScheduleHistory;
 }

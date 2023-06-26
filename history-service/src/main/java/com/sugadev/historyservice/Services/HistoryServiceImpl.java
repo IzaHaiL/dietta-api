@@ -47,52 +47,23 @@ public class HistoryServiceImpl implements HistoryService {
 
         UserDTO userDTO = responseEntity.getBody();
 
+        ResponseEntity<ScheduleHistoryDTO> responseEntity2 = restTemplate
+                .getForEntity("Http://schedule/schedule/version/" + history.getIdScheduleHistory(),
+                        ScheduleHistoryDTO.class);
 
-        ResponseEntity<ScheduleDTO> responseEntity2 = restTemplate
-                .getForEntity("Http://schedule/schedule/" + history.getIdSchedule(),
-                        ScheduleDTO.class);
-
-        ScheduleDTO scheduleDTO = responseEntity2.getBody();
+        ScheduleHistoryDTO scheduleHistoryDTO = responseEntity2.getBody();
 
         System.out.println(responseEntity.getStatusCode());
 
         responseDTO.setUser(userDTO);
         responseDTO.setHistory(historyDto);
-        responseDTO.setSchedule(scheduleDTO);
+        responseDTO.setScheduleHistory(scheduleHistoryDTO);
 
         return responseDTO;
     }
 
 
-    @Override
-    public ResponseDTOV2 getHistory2(Integer history2Id) {
-        ResponseDTOV2 responseDTOV2 = new ResponseDTOV2();
-        History history = historyRepository.findById(history2Id).get();
 
-        HistoryDTO historyDto = modelMapper.map(history, HistoryDTO.class);
-
-
-        ResponseEntity<UserDTO> responseEntity = restTemplate
-                .getForEntity("Http://user/user/" + history.getIdUser(),
-                        UserDTO.class);
-
-        UserDTO userDTO = responseEntity.getBody();
-
-
-        ResponseEntity<ScheduleDTOV2> responseEntity2 = restTemplate
-                .getForEntity("Http://schedule/schedule/" + history.getIdSchedule(),
-                        ScheduleDTOV2.class);
-
-        ScheduleDTOV2 scheduleDTOV2 = responseEntity2.getBody();
-
-        System.out.println(responseEntity.getStatusCode());
-
-        responseDTOV2.setUser(userDTO);
-        responseDTOV2.setHistory(historyDto);
-        responseDTOV2.setSchedule2(scheduleDTOV2);
-
-        return responseDTOV2;
-    }
 
     @Override
     public List<HistoryDTO> getAllHistory() {

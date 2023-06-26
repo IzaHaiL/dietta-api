@@ -29,4 +29,5 @@ public class ScheduleHistory {
     private int id_video;
     private int id_user;
     private int version;
+
 }

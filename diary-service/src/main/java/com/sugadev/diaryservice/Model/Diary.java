@@ -29,4 +29,6 @@ public class Diary {
 
     @Column(name = "id_user")
     private int idUser;
+
+
 }

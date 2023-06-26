@@ -7,7 +7,6 @@ import com.sugadev.diaryservice.Model.Diary;
 import com.sugadev.diaryservice.Repository.DiaryRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -41,6 +40,7 @@ public class DiaryServiceImpl implements DiaryService{
         ResponseEntity<UserDTO> responseEntity = restTemplate
                 .getForEntity("Http://user/user/" + diary.getIdUser(),
                         UserDTO.class);
+
 
         UserDTO userDTO = responseEntity.getBody();
 
