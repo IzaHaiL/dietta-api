@@ -45,7 +45,7 @@ public class ScheduleController {
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/history/sche/{id}")
+    @GetMapping("/sche/{id}")
     public ResponseEntity<List<ScheduleHistoryDTO>> getScheduleHistory(@PathVariable("id") Integer id) {
         List<ScheduleHistoryDTO> scheduleHistoryDTOS = scheduleServices.getPrevVersion(id);
         return new ResponseEntity<>(scheduleHistoryDTOS, HttpStatus.OK);
