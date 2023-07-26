@@ -1,6 +1,10 @@
 package com.sugadev.userservice.DTO;
 
+import com.sugadev.userservice.Model.UserRole;
 import lombok.*;
+
+import java.lang.reflect.Array;
+import java.util.Set;
 
 @Data
 public class UserDTO {
@@ -13,4 +17,5 @@ public class UserDTO {
     private int noTelp;
     private int beratBadan;
     private int tinggiBadan;
+    private Set<UserRole> roles;
 }
