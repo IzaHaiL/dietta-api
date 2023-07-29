@@ -5,18 +5,16 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.7</version>
-
+		<version>3.1.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<packaging>war</packaging>
 	<groupId>com.sugadev</groupId>
 	<artifactId>eureka</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>eureka</name>
-	<description>Server Eureka</description>
+	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>20</java.version>
+		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.3</spring-cloud.version>
 	</properties>
 	<dependencies>
@@ -48,22 +46,16 @@
 	</dependencyManagement>
 
 	<build>
+		<finalName>${artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<executable>true</executable>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<id>netflix-candidates</id>
-			<name>Netflix Candidates</name>
-			<url>https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
 
 </project>

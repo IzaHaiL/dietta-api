@@ -3,7 +3,6 @@ package com.sugadev.userservice.Repository;
 
 import com.sugadev.userservice.Model.User;
 import com.sugadev.userservice.Model.UserRole;
-import org.bouncycastle.crypto.generators.BCrypt;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

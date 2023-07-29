@@ -5,17 +5,16 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.0</version>
+		<version>3.1.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<packaging>war</packaging>
 	<groupId>com.sugadev</groupId>
 	<artifactId>user-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>user-service</name>
-	<description>User Service</description>
+	<description>userservice</description>
 	<properties>
-		<java.version>20</java.version>
+		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.3</spring-cloud.version>
 	</properties>
 	<dependencies>
@@ -126,6 +125,7 @@
 	</dependencyManagement>
 
 	<build>
+		<finalName>${artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -137,6 +137,7 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<executable>true</executable>
 				</configuration>
 			</plugin>
 		</plugins>

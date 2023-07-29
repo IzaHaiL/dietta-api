@@ -1,7 +1,7 @@
 package com.sugadev.scheduleservice.dto;
 
 
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class ScheduleDTO {

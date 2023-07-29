@@ -1,7 +1,6 @@
 package com.sugadev.userservice.Service;
 
 import com.sugadev.userservice.DTO.UserDTO;
-import com.sugadev.userservice.Model.User;
 
 import java.util.List;
 

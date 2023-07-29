@@ -1,9 +1,5 @@
 package com.sugadev.scheduleservice.dto;
 
-import com.sugadev.scheduleservice.model.Schedule;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Data

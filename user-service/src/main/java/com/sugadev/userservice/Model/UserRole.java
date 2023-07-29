@@ -3,7 +3,6 @@ package com.sugadev.userservice.Model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.Super;
 
 @Entity
 @Table(name = "role")

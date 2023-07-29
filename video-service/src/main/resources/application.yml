@@ -1,0 +1,3 @@
+eureka:
+  instance:
+    ipAddress: 103.31.39.4

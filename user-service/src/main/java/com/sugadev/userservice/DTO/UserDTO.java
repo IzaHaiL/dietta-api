@@ -1,9 +1,8 @@
 package com.sugadev.userservice.DTO;
 
 import com.sugadev.userservice.Model.UserRole;
-import lombok.*;
+import lombok.Data;
 
-import java.lang.reflect.Array;
 import java.util.Set;
 
 @Data
