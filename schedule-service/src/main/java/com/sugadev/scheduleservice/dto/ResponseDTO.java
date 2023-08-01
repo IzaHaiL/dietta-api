@@ -14,4 +14,5 @@ public class ResponseDTO {
     private UserDTO user;
     private ScheduleDTO schedule;
     private VideoDTO video;
+    private ScheduleParentDTO scheduleParent;
 }

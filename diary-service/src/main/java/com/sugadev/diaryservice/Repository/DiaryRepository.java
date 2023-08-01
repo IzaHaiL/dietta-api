@@ -19,9 +19,6 @@ public interface DiaryRepository extends JpaRepository<Diary, Integer> {
     @Query("SELECT svd FROM Diary svd WHERE svd.idUser = :id")
     List <Diary> getUserById(@Param("id") int IdUser);
 
-//    @Query("SELECT SUM(c.kalori) FROM Diary  c WHERE c.idUser = :id")
-//    int getTotalKaloriByIdUser(@Param("id") int idUser);
-
 
 }
 

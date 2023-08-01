@@ -2,7 +2,7 @@ package com.sugadev.scheduleservice.controller;
 
 import com.sugadev.scheduleservice.dto.ResponseDTO;
 import com.sugadev.scheduleservice.dto.ScheduleDTO;
-import com.sugadev.scheduleservice.dto.ScheduleDetailDTO;
+import com.sugadev.scheduleservice.dto.ScheduleParentDTO;
 import com.sugadev.scheduleservice.dto.ScheduleHistoryDTO;
 import com.sugadev.scheduleservice.model.Schedule;
 import com.sugadev.scheduleservice.service.ScheduleServices;
@@ -46,6 +46,12 @@ public class ScheduleController {
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/all/{id}")
+    public ResponseEntity<List<ResponseDTO>> getAllScheduleList(@PathVariable("id") Integer id) {
+        List<ResponseDTO> responseDTOS = scheduleServices.getAllScheduleList(id);
+        return new ResponseEntity<>(responseDTOS, HttpStatus.OK);
+    }
+
     @GetMapping("/sche/{id}")
     public ResponseEntity<List<ScheduleHistoryDTO>> getScheduleHistory(@PathVariable("id") Integer id) {
         List<ScheduleHistoryDTO> scheduleHistoryDTOS = scheduleServices.getPrevVersion(id);
@@ -82,33 +88,34 @@ public class ScheduleController {
     }
 
     @PostMapping("/parent/add")
-    public ResponseEntity<ScheduleDetailDTO> createScheduleParent(@RequestBody ScheduleDetailDTO scheduleDetailDTO) {
-        ScheduleDetailDTO scheduleDTO = scheduleServices.createSchedule(scheduleDetailDTO);
+    public ResponseEntity<ScheduleParentDTO> createScheduleParent(@RequestBody ScheduleParentDTO scheduleParentDTO) {
+        ScheduleParentDTO scheduleDTO = scheduleServices.createSchedule(scheduleParentDTO);
         return new ResponseEntity<>(scheduleDTO, HttpStatus.CREATED);
     }
 
 
     @GetMapping("/parent/all")
-    public ResponseEntity<List<ScheduleDetailDTO>> getAllscheduleParent() {
-        List<ScheduleDetailDTO> scheduleDTO = scheduleServices.getAllscheduleParent();
+    public ResponseEntity<List<ScheduleParentDTO>> getAllscheduleParent() {
+        List<ScheduleParentDTO> scheduleDTO = scheduleServices.getAllscheduleParent();
         return new ResponseEntity<>(scheduleDTO, HttpStatus.OK);
     }
 
     @GetMapping("/parent/{id}")
-    public ResponseEntity<ScheduleDetailDTO> getScheduleParentById(@PathVariable("id") Integer id) {
-        ScheduleDetailDTO scheduleDetailDTO = scheduleServices.getScheduleParentDetailById(id);
-        return new ResponseEntity<>(scheduleDetailDTO, HttpStatus.OK);
+    public ResponseEntity<ScheduleParentDTO> getScheduleParentById(@PathVariable("id") Integer id) {
+        ScheduleParentDTO scheduleParentDTO = scheduleServices.getScheduleParentDetailById(id);
+        return new ResponseEntity<>(scheduleParentDTO, HttpStatus.OK);
     }
 
+
     @PutMapping("/parent/update/{id}")
-    public ResponseEntity<ScheduleDetailDTO> updateScheduleParentById( @PathVariable("id") Integer id, @RequestBody ScheduleDetailDTO scheduleDetailDTO) {
-        ScheduleDetailDTO updateSchedule = scheduleServices.updateScheduleParentById(id, scheduleDetailDTO);
+    public ResponseEntity<ScheduleParentDTO> updateScheduleParentById(@PathVariable("id") Integer id, @RequestBody ScheduleParentDTO scheduleParentDTO) {
+        ScheduleParentDTO updateSchedule = scheduleServices.updateScheduleParentById(id, scheduleParentDTO);
         return new ResponseEntity<>(updateSchedule, HttpStatus.OK);
     }
 
 
     @DeleteMapping("/parent/delete/{id}")
-    public ResponseEntity<ScheduleDetailDTO> deleteScheduleParentById(@PathVariable("id") Integer id) {
+    public ResponseEntity<ScheduleParentDTO> deleteScheduleParentById(@PathVariable("id") Integer id) {
         try {
             scheduleServices.deleteScheduleParentById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -116,4 +123,21 @@ public class ScheduleController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    @GetMapping("/parent/res/{id}")
+    public ResponseEntity<List<ResponseDTO>> getAllScheduleParentRest(@PathVariable("id") Integer id) {
+        List<ResponseDTO> responseDTO = scheduleServices.getAllScheduleParentRest(id);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/parent/res/all")
+    public ResponseEntity<List<ResponseDTO>> getAllScheduleParentAllRest() {
+        List<ResponseDTO> responseDTO = scheduleServices.getAllScheduleParentAllRest();
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+
+
+
+
 }

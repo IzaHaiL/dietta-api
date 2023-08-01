@@ -21,4 +21,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     @Query("SELECT svd FROM Schedule svd WHERE svd.id_user = :id")
     List <Schedule> getVideoById(@Param("id") int IdUser);
 
+    @Query("SELECT svd FROM Schedule svd WHERE svd.id_schedule_parent = :id")
+    List <Schedule> getAllScheduleList(@Param("id") int id_schedule);
+
 }

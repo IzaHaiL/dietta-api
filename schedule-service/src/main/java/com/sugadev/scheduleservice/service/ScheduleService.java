@@ -2,7 +2,7 @@ package com.sugadev.scheduleservice.service;
 
 import com.sugadev.scheduleservice.dto.*;
 import com.sugadev.scheduleservice.model.Schedule;
-import com.sugadev.scheduleservice.model.ScheduleDetail;
+import com.sugadev.scheduleservice.model.ScheduleParent;
 import com.sugadev.scheduleservice.model.ScheduleHistory;
 import com.sugadev.scheduleservice.repository.ScheduleDetailRepository;
 import com.sugadev.scheduleservice.repository.ScheduleHistoryRepository;
@@ -36,8 +36,6 @@ public class ScheduleService implements ScheduleServices {
     ModelMapper modelMapper;
     RestTemplate restTemplate;
 
-
- //add kedua table sekaligus
     public ScheduleDTO saveScheduleAndVersion(ScheduleDTO scheduleDTO) {
         Schedule schedule = modelMapper.map(scheduleDTO, Schedule.class);
         Schedule savedSchedule = scheduleRepository.save(schedule);
@@ -47,15 +45,6 @@ public class ScheduleService implements ScheduleServices {
         ScheduleHistory savedScheduleHistory = scheduleHistoryRepository.save(scheduleHistory);
         return modelMapper.map(savedSchedule, ScheduleDTO.class);
     }
-
-
-//    @Override
-//    public ScheduleDTO saveScheduleAndVersion(ScheduleDTO scheduleDTO) {
-//        Schedule schedule = modelMapper.map(scheduleDTO, Schedule.class);
-//        Schedule savedSchedule = scheduleRepository.save(schedule);
-//        return modelMapper.map(savedSchedule, ScheduleDTO.class);
-//    }
-
 
 
     @Override
@@ -82,14 +71,138 @@ public class ScheduleService implements ScheduleServices {
 
         UserDTO userDTO = responseEntityUser.getBody();
 
-        System.out.println(responseEntity.getStatusCode());
+        ResponseEntity<ScheduleParentDTO> responseEntitypar = restTemplate
+                .getForEntity("http://schedule/schedule/parent/" + schedule.getId_schedule_parent(),
+                        ScheduleParentDTO.class);
 
+        ScheduleParentDTO scheduleParentDTO = responseEntitypar.getBody();
+
+        System.out.println(responseEntity.getStatusCode());
+        System.out.println(responseEntityUser.getStatusCode());
+        System.out.println(responseEntitypar.getStatusCode());
+
+        responseDTO.setScheduleParent(scheduleParentDTO);
         responseDTO.setUser(userDTO);
         responseDTO.setSchedule(scheduleDTO);
         responseDTO.setVideo(videoDTO);
 
         return responseDTO;
     }
+
+
+    @Override
+    public List<ResponseDTO> getAllScheduleParentRest(Integer sheduleID) {
+        List<ResponseDTO> responseList = new ArrayList<>();
+
+        List<ScheduleParent> scheduleParents = (List<ScheduleParent>) scheduleDetailRepository.getAllScheduleParentRest(sheduleID);
+
+        for (ScheduleParent scheduleParent : scheduleParents) {
+            ScheduleParentDTO scheduleParentDTO = modelMapper.map(scheduleParent, ScheduleParentDTO.class);
+
+            ResponseEntity<ScheduleDTO> responseEntity = restTemplate.getForEntity(
+                    "http://schedule/schedule/" + scheduleParent.getId_schedule(), ScheduleDTO.class);
+            ScheduleDTO scheduleDTO = responseEntity.getBody();
+
+            ResponseEntity<UserDTO> responseEntity2 = restTemplate.getForEntity(
+                    "http://user/user/" + scheduleParent.getId_user(), UserDTO.class);
+            UserDTO userDTO = responseEntity2.getBody();
+
+
+            System.out.println(responseEntity.getStatusCode());
+            System.out.println(responseEntity2.getStatusCode());
+
+            ResponseDTO responseDTO = new ResponseDTO();
+            responseDTO.setUser(userDTO);
+            responseDTO.setSchedule(scheduleDTO);
+            responseDTO.setScheduleParent(scheduleParentDTO);
+
+            responseList.add(responseDTO);
+        }
+
+        return responseList;
+    }
+
+    @Override
+    public List<ResponseDTO> getAllScheduleParentAllRest() {
+        List<ResponseDTO> responseList = new ArrayList<>();
+        List<ScheduleParent> scheduleParents = (List<ScheduleParent>) scheduleDetailRepository.getAllScheduleParentAllRest();
+
+        for (ScheduleParent scheduleParent : scheduleParents) {
+            ScheduleParentDTO scheduleParentDTO = modelMapper.map(scheduleParent, ScheduleParentDTO.class);
+
+            ResponseEntity<ScheduleDTO> responseEntity = restTemplate.getForEntity(
+                    "http://schedule/schedule/" + scheduleParent.getId_schedule(), ScheduleDTO.class);
+            ScheduleDTO scheduleDTO = responseEntity.getBody();
+
+            ResponseEntity<UserDTO> responseEntity2 = restTemplate.getForEntity(
+                    "http://user/user/" + scheduleParent.getId_user(), UserDTO.class);
+            UserDTO userDTO = responseEntity2.getBody();
+
+
+            System.out.println(responseEntity.getStatusCode());
+            System.out.println(responseEntity2.getStatusCode());
+
+            ResponseDTO responseDTO = new ResponseDTO();
+            responseDTO.setUser(userDTO);
+            responseDTO.setSchedule(scheduleDTO);
+            responseDTO.setScheduleParent(scheduleParentDTO);
+
+            responseList.add(responseDTO);
+        }
+
+        return responseList;
+    }
+
+
+//    public List<ScheduleDTO> findAll() {
+//        List<Schedule> schedules = scheduleRepository.findAll();
+//        return schedules.stream().map(schedule -> modelMapper.map(schedule, ScheduleDTO.class)).collect(Collectors.toList());
+//    }
+
+    @Override
+    public List<ResponseDTO> getAllScheduleList(Integer scheduleID) {
+        List<ResponseDTO> responseList = new ArrayList<>();
+
+        List<Schedule> schedules = (List<Schedule>) scheduleRepository.getAllScheduleList(scheduleID);
+
+        for (Schedule schedule : schedules) {
+            ResponseDTO responseDTO = new ResponseDTO(); // Deklarasi dan inisialisasi objek ResponseDTO
+
+            ScheduleDTO scheduleDTO = modelMapper.map(schedule, ScheduleDTO.class);
+
+            ResponseEntity<VideoDTO> responseEntity = restTemplate
+                    .getForEntity("http://video/video/" + schedule.getId_video(),
+                            VideoDTO.class);
+
+            VideoDTO videoDTO = responseEntity.getBody();
+
+            ResponseEntity<UserDTO> responseEntityUser = restTemplate
+                    .getForEntity("http://user/user/" + schedule.getId_user(),
+                            UserDTO.class);
+
+            UserDTO userDTO = responseEntityUser.getBody();
+
+            ResponseEntity<ScheduleParentDTO> responseEntitypar = restTemplate
+                    .getForEntity("http://schedule/schedule/parent/" + schedule.getId_schedule_parent(),
+                            ScheduleParentDTO.class);
+
+            ScheduleParentDTO scheduleParentDTO = responseEntitypar.getBody();
+
+            System.out.println(responseEntity.getStatusCode());
+            System.out.println(responseEntityUser.getStatusCode());
+            System.out.println(responseEntitypar.getStatusCode());
+
+            responseDTO.setScheduleParent(scheduleParentDTO);
+            responseDTO.setUser(userDTO);
+            responseDTO.setSchedule(scheduleDTO);
+            responseDTO.setVideo(videoDTO);
+
+            responseList.add(responseDTO);
+        }
+
+        return responseList;
+    }
+
 
     @Override
     public List<ResponseDTO> getVideoById(Integer userID) {
@@ -127,34 +240,33 @@ public class ScheduleService implements ScheduleServices {
     }
 
     @Override
-    public ScheduleDetailDTO createSchedule(ScheduleDetailDTO scheduleDetailDTO) {
-        ScheduleDetail scheduleDetail = modelMapper.map(scheduleDetailDTO, ScheduleDetail.class);
-        ScheduleDetail createSchedule = scheduleDetailRepository.save(scheduleDetail);
-        return modelMapper.map(createSchedule, ScheduleDetailDTO.class);
+    public ScheduleParentDTO createSchedule(ScheduleParentDTO scheduleParentDTO) {
+        ScheduleParent scheduleParent = modelMapper.map(scheduleParentDTO, ScheduleParent.class);
+        ScheduleParent createSchedule = scheduleDetailRepository.save(scheduleParent);
+        return modelMapper.map(createSchedule, ScheduleParentDTO.class);
 
 
     }
 
     @Override
-    public List<ScheduleDetailDTO> getAllscheduleParent() {
-        List<ScheduleDetail> scheduleDetails = scheduleDetailRepository.findAll();
-        return scheduleDetails.stream().map(scheduleDetail -> modelMapper.map(scheduleDetail, ScheduleDetailDTO.class)).collect(Collectors.toList());
+    public List<ScheduleParentDTO> getAllscheduleParent() {
+        List<ScheduleParent> scheduleParents = scheduleDetailRepository.findAll();
+        return scheduleParents.stream().map(scheduleParent -> modelMapper.map(scheduleParent, ScheduleParentDTO.class)).collect(Collectors.toList());
     }
 
     @Override
-    public ScheduleDetailDTO getScheduleParentDetailById(Integer scheduleID) {
-        ScheduleDetail scheduleDetail = scheduleDetailRepository.findById(scheduleID).orElseThrow(() -> new RuntimeException("scheudle not found with id: " + scheduleID));
-        return modelMapper.map(scheduleDetail, ScheduleDetailDTO.class);
+    public ScheduleParentDTO getScheduleParentDetailById(Integer scheduleID) {
+        ScheduleParent scheduleParent = scheduleDetailRepository.findById(scheduleID).orElseThrow(() -> new RuntimeException("scheudle not found with id: " + scheduleID));
+        return modelMapper.map(scheduleParent, ScheduleParentDTO.class);
     }
 
 
-
     @Override
-    public ScheduleDetailDTO updateScheduleParentById(int scheduleID, ScheduleDetailDTO scheduleDetailDTO) {
-        ScheduleDetail existing = scheduleDetailRepository.findById(scheduleID).orElseThrow(() -> new IllegalArgumentException("Detail not found by id : " + scheduleDetailDTO.getIdScheduleDetail()));
-        existing.setTitle(scheduleDetailDTO.getTitle());
-        ScheduleDetail updatedSchedule = scheduleDetailRepository.save(existing);
-        return modelMapper.map(updatedSchedule, ScheduleDetailDTO.class);
+    public ScheduleParentDTO updateScheduleParentById(int scheduleID, ScheduleParentDTO scheduleParentDTO) {
+        ScheduleParent existing = scheduleDetailRepository.findById(scheduleID).orElseThrow(() -> new IllegalArgumentException("Detail not found by id : " + scheduleParentDTO.getIdScheduleParent()));
+        existing.setTitle(scheduleParentDTO.getTitle());
+        ScheduleParent updatedSchedule = scheduleDetailRepository.save(existing);
+        return modelMapper.map(updatedSchedule, ScheduleParentDTO.class);
     }
 
     @Override
@@ -162,19 +274,6 @@ public class ScheduleService implements ScheduleServices {
         scheduleDetailRepository.deleteById(scheduleID);
 
     }
-
-
-
-// Update Biasa
-//    @Override
-//    public ScheduleDTO updateSchedule(int sheduleID, ScheduleDTO scheduleDTO) {
-//        Schedule existing = scheduleRepository.findById(sheduleID).orElseThrow(() -> new IllegalArgumentException("Detail not found by id : " + scheduleDTO.getId_schedule()));
-//        existing.setTitle(scheduleDTO.getTitle());
-//        existing.setDate(scheduleDTO.getDate());
-//        Schedule updatedSchedule = scheduleRepository.save(existing);
-//        return modelMapper.map(updatedSchedule, ScheduleDTO.class);
-//    }
-
 
     @Override
     public ScheduleDTO updateSchedule(int scheduleID, ScheduleDTO scheduleDTO) {
@@ -186,12 +285,10 @@ public class ScheduleService implements ScheduleServices {
         existing.setDate(scheduleDTO.getDate());
         existing.setId_user(scheduleDTO.getId_user());
         existing.setId_video(scheduleDTO.getId_video());
-        //    existing.setVersion(scheduleDTO.getVersion());
-
+        //existing.setVersion(scheduleDTO.getVersion());
 
         Schedule updatedSchedule = scheduleRepository.save(existing);
 
-        // Ambil data yang ada di table schedule kemudian di masukin ke id scheule history
         ScheduleHistory scheduleHistory = new ScheduleHistory();
         scheduleHistory.setId_schedule(updatedSchedule.getId_schedule());
         scheduleHistory.setTitle(updatedSchedule.getTitle());
@@ -206,8 +303,6 @@ public class ScheduleService implements ScheduleServices {
         return modelMapper.map(updatedSchedule, ScheduleDTO.class);
     }
 
-
-
     @Override
     public List<ScheduleHistoryDTO> getPrevVersion(Integer scheduleID) {
         List<ScheduleHistory> schedules = scheduleRepository.getProductVersionHistory(scheduleID);
@@ -221,12 +316,60 @@ public class ScheduleService implements ScheduleServices {
         return modelMapper.map(scheduleHistory, ScheduleHistoryDTO.class);
     }
 
-
-
-
     @Override
     public void deleteById(Integer sid) {
         scheduleRepository.deleteById(sid);
 
     }
+
+    // Update Biasa
+//    @Override
+//    public ScheduleDTO updateSchedule(int sheduleID, ScheduleDTO scheduleDTO) {
+//        Schedule existing = scheduleRepository.findById(sheduleID).orElseThrow(() -> new IllegalArgumentException("Detail not found by id : " + scheduleDTO.getId_schedule()));
+//        existing.setTitle(scheduleDTO.getTitle());
+//        existing.setDate(scheduleDTO.getDate());
+//        Schedule updatedSchedule = scheduleRepository.save(existing);
+//        return modelMapper.map(updatedSchedule, ScheduleDTO.class);
+//    }
+
+
+    //    @Override
+//    public ScheduleDTO saveScheduleAndVersion(ScheduleDTO scheduleDTO) {
+//        Schedule schedule = modelMapper.map(scheduleDTO, Schedule.class);
+//        Schedule savedSchedule = scheduleRepository.save(schedule);
+//        return modelMapper.map(savedSchedule, ScheduleDTO.class);
+//    }
+
+//    @Override
+//    public List<ResponseDTO> getAllScheduleParentRes(Integer scheduleID) {
+//        List<ResponseDTO> responseDTOList = new ArrayList<>();
+//
+//        ScheduleDetail scheduleDetail = scheduleDetailRepository.findById(scheduleID).orElse(null);
+//        if (scheduleDetail == null) {
+//            // Handle the case when scheduleDetail is not found for the provided scheduleID
+//            return responseDTOList;
+//        }
+//
+//        ScheduleDetailDTO scheduleDetailDTO = modelMapper.map(scheduleDetail, ScheduleDetailDTO.class);
+//
+//        ResponseEntity<ScheduleDTO> responseEntity = restTemplate.getForEntity(
+//                "http://schedule/schedule/" + scheduleDetail.getId_schedule(), ScheduleDTO.class);
+//        ScheduleDTO scheduleDTO = responseEntity.getBody();
+//
+//        ResponseEntity<UserDTO> responseEntity2 = restTemplate.getForEntity(
+//                "http://user/user/" + scheduleDetail.getId_user(), UserDTO.class);
+//        UserDTO userDTO = responseEntity2.getBody();
+//
+//        System.out.println(responseEntity.getBody());
+//        System.out.println(responseEntity2.getBody());
+//
+//        ResponseDTO responseDTO = new ResponseDTO();
+//        responseDTO.setUser(userDTO);
+//        responseDTO.setSchedule(scheduleDTO);
+//
+//
+//        responseDTOList.add(responseDTO);
+//
+//        return responseDTOList;
+//    }
 }

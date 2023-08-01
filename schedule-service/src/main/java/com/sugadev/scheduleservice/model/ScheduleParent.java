@@ -12,11 +12,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name ="schedule_detail")
-public class ScheduleDetail {
+public class ScheduleParent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name = "id_schedule_detail")
-    private int idScheduleDetail;
+    @Column (name = "id_schedule_parent")
+    private int idScheduleParent;
     @Column(name = "title")
     private String title;
     @Column (name = "id_schedule")

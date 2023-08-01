@@ -2,7 +2,7 @@ package com.sugadev.scheduleservice.service;
 
 import com.sugadev.scheduleservice.dto.ResponseDTO;
 import com.sugadev.scheduleservice.dto.ScheduleDTO;
-import com.sugadev.scheduleservice.dto.ScheduleDetailDTO;
+import com.sugadev.scheduleservice.dto.ScheduleParentDTO;
 import com.sugadev.scheduleservice.dto.ScheduleHistoryDTO;
 
 import java.util.List;
@@ -25,16 +25,25 @@ public interface ScheduleServices {
 
     List<ResponseDTO> getVideoById (Integer userID);
 
-    ScheduleDetailDTO createSchedule (ScheduleDetailDTO scheduleDetailDTO);
+    ScheduleParentDTO createSchedule (ScheduleParentDTO scheduleParentDTO);
 
 
-    List<ScheduleDetailDTO> getAllscheduleParent();
+    List<ScheduleParentDTO> getAllscheduleParent();
 
-    ScheduleDetailDTO getScheduleParentDetailById(Integer scheduleID);
+    ScheduleParentDTO getScheduleParentDetailById(Integer scheduleID);
 
-    ScheduleDetailDTO updateScheduleParentById(int scheduleID, ScheduleDetailDTO scheduleDetailDTO);
+    ScheduleParentDTO updateScheduleParentById(int scheduleID, ScheduleParentDTO scheduleParentDTO);
 
     void deleteScheduleParentById(Integer scheduleID);
+
+//    List<ScheduleParentDTO> getAllScheduleParrentAll(Integer scheduleID);
+
+    List <ResponseDTO> getAllScheduleParentRest(Integer sheduleID);
+
+    List <ResponseDTO> getAllScheduleParentAllRest();
+
+    List <ResponseDTO> getAllScheduleList(Integer scheduleID);
+
 
 
 
