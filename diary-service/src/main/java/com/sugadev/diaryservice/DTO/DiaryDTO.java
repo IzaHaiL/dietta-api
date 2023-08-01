@@ -10,4 +10,5 @@ public class DiaryDTO {
     private String desc;
     private String tanggal;
     private int idUser;
+    private int idCulinary;
 }

@@ -5,6 +5,7 @@ import com.sugadev.diaryservice.DTO.ResponseDTO;
 import com.sugadev.diaryservice.DTO.UserDTO;
 import com.sugadev.diaryservice.Model.Diary;
 import com.sugadev.diaryservice.Repository.DiaryRepository;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -24,14 +25,14 @@ public class DiaryServiceImpl implements DiaryService{
     ModelMapper modelMapper;
     RestTemplate restTemplate;
 
-    @Override
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public DiaryDTO saveDiary(DiaryDTO addDiary) {
         Diary diary = modelMapper.map(addDiary, Diary.class);
         Diary savedDiary = diaryRepository.save(diary);
         return modelMapper.map(savedDiary, DiaryDTO.class);
     }
 
-    @Override
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public ResponseDTO getDiary(Integer diaryId) {
         ResponseDTO responseDTO = new ResponseDTO();
         Diary diary = diaryRepository.findById(diaryId).get();
@@ -52,7 +53,7 @@ public class DiaryServiceImpl implements DiaryService{
         return responseDTO;
     }
 
-    @Override
+    @RolesAllowed({"ROLE_ADMIN"})
     public DiaryDTO updateDiary(int id, DiaryDTO updateDiary) {
 
         Diary existingDiary = diaryRepository.findById(id)
@@ -66,13 +67,12 @@ public class DiaryServiceImpl implements DiaryService{
         Diary updatedDiary = diaryRepository.save(existingDiary);
         return modelMapper.map(updatedDiary, DiaryDTO.class);
     }
-
-    @Override
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public void deleteDiary(Integer diaryId) {
         diaryRepository.deleteById(diaryId);
     }
 
-    @Override
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public List<DiaryDTO> getAllDiary() {
         List<Diary> diaries = diaryRepository.findAll();
         return diaries.stream()

@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService{
     ModelMapper modelMapper;
     private RestTemplate restTemplate;
 
-    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
+
     public UserDTO saveUser(UserDTO userDTO) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         userDTO.setPassword(encoder.encode(userDTO.getPassword()));
