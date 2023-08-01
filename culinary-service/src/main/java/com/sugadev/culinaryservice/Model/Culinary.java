@@ -36,4 +36,6 @@ public class Culinary {
 
     @Column(name = "imgurl")
     private String imgurl;
+
+
 }

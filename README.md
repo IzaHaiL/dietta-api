@@ -24,24 +24,27 @@ Here is a description of the main features that can be accessed through the API 
 
 # PREREQUIREMENT
 
- - Java SDK Version 20
- - Java Spring Boot
+ - Java SDK Version 11
+ - Java Spring Boot 3.1.2
  - MySql Database
 
 # API
 
-	Eureka	localhost:8888	
+	Eureka		localhost:9000	
 	
-	Akun	localhost:8080
+	User		localhost:8383
+ 	Video  		localhost:8484
+  	Diary 		localhost:8585
+   	history		localhost:8686
+    Culinary	localhost:8787
+    Schedule	localhost:8989
+    	
 
  1. Create Akun	Api Untuk Membuat Akun Pengguna	**/user/add** 	
  2. Read List Akun	Api Untuk Membaca Daftar Akun Pengguna	**/user/all** 	
  3. Read Detail Akun	Api Unuk Membaca Detail Akun Pengguna	**/user/{id}**
  4. Update Akun	Api Untuk Memperbaruhi Akun Pengguna	**/user/update/{id}** 	
  5. Delete Akun	Api Untuk Menghapus Akun  Pengguna	**/user/{id}**
-
-
-		Akun	localhost:8080
 
 
  7. Create Data Pedoman	Api Untuk Membuat Data Pedoman Hidup
@@ -55,7 +58,6 @@ Here is a description of the main features that can be accessed through the API 
  11. Delete Data Catatan Makanan	Api Untuk Menghapus Pedoman Hidup
     Sehat	**/video/delete/{id}**
 
-	Diary	localhost:8282
 
  12. Create Catatan Data Makanan	Api Untuk Membuat Catatan Data
     Makanan	**/diary/add**
@@ -68,7 +70,6 @@ Here is a description of the main features that can be accessed through the API 
  16. Delete Data Catatan Makanan	Api Untuk Menghapus Catatan Data
     Makanan	**/diary/{id}**
 
- 	History	localhost:8383
 
  17. Create History Olahraga	Api Untuk Membuat History
     Olahraga	**/history/add**
@@ -79,7 +80,6 @@ Here is a description of the main features that can be accessed through the API 
  20. Delete History Olahraga	Api Untuk Menghapus History
     Olahraga	**/history/{id}**
 
-	Culinary	localhost:8484
 
  21. Create Rekomendasi Makanan Sehat	Api Untuk Membuat Rekomendasi
     Makanan Sehat	**/food/add**
@@ -92,7 +92,6 @@ Here is a description of the main features that can be accessed through the API 
  25. Delete Rekomendisi Makanan Sehat	Api Untuk Menghapus Rekomendasi
     Makanan Sehat	**/food/{id}**
 
-	Schedule	localhost:8585	
  26. Create Jadwal Olahraga	Api Untuk Membuat Jadwal Olahraga
     	**/schedule/add**
  27. Read List Jadwal Olahraga	Api Untuk Membaca Daftar Jadwal Olahraga

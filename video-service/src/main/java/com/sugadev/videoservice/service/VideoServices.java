@@ -17,5 +17,7 @@ public interface VideoServices {
 
     VideoDTO updateVideo( int videoID,VideoDTO videoDTO);
 
+    List<VideoDTO> getVideoCategory(String category);
+
 
 }

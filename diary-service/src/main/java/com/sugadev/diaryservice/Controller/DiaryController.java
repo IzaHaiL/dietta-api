@@ -35,6 +35,18 @@ public class DiaryController {
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/culinary/{id}")
+    public ResponseEntity<List<ResponseDTO>> getCulinaryById(@PathVariable("id") Integer id) {
+        List<ResponseDTO> responseDTO = diaryService.getCulinaryBy(id);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<ResponseDTO>> getUserById(@PathVariable("id") Integer id) {
+        List<ResponseDTO> responseDTO = diaryService.getUserBy(id);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<DiaryDTO>>getAllDiary(){
         List<DiaryDTO> diaryDTO = diaryService.getAllDiary();

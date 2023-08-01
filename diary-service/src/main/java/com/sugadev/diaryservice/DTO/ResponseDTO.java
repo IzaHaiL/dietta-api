@@ -13,5 +13,6 @@ public class ResponseDTO {
 
     private UserDTO user;
     private DiaryDTO diary;
+    private CulinaryDTO culinary;
 
 }

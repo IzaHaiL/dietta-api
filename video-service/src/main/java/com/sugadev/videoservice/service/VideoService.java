@@ -6,6 +6,7 @@ import com.sugadev.videoservice.repository.VideoRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class VideoService implements VideoServices{
 
 
+    @Autowired
     VideoRepository videoRepository;
     ModelMapper modelMapper;
 
@@ -53,6 +55,20 @@ public class VideoService implements VideoServices{
         Video updatedVideo = videoRepository.save(existing);
         return modelMapper.map(updatedVideo, VideoDTO.class);
     }
+
+
+    public List<VideoDTO> getVideoCategory(String category) {
+        List<Video> videos = videoRepository.getVideoByCategory(category);
+        return videos.stream().map(video -> modelMapper.map(video, VideoDTO.class)).collect(Collectors.toList());
+    }
+
+//    @Override
+//    public VideoDTO getVideoByCategory(Integer VideoCategory) {
+//        return null;
+//    }
+
+
+
 
     @Override
     public void deleteById(Integer videoID) {
