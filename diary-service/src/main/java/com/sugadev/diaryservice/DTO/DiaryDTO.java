@@ -11,5 +11,5 @@ public class DiaryDTO {
     private String tanggal;
     private int idUser;
     private int IdCulinary;
-    private int totalKalori;
+
 }
