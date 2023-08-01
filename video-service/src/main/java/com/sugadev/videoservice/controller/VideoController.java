@@ -43,13 +43,17 @@ public class VideoController {
         return new ResponseEntity<>(videoDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<VideoDTO>> getVideoCategory(@PathVariable String category) {
+        List<VideoDTO> videoDTOS = videoServices.getVideoCategory(category);
+        return new ResponseEntity<>(videoDTOS, HttpStatus.OK);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<VideoDTO> updateVideo( @PathVariable("id") Integer id, @RequestBody VideoDTO videoDTO) {
         VideoDTO updateVideo = videoServices.updateVideo(id, videoDTO);
         return new ResponseEntity<>(updateVideo, HttpStatus.OK);
     }
-
-
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Video> deleteVideo(@PathVariable("id") Integer id) {

@@ -13,6 +13,6 @@ public class VideoDTO {
     private String description;
     private String category;
     private String url;
-
+    private String thumbnail;
 
 }
