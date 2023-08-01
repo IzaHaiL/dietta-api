@@ -5,11 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -17,7 +12,7 @@ import java.util.*;
 @AllArgsConstructor
 @Getter
 @Setter
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,55 +38,4 @@ public class User implements UserDetails {
 
     @Column(name = "tinggi_badan")
     private int tinggiBadan;
-
-    @ManyToMany
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<UserRole> roles = new HashSet<>();
-
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for (UserRole role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getNama_role()));
-        }
-        return authorities;
-    }
-
-    public Set<UserRole> getRoles(){
-        return roles;
-    }
-    public void setRoles(Set<UserRole> userRoles){ this.roles = userRoles; }
-
-    public void addRole (UserRole userRole) { this.roles.add(userRole);}
-
-    public User (String Test213, String password){
-
-    }
-//
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return null;
-//    }
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

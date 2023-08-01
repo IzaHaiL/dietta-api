@@ -30,5 +30,10 @@ public class Diary {
     @Column(name = "id_user")
     private int idUser;
 
+    @Column (name="id_culinary")
+    private  int idCulinary;
+
+//    @Column (name="total_kalori")
+//    private int totalKalori;
 
 }
