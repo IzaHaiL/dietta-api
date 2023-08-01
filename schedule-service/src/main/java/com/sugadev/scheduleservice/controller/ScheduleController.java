@@ -2,6 +2,7 @@ package com.sugadev.scheduleservice.controller;
 
 import com.sugadev.scheduleservice.dto.ResponseDTO;
 import com.sugadev.scheduleservice.dto.ScheduleDTO;
+import com.sugadev.scheduleservice.dto.ScheduleDetailDTO;
 import com.sugadev.scheduleservice.dto.ScheduleHistoryDTO;
 import com.sugadev.scheduleservice.model.Schedule;
 import com.sugadev.scheduleservice.service.ScheduleServices;
@@ -57,6 +58,12 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleHistoryDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/video/{id}")
+    public ResponseEntity<List<ResponseDTO>> getVideoById(@PathVariable("id") Integer id) {
+        List<ResponseDTO> responseDTO = scheduleServices.getVideoById(id);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<ScheduleDTO> updateSchedule(@PathVariable("id") Integer id, @RequestBody ScheduleDTO scheduleDTO) {
         ScheduleDTO updateSchedule = scheduleServices.updateSchedule(id, scheduleDTO);
@@ -68,6 +75,42 @@ public class ScheduleController {
     public ResponseEntity<Schedule> deleteSchedule(@PathVariable("id") Integer id) {
         try {
             scheduleServices.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/parent/add")
+    public ResponseEntity<ScheduleDetailDTO> createScheduleParent(@RequestBody ScheduleDetailDTO scheduleDetailDTO) {
+        ScheduleDetailDTO scheduleDTO = scheduleServices.createSchedule(scheduleDetailDTO);
+        return new ResponseEntity<>(scheduleDTO, HttpStatus.CREATED);
+    }
+
+
+    @GetMapping("/parent/all")
+    public ResponseEntity<List<ScheduleDetailDTO>> getAllscheduleParent() {
+        List<ScheduleDetailDTO> scheduleDTO = scheduleServices.getAllscheduleParent();
+        return new ResponseEntity<>(scheduleDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/parent/{id}")
+    public ResponseEntity<ScheduleDetailDTO> getScheduleParentById(@PathVariable("id") Integer id) {
+        ScheduleDetailDTO scheduleDetailDTO = scheduleServices.getScheduleParentDetailById(id);
+        return new ResponseEntity<>(scheduleDetailDTO, HttpStatus.OK);
+    }
+
+    @PutMapping("/parent/update/{id}")
+    public ResponseEntity<ScheduleDetailDTO> updateScheduleParentById( @PathVariable("id") Integer id, @RequestBody ScheduleDetailDTO scheduleDetailDTO) {
+        ScheduleDetailDTO updateSchedule = scheduleServices.updateScheduleParentById(id, scheduleDetailDTO);
+        return new ResponseEntity<>(updateSchedule, HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/parent/delete/{id}")
+    public ResponseEntity<ScheduleDetailDTO> deleteScheduleParentById(@PathVariable("id") Integer id) {
+        try {
+            scheduleServices.deleteScheduleParentById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

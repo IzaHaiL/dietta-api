@@ -2,7 +2,9 @@ package com.sugadev.scheduleservice.service;
 
 import com.sugadev.scheduleservice.dto.*;
 import com.sugadev.scheduleservice.model.Schedule;
+import com.sugadev.scheduleservice.model.ScheduleDetail;
 import com.sugadev.scheduleservice.model.ScheduleHistory;
+import com.sugadev.scheduleservice.repository.ScheduleDetailRepository;
 import com.sugadev.scheduleservice.repository.ScheduleHistoryRepository;
 import com.sugadev.scheduleservice.repository.ScheduleRepository;
 import lombok.AllArgsConstructor;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +29,9 @@ public class ScheduleService implements ScheduleServices {
 
     @Autowired
     private ScheduleHistoryRepository scheduleHistoryRepository;
+
+    @Autowired
+    private ScheduleDetailRepository scheduleDetailRepository;
 
     ModelMapper modelMapper;
     RestTemplate restTemplate;
@@ -84,6 +90,80 @@ public class ScheduleService implements ScheduleServices {
 
         return responseDTO;
     }
+
+    @Override
+    public List<ResponseDTO> getVideoById(Integer userID) {
+        List<ResponseDTO> responseList = new ArrayList<>();
+
+        List<Schedule> scheduleList = (List<Schedule>) scheduleRepository.getVideoById(userID);
+
+        for (Schedule schedule : scheduleList) {
+            ScheduleDTO scheduleDTO = modelMapper.map(schedule, ScheduleDTO.class);
+
+            ResponseEntity<UserDTO> responseEntity = restTemplate.getForEntity(
+                    "http://user/user/" + schedule.getId_user(),
+                    UserDTO.class
+            );
+            ResponseEntity<VideoDTO> responseEntity1 = restTemplate.getForEntity(
+                    "http://video/video/" + schedule.getId_video(),
+                    VideoDTO.class
+            );
+
+            UserDTO userDTO = responseEntity.getBody();
+            VideoDTO videoDTO = responseEntity1.getBody();
+
+            System.out.println(responseEntity.getStatusCode());
+            System.out.println(responseEntity1.getStatusCode());
+
+            ResponseDTO responseDTO = new ResponseDTO();
+            responseDTO.setUser(userDTO);
+            responseDTO.setSchedule(scheduleDTO);
+            responseDTO.setVideo(videoDTO);
+
+            responseList.add(responseDTO);
+        }
+
+        return responseList;
+    }
+
+    @Override
+    public ScheduleDetailDTO createSchedule(ScheduleDetailDTO scheduleDetailDTO) {
+        ScheduleDetail scheduleDetail = modelMapper.map(scheduleDetailDTO, ScheduleDetail.class);
+        ScheduleDetail createSchedule = scheduleDetailRepository.save(scheduleDetail);
+        return modelMapper.map(createSchedule, ScheduleDetailDTO.class);
+
+
+    }
+
+    @Override
+    public List<ScheduleDetailDTO> getAllscheduleParent() {
+        List<ScheduleDetail> scheduleDetails = scheduleDetailRepository.findAll();
+        return scheduleDetails.stream().map(scheduleDetail -> modelMapper.map(scheduleDetail, ScheduleDetailDTO.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public ScheduleDetailDTO getScheduleParentDetailById(Integer scheduleID) {
+        ScheduleDetail scheduleDetail = scheduleDetailRepository.findById(scheduleID).orElseThrow(() -> new RuntimeException("scheudle not found with id: " + scheduleID));
+        return modelMapper.map(scheduleDetail, ScheduleDetailDTO.class);
+    }
+
+
+
+    @Override
+    public ScheduleDetailDTO updateScheduleParentById(int scheduleID, ScheduleDetailDTO scheduleDetailDTO) {
+        ScheduleDetail existing = scheduleDetailRepository.findById(scheduleID).orElseThrow(() -> new IllegalArgumentException("Detail not found by id : " + scheduleDetailDTO.getIdScheduleDetail()));
+        existing.setTitle(scheduleDetailDTO.getTitle());
+        ScheduleDetail updatedSchedule = scheduleDetailRepository.save(existing);
+        return modelMapper.map(updatedSchedule, ScheduleDetailDTO.class);
+    }
+
+    @Override
+    public void deleteScheduleParentById(Integer scheduleID) {
+        scheduleDetailRepository.deleteById(scheduleID);
+
+    }
+
+
 
 // Update Biasa
 //    @Override

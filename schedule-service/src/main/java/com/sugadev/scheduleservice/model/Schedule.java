@@ -28,7 +28,6 @@ public class Schedule {
     private int id_user;
     @Version
     private int version;
-
     public void createVersion(){
         ScheduleHistory scheduleHistory = new ScheduleHistory();
         scheduleHistory.setSchedule(this);
