@@ -15,5 +15,8 @@ public interface ScheduleDetailRepository extends JpaRepository<ScheduleParent, 
     @Query("SELECT sp FROM ScheduleParent sp")
     List<ScheduleParent> getAllScheduleParentAllRest();
 
+    @Query("SELECT sv FROM ScheduleParent sv WHERE  sv.id_user=:id")
+    List<ScheduleParent> getAllscheduleParentByUser(@Param("id") int idUser);
+
 }
 

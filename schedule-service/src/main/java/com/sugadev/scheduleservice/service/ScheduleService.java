@@ -91,10 +91,12 @@ public class ScheduleService implements ScheduleServices {
 
 
     @Override
-    public List<ResponseDTO> getAllScheduleParentRest(Integer sheduleID) {
+    public List<ResponseDTO> getAllScheduleParentRest(Integer scheduleID) {
         List<ResponseDTO> responseList = new ArrayList<>();
 
-        List<ScheduleParent> scheduleParents = (List<ScheduleParent>) scheduleDetailRepository.getAllScheduleParentRest(sheduleID);
+        List<ScheduleParent> scheduleParents = scheduleDetailRepository.getAllScheduleParentRest(scheduleID);
+        // The above line retrieves a list of ScheduleParent objects based on the provided scheduleID.
+        // Make sure that the repository method returns the correct list of ScheduleParent objects.
 
         for (ScheduleParent scheduleParent : scheduleParents) {
             ScheduleParentDTO scheduleParentDTO = modelMapper.map(scheduleParent, ScheduleParentDTO.class);
@@ -106,7 +108,6 @@ public class ScheduleService implements ScheduleServices {
             ResponseEntity<UserDTO> responseEntity2 = restTemplate.getForEntity(
                     "http://user/user/" + scheduleParent.getId_user(), UserDTO.class);
             UserDTO userDTO = responseEntity2.getBody();
-
 
             System.out.println(responseEntity.getStatusCode());
             System.out.println(responseEntity2.getStatusCode());
@@ -126,7 +127,7 @@ public class ScheduleService implements ScheduleServices {
     public List<ResponseDTO> getAllScheduleParentAllRest() {
         List<ResponseDTO> responseList = new ArrayList<>();
         List<ScheduleParent> scheduleParents = (List<ScheduleParent>) scheduleDetailRepository.getAllScheduleParentAllRest();
-
+        List<Schedule> schedules = scheduleRepository.findAll();
         for (ScheduleParent scheduleParent : scheduleParents) {
             ScheduleParentDTO scheduleParentDTO = modelMapper.map(scheduleParent, ScheduleParentDTO.class);
 
@@ -152,6 +153,8 @@ public class ScheduleService implements ScheduleServices {
 
         return responseList;
     }
+
+
 
 
 //    public List<ScheduleDTO> findAll() {
@@ -202,6 +205,46 @@ public class ScheduleService implements ScheduleServices {
 
         return responseList;
     }
+
+
+    @Override
+    public List<ResponseDTO1> getAllscheduleParentByUser(Integer idUser) {
+        List<ResponseDTO1> responseList = new ArrayList<>();
+
+        List<ScheduleParent> scheduleParents = scheduleDetailRepository.getAllscheduleParentByUser(idUser);
+
+        for (ScheduleParent scheduleParent : scheduleParents) {
+            ResponseDTO1 responseDTO1 = new ResponseDTO1();
+
+            ScheduleParentDTO scheduleParentDTO = modelMapper.map(scheduleParent, ScheduleParentDTO.class);
+
+            ResponseEntity<UserDTO> responseEntityUser = restTemplate
+                    .getForEntity("http://user/user/" + scheduleParent.getId_user(),
+                            UserDTO.class);
+
+            UserDTO userDTO = responseEntityUser.getBody();
+
+            System.out.println(responseEntityUser.getStatusCode());
+
+            // Add this part to fetch and map the schedule
+            Integer scheduleID = scheduleParent.getId_schedule();
+            Schedule schedule = scheduleRepository.findById(scheduleID).orElse(null);
+            ScheduleDTO scheduleDTO = modelMapper.map(schedule, ScheduleDTO.class);
+
+            responseDTO1.setUser(userDTO);
+            responseDTO1.setScheduleParent(scheduleParentDTO);
+            responseDTO1.setSchedule(scheduleDTO); // Set the scheduleDTO
+            responseList.add(responseDTO1);
+        }
+
+        return responseList;
+    }
+
+
+
+
+
+
 
 
     @Override

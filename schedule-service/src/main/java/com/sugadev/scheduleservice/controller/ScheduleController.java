@@ -1,9 +1,6 @@
 package com.sugadev.scheduleservice.controller;
 
-import com.sugadev.scheduleservice.dto.ResponseDTO;
-import com.sugadev.scheduleservice.dto.ScheduleDTO;
-import com.sugadev.scheduleservice.dto.ScheduleParentDTO;
-import com.sugadev.scheduleservice.dto.ScheduleHistoryDTO;
+import com.sugadev.scheduleservice.dto.*;
 import com.sugadev.scheduleservice.model.Schedule;
 import com.sugadev.scheduleservice.service.ScheduleServices;
 import lombok.AllArgsConstructor;
@@ -27,26 +24,26 @@ public class ScheduleController {
     private ModelMapper modelMapper;
 
 
-    @PostMapping("/add")
+    @PostMapping("/child/add")
     public ResponseEntity<ScheduleDTO> saveScheduleAndVersion(@RequestBody ScheduleDTO scheduleDTO) {
         ScheduleDTO sche = scheduleServices.saveScheduleAndVersion(scheduleDTO);
         return new ResponseEntity<>(sche, HttpStatus.CREATED);
     }
 
 
-    @GetMapping("/all")
+    @GetMapping("/child/all")
     public ResponseEntity<List<ScheduleDTO>> findAll() {
         List<ScheduleDTO> scheduleDTO = scheduleServices.findAll();
         return new ResponseEntity<>(scheduleDTO, HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
+    @GetMapping(    "/child/{id}")
     public ResponseEntity<ResponseDTO> getScheduleById(@PathVariable("id") Integer id) {
         ResponseDTO responseDTO = scheduleServices.getScheduleById(id);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/all/{id}")
+    @GetMapping("/child/all/{id}")
     public ResponseEntity<List<ResponseDTO>> getAllScheduleList(@PathVariable("id") Integer id) {
         List<ResponseDTO> responseDTOS = scheduleServices.getAllScheduleList(id);
         return new ResponseEntity<>(responseDTOS, HttpStatus.OK);
@@ -70,14 +67,14 @@ public class ScheduleController {
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/child/update/{id}")
     public ResponseEntity<ScheduleDTO> updateSchedule(@PathVariable("id") Integer id, @RequestBody ScheduleDTO scheduleDTO) {
         ScheduleDTO updateSchedule = scheduleServices.updateSchedule(id, scheduleDTO);
         return new ResponseEntity<>(updateSchedule, HttpStatus.OK);
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/child/delete/{id}")
     public ResponseEntity<Schedule> deleteSchedule(@PathVariable("id") Integer id) {
         try {
             scheduleServices.deleteById(id);
@@ -105,6 +102,13 @@ public class ScheduleController {
         ScheduleParentDTO scheduleParentDTO = scheduleServices.getScheduleParentDetailById(id);
         return new ResponseEntity<>(scheduleParentDTO, HttpStatus.OK);
     }
+
+    @GetMapping("/parent/user/{id}")
+    public ResponseEntity<List<ResponseDTO1>> getAllscheduleParentByUser(@PathVariable("id") Integer id) {
+        List<ResponseDTO1> responseDTO1 = scheduleServices.getAllscheduleParentByUser(id);
+        return new ResponseEntity<>(responseDTO1, HttpStatus.OK);
+    }
+
 
 
     @PutMapping("/parent/update/{id}")
