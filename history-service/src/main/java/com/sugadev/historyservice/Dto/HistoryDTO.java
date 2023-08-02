@@ -7,12 +7,13 @@ import lombok.Data;
 public class HistoryDTO {
     private int idHistory;
     private String title;
-    private String starttime;
-    private String endtime;
+//    private String starttime;
+//    private String endtime;
+    private  String totaltime;
     private int burncalories;
-    private int latitude;
-    private int longitude;
-    private int jarak;
+//    private int latitude;
+//    private int longitude;
+//    private int jarak;
     private int idUser;
     private int idScheduleHistory;
 }

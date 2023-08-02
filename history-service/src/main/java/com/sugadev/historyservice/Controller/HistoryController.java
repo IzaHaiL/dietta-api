@@ -65,4 +65,11 @@ public class HistoryController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<ResponseDTO>> getHistoryByUser(@PathVariable("id") Integer id) {
+        List<ResponseDTO> responseDTO = historyService.getHistoryByUser(id);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+
 }

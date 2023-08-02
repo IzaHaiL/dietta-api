@@ -18,4 +18,6 @@ public interface HistoryService {
 //    HistoryDto updateHistory(int id, HistoryDto history);
 
     void deleteHistory(Integer historyId);
+
+    List<ResponseDTO> getHistoryByUser(Integer id);
 }
