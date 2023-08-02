@@ -34,6 +34,7 @@ public class ScheduleService implements ScheduleServices {
     @Autowired
     private ScheduleDetailRepository scheduleDetailRepository;
 
+    @Autowired
     ModelMapper modelMapper;
     RestTemplate restTemplate;
 
