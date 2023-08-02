@@ -5,6 +5,7 @@ import com.sugadev.historyservice.Dto.*;
 
 import com.sugadev.historyservice.Model.History;
 import com.sugadev.historyservice.Repository.HistoryRepository;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -26,15 +27,14 @@ public class HistoryServiceImpl implements HistoryService {
     ModelMapper modelMapper;
     RestTemplate restTemplate;
 
-    @Override
-
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public HistoryDTO saveHistory(HistoryDTO historyDto) {
         History history = modelMapper.map(historyDto, History.class);
         History savedHistory = historyRepository.save(history);
         return modelMapper.map(savedHistory, HistoryDTO.class);
 
     }
-    @Override
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public ResponseDTO getHistory(Integer historyId) {
         ResponseDTO responseDTO = new ResponseDTO();
         History history = historyRepository.findById(historyId).get();
@@ -66,7 +66,7 @@ public class HistoryServiceImpl implements HistoryService {
 
 
 
-    @Override
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public List<HistoryDTO> getAllHistory() {
         List<History> histories = historyRepository.findAll();
         return histories.stream()
@@ -74,7 +74,7 @@ public class HistoryServiceImpl implements HistoryService {
                 .collect(Collectors.toList());
     }
 
-    @Override
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public void deleteHistory(Integer historyId) {historyRepository.deleteById(historyId);}
 
 

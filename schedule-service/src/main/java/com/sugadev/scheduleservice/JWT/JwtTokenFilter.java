@@ -1,8 +1,8 @@
-package com.sugadev.videoservice.JWT;
+package com.sugadev.scheduleservice.JWT;
 
 
-import com.sugadev.videoservice.dto.RoleDTO;
-import com.sugadev.videoservice.dto.UserDTO;
+import com.sugadev.scheduleservice.dto.RoleDTO;
+import com.sugadev.scheduleservice.dto.UserDTO;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

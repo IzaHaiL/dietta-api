@@ -1,4 +1,4 @@
-package com.sugadev.historyservice.Dto;
+package com.sugadev.culinaryservice.Dto;
 
 import lombok.Data;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
