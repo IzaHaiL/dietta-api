@@ -5,6 +5,7 @@ import com.sugadev.scheduleservice.model.Schedule;
 import com.sugadev.scheduleservice.model.ScheduleHistory;
 import com.sugadev.scheduleservice.repository.ScheduleHistoryRepository;
 import com.sugadev.scheduleservice.repository.ScheduleRepository;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -52,7 +53,7 @@ public class ScheduleService implements ScheduleServices {
 
 
 
-    @Override
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public List<ScheduleDTO> findAll() {
         List<Schedule> schedules = scheduleRepository.findAll();
         return schedules.stream().map(schedule -> modelMapper.map(schedule, ScheduleDTO.class)).collect(Collectors.toList());

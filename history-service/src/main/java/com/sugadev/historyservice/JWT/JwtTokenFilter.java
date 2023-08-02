@@ -1,8 +1,8 @@
-package com.sugadev.videoservice.JWT;
+package com.sugadev.historyservice.JWT;
 
 
-import com.sugadev.videoservice.dto.RoleDTO;
-import com.sugadev.videoservice.dto.UserDTO;
+import com.sugadev.historyservice.Dto.RoleDTO;
+import com.sugadev.historyservice.Dto.UserDTO;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

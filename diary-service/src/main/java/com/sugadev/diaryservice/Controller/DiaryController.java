@@ -47,9 +47,8 @@ public class DiaryController {
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<DiaryDTO>>getAllDiary(){
-        List<DiaryDTO> diaryDTO = diaryService.getAllDiary();
+    @GetMapping("/all") public ResponseEntity<List<DiaryDTO>>getAllDiary(){
+       List<DiaryDTO> diaryDTO = diaryService.getAllDiary();
         return new ResponseEntity<>(diaryDTO, HttpStatus.OK);
     }
 

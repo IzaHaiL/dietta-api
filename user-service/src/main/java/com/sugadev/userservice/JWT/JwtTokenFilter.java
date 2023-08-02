@@ -1,8 +1,7 @@
-package com.sugadev.videoservice.JWT;
+package com.sugadev.userservice.JWT;
 
-
-import com.sugadev.videoservice.dto.RoleDTO;
-import com.sugadev.videoservice.dto.UserDTO;
+import com.sugadev.userservice.Model.User;
+import com.sugadev.userservice.Model.UserRole;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -11,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -55,10 +55,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private void setAuthenticationContext(String token, HttpServletRequest request) {
-        UserDTO user = getUser(token);
+        UserDetails userDetails = getUserDetails(token);
 
         UsernamePasswordAuthenticationToken
-                authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
         authentication.setDetails(
                 new WebAuthenticationDetailsSource().buildDetails(request));
@@ -67,8 +67,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
 
-    private UserDTO getUser(String token) {
-        UserDTO user = new UserDTO();
+    private UserDetails getUserDetails(String token) {
+        User userDetails = new User();
         Claims claims = jwtUtil.parseClaims(token);
         String subject = (String) claims.get(Claims.SUBJECT);
         String[] jwtSubject = jwtUtil.getSubject(token).split(",");
@@ -78,13 +78,13 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         String[] roleNames = roles.split(",");
 
         for (String aRoleName : roleNames) {
-            user.addRole(new RoleDTO(aRoleName));
+            userDetails.addRole(new UserRole(aRoleName));
         }
 
-        user.setIdUser(Integer.parseInt(jwtSubject[0]));
-        user.setUsername(jwtSubject[1]);
+        userDetails.setIdUser(Integer.parseInt(jwtSubject[0]));
+        userDetails.setUsername(jwtSubject[1]);
 
-        return user;
+        return userDetails;
     }
 
 }

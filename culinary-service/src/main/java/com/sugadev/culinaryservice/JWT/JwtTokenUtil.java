@@ -1,4 +1,4 @@
-package com.sugadev.videoservice.JWT;
+package com.sugadev.culinaryservice.JWT;
 
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
