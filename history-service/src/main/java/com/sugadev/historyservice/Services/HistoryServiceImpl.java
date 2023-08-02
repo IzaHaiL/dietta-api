@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,6 +77,40 @@ public class HistoryServiceImpl implements HistoryService {
     @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public void deleteHistory(Integer historyId) {historyRepository.deleteById(historyId);}
 
+
+
+    @Override
+    public List<ResponseDTO> getHistoryByUser(Integer id) {
+        List<ResponseDTO> responseList = new ArrayList<>();
+
+        List<History> historyList = (List<History>) historyRepository.getHistoriesByUser(id);
+
+        for (History history : historyList) {
+            HistoryDTO historyDTO = modelMapper.map(history, HistoryDTO.class);
+
+            ResponseEntity<UserDTO> responseEntity = restTemplate.getForEntity(
+                    "http://user/user/" + history.getIdUser(),
+                    UserDTO.class);
+
+            ResponseEntity<ScheduleHistoryDTO> responseEntity2 = restTemplate.getForEntity(
+                    "Http://schedule/schedule/version/" + history.getIdScheduleHistory(),
+                    ScheduleHistoryDTO.class);
+
+
+            ScheduleHistoryDTO scheduleHistoryDTO = responseEntity2.getBody();
+            UserDTO userDTO = responseEntity.getBody();
+
+            System.out.println(responseEntity.getStatusCode());
+
+            ResponseDTO responseDTO = new ResponseDTO();
+            responseDTO.setUser(userDTO);
+            responseDTO.setHistory(historyDTO);
+            responseDTO.setScheduleHistory(scheduleHistoryDTO);
+            responseList.add(responseDTO);
+        }
+
+        return responseList;
+    }
 
 
 //    @Override

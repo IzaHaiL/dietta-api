@@ -5,16 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class VideoDTO {
+public class ResponseDTO1 {
 
-    private int id_video;
-    private String title;
-    private String description;
-    private String category;
-    private String url;
-    private String thumbnail;
+    private ScheduleParentDTO scheduleParent;
+    private UserDTO user;
+    private ScheduleDTO schedule;
 }
