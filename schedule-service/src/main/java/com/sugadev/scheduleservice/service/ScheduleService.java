@@ -2,9 +2,11 @@ package com.sugadev.scheduleservice.service;
 
 import com.sugadev.scheduleservice.dto.*;
 import com.sugadev.scheduleservice.model.Schedule;
+import com.sugadev.scheduleservice.model.ScheduleHistoryParent;
 import com.sugadev.scheduleservice.model.ScheduleParent;
 import com.sugadev.scheduleservice.model.ScheduleHistory;
 import com.sugadev.scheduleservice.repository.ScheduleDetailRepository;
+import com.sugadev.scheduleservice.repository.ScheduleHistoryParentRepository;
 import com.sugadev.scheduleservice.repository.ScheduleHistoryRepository;
 import com.sugadev.scheduleservice.repository.ScheduleRepository;
 import lombok.AllArgsConstructor;
@@ -25,13 +27,16 @@ import java.util.stream.Collectors;
 public class ScheduleService implements ScheduleServices {
 
     @Autowired
-  private ScheduleRepository scheduleRepository;
+    private ScheduleRepository scheduleRepository;
 
     @Autowired
     private ScheduleHistoryRepository scheduleHistoryRepository;
 
     @Autowired
     private ScheduleDetailRepository scheduleDetailRepository;
+    @Autowired
+    private ScheduleHistoryParentRepository scheduleHistoryParentRepository;
+
 
     ModelMapper modelMapper;
     RestTemplate restTemplate;
@@ -44,6 +49,17 @@ public class ScheduleService implements ScheduleServices {
         scheduleHistory.setIdScheHistory(savedSchedule.getId_schedule());
         ScheduleHistory savedScheduleHistory = scheduleHistoryRepository.save(scheduleHistory);
         return modelMapper.map(savedSchedule, ScheduleDTO.class);
+    }
+
+    @Override
+    public ScheduleParentDTO saveSchedulesAndVersionParent(ScheduleParentDTO scheduleParentDTO) {
+        ScheduleParent scheduleParent= modelMapper.map(scheduleParentDTO, ScheduleParent.class);
+        ScheduleParent savedSchedules = scheduleDetailRepository.save(scheduleParent);
+        ScheduleHistoryParent scheduleHistoryParent = modelMapper.map(scheduleParentDTO, ScheduleHistoryParent.class);
+        scheduleHistoryParent.setScheduleParent(savedSchedules);
+        scheduleHistoryParent.setIdScheHistoryParent(savedSchedules.getId_schedule_parent());
+        ScheduleHistoryParent savedSchedulesHistory = scheduleHistoryParentRepository.save(scheduleHistoryParent);
+        return  modelMapper.map(savedSchedules, ScheduleParentDTO.class);
     }
 
 
@@ -306,7 +322,7 @@ public class ScheduleService implements ScheduleServices {
 
     @Override
     public ScheduleParentDTO updateScheduleParentById(int scheduleID, ScheduleParentDTO scheduleParentDTO) {
-        ScheduleParent existing = scheduleDetailRepository.findById(scheduleID).orElseThrow(() -> new IllegalArgumentException("Detail not found by id : " + scheduleParentDTO.getIdScheduleParent()));
+        ScheduleParent existing = scheduleDetailRepository.findById(scheduleID).orElseThrow(() -> new IllegalArgumentException("Detail not found by id : " + scheduleParentDTO.getId_schedule_parent()));
         existing.setTitle(scheduleParentDTO.getTitle());
         ScheduleParent updatedSchedule = scheduleDetailRepository.save(existing);
         return modelMapper.map(updatedSchedule, ScheduleParentDTO.class);

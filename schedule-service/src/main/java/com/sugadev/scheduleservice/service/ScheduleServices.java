@@ -8,6 +8,8 @@ public interface ScheduleServices {
 
     ScheduleDTO saveScheduleAndVersion(ScheduleDTO scheduleDTO);
 
+    ScheduleParentDTO saveSchedulesAndVersionParent(ScheduleParentDTO scheduleParentDTO);
+
     ResponseDTO getScheduleById(Integer sheduleID);
 
     void deleteById(Integer sheduleID);

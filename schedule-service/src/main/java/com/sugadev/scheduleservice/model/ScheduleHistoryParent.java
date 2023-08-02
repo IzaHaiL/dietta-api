@@ -1,5 +1,6 @@
 package com.sugadev.scheduleservice.model;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,18 +12,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name ="schedule_detail")
-public class ScheduleParent {
+@Table(name = "schedule_history_parent")
+public class ScheduleHistoryParent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name = "id_schedule_parent")
-    private int id_schedule_parent;
-    @Column(name = "title")
+    private int idScheHistoryParent;
+
+    @ManyToOne
+    @JoinColumn(name = "id_schedule_parent")
+    private ScheduleParent scheduleParent;
+
+    @Column(insertable=false, updatable=false)
+    private int id_shedule_parent ;
     private String title;
     private String description;
-    @Column (name = "id_schedule")
-    private int id_schedule;
-    @Column (name= "id_user")
     private int id_user;
-
 }

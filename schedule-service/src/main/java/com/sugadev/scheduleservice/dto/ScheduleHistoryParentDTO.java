@@ -4,11 +4,11 @@ package com.sugadev.scheduleservice.dto;
 import lombok.Data;
 
 @Data
-public class ScheduleParentDTO {
+public class ScheduleHistoryParentDTO {
 
-    private int id_schedule_parent;
+    private int idScheHistoryParent;
     private String title;
     private String description;
-    private int id_schedule;
     private int id_user;
+    private int id_schedule_parent;
 }

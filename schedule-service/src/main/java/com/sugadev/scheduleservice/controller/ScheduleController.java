@@ -24,11 +24,19 @@ public class ScheduleController {
     private ModelMapper modelMapper;
 
 
-    @PostMapping("/child/add")
+    @PostMapping("history/child/add")
     public ResponseEntity<ScheduleDTO> saveScheduleAndVersion(@RequestBody ScheduleDTO scheduleDTO) {
         ScheduleDTO sche = scheduleServices.saveScheduleAndVersion(scheduleDTO);
         return new ResponseEntity<>(sche, HttpStatus.CREATED);
     }
+
+    @PostMapping("history/parent/add")
+    public ResponseEntity<ScheduleParentDTO> saveScheduleAndVersionParent(@RequestBody ScheduleParentDTO scheduleParentDTO) {
+        ScheduleParentDTO sche = scheduleServices.saveSchedulesAndVersionParent(scheduleParentDTO);
+        return new ResponseEntity<>(sche, HttpStatus.CREATED);
+    }
+
+
 
 
     @GetMapping("/child/all")
