@@ -27,16 +27,16 @@ public class Schedule {
     private int id_video;
     private int id_user;
     private int id_schedule_parent;
-    @Version
-    private int version;
-    public void createVersion(){
-        ScheduleHistory scheduleHistory = new ScheduleHistory();
-        scheduleHistory.setSchedule(this);
-        scheduleHistory.setId_schedule(this.id_schedule);
-        scheduleHistory.setTitle(this.title);
-        scheduleHistory.setDate(this.date);
-        scheduleHistory.setId_video(this.id_video);
-        scheduleHistory.setId_user(this.id_user);
-        scheduleHistory.setVersion(this.version);
-    }
+//    @Version
+//    private int version;
+//    public void createVersion(){
+//        ScheduleHistory scheduleHistory = new ScheduleHistory();
+//        scheduleHistory.setSchedule(this);
+//        scheduleHistory.setId_schedule(this.id_schedule);
+//        scheduleHistory.setTitle(this.title);
+//        scheduleHistory.setDate(this.date);
+//        scheduleHistory.setId_video(this.id_video);
+//        scheduleHistory.setId_user(this.id_user);
+//        scheduleHistory.setVersion(this.version);
+//    }
 }

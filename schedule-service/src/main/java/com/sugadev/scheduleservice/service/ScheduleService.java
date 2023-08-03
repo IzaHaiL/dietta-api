@@ -242,30 +242,22 @@ public class ScheduleService implements ScheduleServices {
 
             System.out.println(responseEntityUser.getStatusCode());
 
-            // Add this part to fetch and map the schedule
-            Integer scheduleID = scheduleParent.getId_schedule();
-            Schedule schedule = scheduleRepository.findById(scheduleID).orElse(null);
-            ScheduleDTO scheduleDTO = modelMapper.map(schedule, ScheduleDTO.class);
+//            Integer scheduleID = scheduleParent.getId_schedule();
+//            Schedule schedule = scheduleRepository.findById(scheduleID).orElse(null);
+//            ScheduleDTO scheduleDTO = modelMapper.map(schedule, ScheduleDTO.class);
 
             responseDTO1.setUser(userDTO);
             responseDTO1.setScheduleParent(scheduleParentDTO);
-            responseDTO1.setSchedule(scheduleDTO); // Set the scheduleDTO
+//            responseDTO1.setSchedule(scheduleDTO); // Set the scheduleDTO
             responseList.add(responseDTO1);
         }
 
         return responseList;
     }
 
-
-
-
-
-
-
-
     @Override
-    public List<ResponseDTO> getVideoById(Integer userID) {
-        List<ResponseDTO> responseList = new ArrayList<>();
+    public List<ResponseDTOV> getVideoById(Integer userID) {
+        List<ResponseDTOV> responseList = new ArrayList<>();
 
         List<Schedule> scheduleList = (List<Schedule>) scheduleRepository.getVideoById(userID);
 
@@ -287,12 +279,12 @@ public class ScheduleService implements ScheduleServices {
             System.out.println(responseEntity.getStatusCode());
             System.out.println(responseEntity1.getStatusCode());
 
-            ResponseDTO responseDTO = new ResponseDTO();
-            responseDTO.setUser(userDTO);
-            responseDTO.setSchedule(scheduleDTO);
-            responseDTO.setVideo(videoDTO);
+            ResponseDTOV responseDTOV = new ResponseDTOV();
+            responseDTOV.setUser(userDTO);
+            responseDTOV.setSchedule(scheduleDTO);
+            responseDTOV.setVideo(videoDTO);
 
-            responseList.add(responseDTO);
+            responseList.add(responseDTOV);
         }
 
         return responseList;
@@ -354,7 +346,7 @@ public class ScheduleService implements ScheduleServices {
         scheduleHistory.setDate(updatedSchedule.getDate());
         scheduleHistory.setId_user(updatedSchedule.getId_user());
         scheduleHistory.setId_video(updatedSchedule.getId_video());
-        scheduleHistory.setVersion(updatedSchedule.getVersion());
+//        scheduleHistory.setVersion(updatedSchedule.getVersion());
         scheduleHistory.setSchedule(updatedSchedule);
 
         scheduleHistoryRepository.save(scheduleHistory);

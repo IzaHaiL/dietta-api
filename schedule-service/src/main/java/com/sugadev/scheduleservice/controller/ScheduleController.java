@@ -70,8 +70,8 @@ public class ScheduleController {
     }
 
     @GetMapping("/video/{id}")
-    public ResponseEntity<List<ResponseDTO>> getVideoById(@PathVariable("id") Integer id) {
-        List<ResponseDTO> responseDTO = scheduleServices.getVideoById(id);
+    public ResponseEntity<List<ResponseDTOV>> getVideoById(@PathVariable("id") Integer id) {
+        List<ResponseDTOV> responseDTO = scheduleServices.getVideoById(id);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 

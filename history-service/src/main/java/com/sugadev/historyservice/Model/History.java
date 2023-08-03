@@ -23,25 +23,10 @@ public class History {
 
     @Column(name = "title")
     private String title;
-
-//    @Column(name = "Waktu_Mulai")
-//    private String starttime;
-//
-//    @Column(name = "Waktu_Selesai")
-//    private String endtime;
     @Column(name ="total_time")
     private String totaltime;
     @Column(name = "kalori_terbakar")
     private int burncalories;
-//    @Column(name = "latitude")
-//    private int latitude;
-//
-//    @Column(name = "Longitude")
-//    private int longitude;
-//
-//    @Column(name = "jarak")
-//    private int jarak;
-
     @Column(name = "id_sche_history")
     private int idScheduleHistory;
 

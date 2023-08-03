@@ -22,7 +22,7 @@ public interface ScheduleServices {
 
     ScheduleHistoryDTO getPrevVersionDetail(Integer scheduleID);
 
-    List<ResponseDTO> getVideoById (Integer userID);
+    List<ResponseDTOV> getVideoById (Integer userID);
 
     ScheduleParentDTO createSchedule (ScheduleParentDTO scheduleParentDTO);
 

@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "schedule_history")
+@Table(name ="schedule_history")
 public class ScheduleHistory {
 
     @Id
@@ -28,6 +28,6 @@ public class ScheduleHistory {
     private String date;
     private int id_video;
     private int id_user;
-    private int version;
+//    private int version;
 
 }

@@ -5,6 +5,7 @@ import com.sugadev.historyservice.Dto.HistoryDTO;
 
 
 import com.sugadev.historyservice.Dto.ResponseDTO;
+import com.sugadev.historyservice.Dto.ResponseDTO1;
 import com.sugadev.historyservice.Model.History;
 import com.sugadev.historyservice.Services.HistoryService;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class HistoryController {
 
     @Autowired
     private HistoryService historyService;
+
     private ModelMapper modelMapper;
 
 
@@ -68,8 +70,23 @@ public class HistoryController {
 
     @GetMapping("/user/{id}")
     public ResponseEntity<List<ResponseDTO>> getHistoryByUser(@PathVariable("id") Integer id) {
-        List<ResponseDTO> responseDTO = historyService.getHistoryByUser(id);
+        List<ResponseDTO> responseDTO = historyService.getHistoriesByUser(id);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
+
+
+    @GetMapping("/parent/{id}")
+    public ResponseEntity<List<ResponseDTO1>> getAllHistoryParentByuser(@PathVariable("id") Integer id) {
+        List<ResponseDTO1> responseDTO1s = historyService.getAllHistoryParentByuser(id);
+        return new ResponseEntity<>(responseDTO1s, HttpStatus.OK);
+    }
+
+
+
+    @GetMapping("/child/{id}")
+    public ResponseEntity<List<ResponseDTO>> getAllHistoryByScheHistoryId(@PathVariable("id") Integer id) {
+        List<ResponseDTO> responseDTOS = historyService.getAllHistoryByScheHistoryId(id);
+        return new ResponseEntity<>(responseDTOS, HttpStatus.OK);
+    }
 }

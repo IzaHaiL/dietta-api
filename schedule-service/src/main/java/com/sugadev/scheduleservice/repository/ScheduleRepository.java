@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 
-    @Query("SELECT sv FROM ScheduleHistory sv WHERE sv.schedule.id_schedule = :id ORDER BY sv.version ASC")
+    @Query("SELECT sv FROM ScheduleHistory sv WHERE sv.schedule.id_schedule = :id")
     List<ScheduleHistory> getProductVersionHistory(@Param("id") int idSchedule);
 
     @Query("SELECT svd FROM ScheduleHistory svd WHERE svd.idScheHistory = :id")
