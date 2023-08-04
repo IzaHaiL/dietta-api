@@ -14,7 +14,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -249,9 +253,16 @@ public class ScheduleService implements ScheduleServices {
 
             ScheduleParentDTO scheduleParentDTO = modelMapper.map(scheduleParent, ScheduleParentDTO.class);
 
-            ResponseEntity<UserDTO> responseEntityUser = restTemplate
-                    .getForEntity("http://user/user/" + scheduleParent.getId_user(),
-                            UserDTO.class);
+            HttpHeaders headers = new HttpHeaders();
+            UserDTO user = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            headers.setBearerAuth(user.getToken());
+
+            HttpEntity<String> entity = new HttpEntity<>("body", headers);
+            ResponseEntity<UserDTO> responseEntityUser = restTemplate.exchange("http://user/user/" + scheduleParent.getId_user(), HttpMethod.GET, entity, UserDTO.class);
+
+
+//            ResponseEntity<UserDTO> responseEntityUser = restTemplate
+//                    .getForEntity("http://user/user/" + scheduleParent.getId_user(), , UserDTO.class);
 
             UserDTO userDTO = responseEntityUser.getBody();
 

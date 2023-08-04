@@ -16,5 +16,7 @@ public class UserDTO {
     private int noTelp;
     private int beratBadan;
     private int tinggiBadan;
-    private Set<UserRole> roles;
+    private Set<RoleDTO> roles;
+
+   // public void addRole (RoleDTO userRole) { this.roles.add(userRole);}
 }

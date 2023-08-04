@@ -44,6 +44,7 @@ public class User implements UserDetails {
     @Column(name = "tinggi_badan")
     private int tinggiBadan;
 
+    @Getter
     @ManyToMany
     @JoinTable(
             name = "users_roles",
@@ -60,17 +61,26 @@ public class User implements UserDetails {
         return authorities;
     }
 
-    public Set<UserRole> getRoles(){
-        return roles;
-    }
     public void setRoles(Set<UserRole> userRoles){ this.roles = userRoles; }
 
     public void addRole (UserRole userRole) { this.roles.add(userRole);}
 
-    public User (String Test213, String password){
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "idUser=" + idUser +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", noTelp=" + noTelp +
+                ", beratBadan=" + beratBadan +
+                ", tinggiBadan=" + tinggiBadan +
+                ", roles=" + roles +
+                '}';
     }
-//
+
+    //
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {
 //        return null;

@@ -1,7 +1,9 @@
 package com.sugadev.userservice.Service;
 
+import com.sugadev.userservice.DTO.RoleDTO;
 import com.sugadev.userservice.DTO.UserDTO;
 import com.sugadev.userservice.Model.User;
+import com.sugadev.userservice.Model.UserRole;
 import com.sugadev.userservice.Repository.UserRepository;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
@@ -13,7 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +35,11 @@ public class UserServiceImpl implements UserService{
     public UserDTO saveUser(UserDTO userDTO) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         userDTO.setPassword(encoder.encode(userDTO.getPassword()));
+//        Set<RoleDTO> roleDTO = userDTO.getRoles();
         User user = modelMapper.map(userDTO, User.class);
+//        for (RoleDTO dto : roleDTO) {
+//            user.addRole(new UserRole(dto.getId()));
+//        }
         User savedUser = userRepository.save(user);
         return modelMapper.map(savedUser, UserDTO.class);
     }

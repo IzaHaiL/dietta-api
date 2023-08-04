@@ -83,6 +83,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         user.setIdUser(Integer.parseInt(jwtSubject[0]));
         user.setUsername(jwtSubject[1]);
+        user.setToken(token);
 
         return user;
     }
