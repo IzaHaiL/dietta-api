@@ -1,4 +1,4 @@
-package com.sugadev.historyservice.Dto;
+package com.sugadev.videoservice.dto;
 
 import lombok.Data;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

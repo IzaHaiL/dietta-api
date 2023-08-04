@@ -3,6 +3,7 @@ package com.sugadev.culinaryservice.Services;
 import com.sugadev.culinaryservice.Dto.CulinaryDTO;
 import com.sugadev.culinaryservice.Model.Culinary;
 import com.sugadev.culinaryservice.Repository.CulinaryRepository;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -22,20 +23,20 @@ public class CulinaryServiceImpl implements CulinaryService {
     CulinaryRepository culinaryRepository;
     ModelMapper modelMapper;
 
-    @Override
+    @RolesAllowed({"ROLE_USER"})
     public CulinaryDTO saveCulinary(CulinaryDTO culinaryDTO) {
         Culinary culinary = modelMapper.map(culinaryDTO, Culinary.class);
         Culinary savedCulinary = culinaryRepository.save(culinary);
         return modelMapper.map(savedCulinary, CulinaryDTO.class);
     }
-    @Override
+    @RolesAllowed({"ROLE_USER"})
     public CulinaryDTO getCulinary(Integer culinaryId) {
         Culinary culinary = culinaryRepository.findById(culinaryId)
                 .orElseThrow(() -> new RuntimeException("Culinary not found with id: " + culinaryId));
         return modelMapper.map(culinary, CulinaryDTO.class);
     }
 
-    @Override
+    @RolesAllowed({"ROLE_ADMIN"})
     public List<CulinaryDTO> getAllCulinary() {
         List<Culinary> culinaries = culinaryRepository.findAll();
         return culinaries.stream()

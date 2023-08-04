@@ -9,6 +9,7 @@ import com.sugadev.scheduleservice.repository.ScheduleDetailRepository;
 import com.sugadev.scheduleservice.repository.ScheduleHistoryParentRepository;
 import com.sugadev.scheduleservice.repository.ScheduleHistoryRepository;
 import com.sugadev.scheduleservice.repository.ScheduleRepository;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -38,6 +39,7 @@ public class ScheduleService implements ScheduleServices {
     private ScheduleHistoryParentRepository scheduleHistoryParentRepository;
 
 
+    @Autowired
     ModelMapper modelMapper;
     RestTemplate restTemplate;
 
@@ -63,7 +65,20 @@ public class ScheduleService implements ScheduleServices {
     }
 
 
+
+//    @Override
+//    public ScheduleDTO saveScheduleAndVersion(ScheduleDTO scheduleDTO) {
+//        Schedule schedule = modelMapper.map(scheduleDTO, Schedule.class);
+//        Schedule savedSchedule = scheduleRepository.save(schedule);
+//        return modelMapper.map(savedSchedule, ScheduleDTO.class);
+//    }
+
+
+
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
+
     @Override
+
     public List<ScheduleDTO> findAll() {
         List<Schedule> schedules = scheduleRepository.findAll();
         return schedules.stream().map(schedule -> modelMapper.map(schedule, ScheduleDTO.class)).collect(Collectors.toList());

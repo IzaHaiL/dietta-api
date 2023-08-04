@@ -11,6 +11,7 @@ import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -20,22 +21,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
-@Slf4j
 public class DiaryServiceImpl implements DiaryService{
 
+    @Autowired
     DiaryRepository diaryRepository;
+    @Autowired
     ModelMapper modelMapper;
     RestTemplate restTemplate;
 
-    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
+
     public DiaryDTO saveDiary(DiaryDTO addDiary) {
         Diary diary = modelMapper.map(addDiary, Diary.class);
         Diary savedDiary = diaryRepository.save(diary);
         return modelMapper.map(savedDiary, DiaryDTO.class);
     }
 
-    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
+
     public ResponseDTO getDiary(Integer diaryId) {
         ResponseDTO responseDTO = new ResponseDTO();
         Diary diary = diaryRepository.findById(diaryId).get();
@@ -66,7 +67,7 @@ public class DiaryServiceImpl implements DiaryService{
     }
 
 
-    @Override
+
     public List<ResponseDTO> getCulinaryBy(Integer IdCulinary) {
         List<ResponseDTO> responseList = new ArrayList<>();
 
@@ -103,7 +104,7 @@ public class DiaryServiceImpl implements DiaryService{
        // return modelMapper.map(diary, DiaryDTO.class);
 
 
-    @Override
+
     public List<ResponseDTO> getUserBy(Integer IdUser) {
         List<ResponseDTO> responseList = new ArrayList<>();
 
@@ -138,7 +139,7 @@ public class DiaryServiceImpl implements DiaryService{
         return responseList;
     }
 
-    @Override
+
     public DiaryDTO updateDiary(int id, DiaryDTO updateDiary) {
 
         Diary existingDiary = diaryRepository.findById(id)
@@ -152,12 +153,11 @@ public class DiaryServiceImpl implements DiaryService{
         Diary updatedDiary = diaryRepository.save(existingDiary);
         return modelMapper.map(updatedDiary, DiaryDTO.class);
     }
-    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
+
     public void deleteDiary(Integer diaryId) {
         diaryRepository.deleteById(diaryId);
     }
 
-    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public List<DiaryDTO> getAllDiary() {
         List<Diary> diaries = diaryRepository.findAll();
         return diaries.stream().map(diary -> modelMapper.map(diary, DiaryDTO.class)).collect(Collectors.toList());
