@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name ="schedule_history")
+@Table(name ="schedule_history_child")
 public class ScheduleHistory {
 
     @Id
@@ -19,11 +19,11 @@ public class ScheduleHistory {
     private int idScheHistory;
 
     @ManyToOne
-    @JoinColumn(name = "id_schedule")
-    private Schedule schedule;
+    @JoinColumn(name = "id_schedule_child")
+    private ScheduleChild scheduleChild;
 
     @Column(insertable=false, updatable=false)
-    private int id_schedule;
+    private int id_schedule_child;
     private String title;
     private String date;
     private int id_video;

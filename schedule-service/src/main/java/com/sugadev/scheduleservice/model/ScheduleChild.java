@@ -12,14 +12,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name ="schedule")
+@Table(name ="schedule_child")
 public class Schedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
 
-    private int id_schedule;
+    private int id_schedule_child;
     @Column(name = "title")
     private String title;
     @Column(name = "date")

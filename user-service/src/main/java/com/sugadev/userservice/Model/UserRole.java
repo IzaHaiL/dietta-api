@@ -1,12 +1,14 @@
 package com.sugadev.userservice.Model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "role")
 @Data
+@Getter
+@Setter
+
 public class UserRole {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -25,10 +27,10 @@ public class UserRole {
         this.id = id;
     }
 
-    public UserRole() {
+   public UserRole() {
 
     }
 
-    @Override
-    public String toString() {return this.nama_role;}
+  @Override
+  public String toString() {return this.nama_role;}
 }

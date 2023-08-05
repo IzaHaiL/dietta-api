@@ -13,10 +13,10 @@ public class UserDTO {
     private String password;
     private String name;
     private String email;
-    private int noTelp;
+    private long noTelp;
     private int beratBadan;
     private int tinggiBadan;
-    private Set<RoleDTO> roles;
+    private Set<UserRole> roles;
 
-   // public void addRole (RoleDTO userRole) { this.roles.add(userRole);}
+  // public void addRole (RoleDTO userRole) { this.roles.add(userRole);}
 }

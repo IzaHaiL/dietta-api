@@ -35,14 +35,12 @@ public class UserServiceImpl implements UserService{
     public UserDTO saveUser(UserDTO userDTO) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         userDTO.setPassword(encoder.encode(userDTO.getPassword()));
-//        Set<RoleDTO> roleDTO = userDTO.getRoles();
         User user = modelMapper.map(userDTO, User.class);
-//        for (RoleDTO dto : roleDTO) {
-//            user.addRole(new UserRole(dto.getId()));
-//        }
         User savedUser = userRepository.save(user);
         return modelMapper.map(savedUser, UserDTO.class);
     }
+
+
 
     @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public UserDTO getUser(Integer userId) {
@@ -51,7 +49,7 @@ public class UserServiceImpl implements UserService{
         return modelMapper.map(user, UserDTO.class);
     }
 
-    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
+    @RolesAllowed({"ROLE_ADMIN"})
     public List<UserDTO> getAllUser() {
         List<User> users = userRepository.findAll();
         return users.stream()
@@ -59,24 +57,30 @@ public class UserServiceImpl implements UserService{
                 .collect(Collectors.toList());
     }
 
-    @Override
+
     public UserDTO updateUser(int id, UserDTO userDTO) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Detail not found by id : " + id));
 
-//        existingUser.setIdUser(userDTO.getIdUser());
         existingUser.setUsername(userDTO.getUsername());
-        existingUser.setPassword(userDTO.getPassword());
         existingUser.setName(userDTO.getName());
         existingUser.setEmail(userDTO.getEmail());
         existingUser.setNoTelp(userDTO.getNoTelp());
         existingUser.setBeratBadan(userDTO.getBeratBadan());
         existingUser.setTinggiBadan(userDTO.getTinggiBadan());
 
+        if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
+            // Hash the new password before updating
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode(userDTO.getPassword());
+            existingUser.setPassword(hashedPassword);
+        }
+
         User updatedUser = userRepository.save(existingUser);
         return modelMapper.map(updatedUser, UserDTO.class);
     }
 
+    @RolesAllowed({"ROLE_ADMIN"})
     @Override
     public void deleteUser(Integer userId) {
         userRepository.deleteById(userId);

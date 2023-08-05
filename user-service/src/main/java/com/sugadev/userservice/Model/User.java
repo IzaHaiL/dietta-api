@@ -1,10 +1,7 @@
 package com.sugadev.userservice.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,10 +10,11 @@ import java.util.*;
 
 @Entity
 @Table(name = "users")
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class User implements UserDetails {
 
     @Id
@@ -36,7 +34,7 @@ public class User implements UserDetails {
     private String email;
 
     @Column(name = "no_telp")
-    private int noTelp;
+    private long noTelp;
 
     @Column(name = "berat_badan")
     private int beratBadan;
@@ -65,20 +63,6 @@ public class User implements UserDetails {
 
     public void addRole (UserRole userRole) { this.roles.add(userRole);}
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "idUser=" + idUser +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", noTelp=" + noTelp +
-                ", beratBadan=" + beratBadan +
-                ", tinggiBadan=" + tinggiBadan +
-                ", roles=" + roles +
-                '}';
-    }
 
     //
 //    @Override
