@@ -1,6 +1,5 @@
 package com.sugadev.diaryservice.DTO;
 
-import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data
@@ -12,4 +11,11 @@ public class RoleDTO {
     public RoleDTO(String nama_role) {this.nama_role = nama_role; }
     @Override
     public String toString() {return this.nama_role;}
+
+    public RoleDTO(Integer id, String nama_role) {
+        this.id = id;
+        this.nama_role = nama_role;
+    }
+    public RoleDTO() {
+    }
 }
