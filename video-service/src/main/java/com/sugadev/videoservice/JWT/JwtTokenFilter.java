@@ -1,8 +1,10 @@
 package com.sugadev.videoservice.JWT;
 
 
+
+
 import com.sugadev.videoservice.dto.RoleDTO;
-import com.sugadev.videoservice.dto.UserDTO;
+import com.sugadev.videoservice.dto.UserAuthDTO;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -33,7 +35,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             return;
         }
 
-        String token = getAccessToken(request);
+        String  token = getAccessToken(request);
 
         if (!jwtUtil.validateAccessToken(token)) {
             filterChain.doFilter(request, response);
@@ -55,7 +57,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private void setAuthenticationContext(String token, HttpServletRequest request) {
-        UserDTO user = getUser(token);
+        UserAuthDTO user = getUser(token);
 
         UsernamePasswordAuthenticationToken
                 authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
@@ -67,8 +69,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
 
-    private UserDTO getUser(String token) {
-        UserDTO user = new UserDTO();
+    private UserAuthDTO getUser(String token) {
+        UserAuthDTO user = new UserAuthDTO();
         Claims claims = jwtUtil.parseClaims(token);
         String subject = (String) claims.get(Claims.SUBJECT);
         String[] jwtSubject = jwtUtil.getSubject(token).split(",");
@@ -83,6 +85,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         user.setIdUser(Integer.parseInt(jwtSubject[0]));
         user.setUsername(jwtSubject[1]);
+        user.setToken(token);
 
         return user;
     }
