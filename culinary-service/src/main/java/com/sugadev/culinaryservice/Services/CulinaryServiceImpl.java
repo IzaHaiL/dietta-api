@@ -29,20 +29,21 @@ public class CulinaryServiceImpl implements CulinaryService {
         Culinary savedCulinary = culinaryRepository.save(culinary);
         return modelMapper.map(savedCulinary, CulinaryDTO.class);
     }
-    @RolesAllowed({"ROLE_USER"})
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public CulinaryDTO getCulinary(Integer culinaryId) {
         Culinary culinary = culinaryRepository.findById(culinaryId)
                 .orElseThrow(() -> new RuntimeException("Culinary not found with id: " + culinaryId));
         return modelMapper.map(culinary, CulinaryDTO.class);
     }
 
-    @RolesAllowed({"ROLE_ADMIN"})
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public List<CulinaryDTO> getAllCulinary() {
         List<Culinary> culinaries = culinaryRepository.findAll();
         return culinaries.stream()
                 .map(culinary -> modelMapper.map(culinary, CulinaryDTO.class))
                 .collect(Collectors.toList());
     }
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     @Override
     public CulinaryDTO updateCulinary(int id, CulinaryDTO culinaryDTO) {
         Culinary existingCulinary = culinaryRepository.findById(id)
@@ -61,7 +62,7 @@ public class CulinaryServiceImpl implements CulinaryService {
         Culinary updatedCulinary = culinaryRepository.save(existingCulinary);
         return modelMapper.map(updatedCulinary, CulinaryDTO.class);
     }
-
+    @RolesAllowed({"ROLE_ADMIN"})
     @Override
     public void deleteCulinary(Integer culinaryId) {culinaryRepository.deleteById(culinaryId);}
 }

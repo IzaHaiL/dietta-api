@@ -6,21 +6,21 @@ import java.util.List;
 
 public interface ScheduleServices {
 
-    ScheduleDTO saveScheduleAndVersion(ScheduleDTO scheduleDTO);
+    ScheduleChildDTO saveScheduleAndVersion(ScheduleChildDTO scheduleChildDTO);
 
     ScheduleParentDTO saveSchedulesAndVersionParent(ScheduleParentDTO scheduleParentDTO);
 
     ResponseDTO getScheduleById(Integer sheduleID);
 
-    void deleteById(Integer sheduleID);
+    void deleteScheduleChildById(Integer sheduleID);
 
-    List<ScheduleDTO> findAll();
+    List<ScheduleChildDTO> findAll();
 
-    ScheduleDTO updateSchedule( int sheduleID,ScheduleDTO scheduleDTO);
+    ScheduleChildDTO updateSchedule(int sheduleID, ScheduleChildDTO scheduleChildDTO);
 
-    List<ScheduleHistoryDTO> getPrevVersion(Integer scheduleID);
+    List<ScheduleChildDTO> getPrevVersion(Integer scheduleID);
 
-    ScheduleHistoryDTO getPrevVersionDetail(Integer scheduleID);
+    ScheduleChildDTO getPrevVersionDetail(Integer scheduleID);
 
     List<ResponseDTOV> getVideoById (Integer userID);
 
@@ -37,14 +37,16 @@ public interface ScheduleServices {
 
 //    List<ScheduleParentDTO> getAllScheduleParrentAll(Integer scheduleID);
 
-    List <ResponseDTO> getAllScheduleParentRest(Integer sheduleID);
+//    List <ResponseDTO> getAllScheduleParentRest(Integer sheduleID);
 
-    List <ResponseDTO> getAllScheduleParentAllRest();
+//    List <ResponseDTO> getAllScheduleParentAllRest();
 
     List <ResponseDTO> getAllScheduleList(Integer scheduleID);
 
     List<ResponseDTO1> getAllscheduleParentByUser(Integer idUser);
 
+    List<ScheduleHistoryParentDTO> getAllScheduleParentHistoryByScheduleParentId(Integer id);
+    //ScheduleHistoryParentDTO getScheduleParentHistoryById(Integer idScheduleParent);
 
 
 

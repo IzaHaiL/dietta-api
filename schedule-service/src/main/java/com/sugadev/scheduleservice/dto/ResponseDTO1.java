@@ -10,8 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseDTO1 {
-
     private ScheduleParentDTO scheduleParent;
     private UserDTO user;
-
 }

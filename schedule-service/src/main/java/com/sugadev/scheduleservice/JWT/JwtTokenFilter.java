@@ -2,7 +2,7 @@ package com.sugadev.scheduleservice.JWT;
 
 
 import com.sugadev.scheduleservice.dto.RoleDTO;
-import com.sugadev.scheduleservice.dto.UserDTO;
+import com.sugadev.scheduleservice.dto.UserAuthDTO;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -55,7 +55,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private void setAuthenticationContext(String token, HttpServletRequest request) {
-        UserDTO user = getUser(token);
+        UserAuthDTO user = getUser(token);
 
         UsernamePasswordAuthenticationToken
                 authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
@@ -67,8 +67,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
 
-    private UserDTO getUser(String token) {
-        UserDTO user = new UserDTO();
+    private UserAuthDTO getUser(String token) {
+        UserAuthDTO user = new UserAuthDTO();
         Claims claims = jwtUtil.parseClaims(token);
         String subject = (String) claims.get(Claims.SUBJECT);
         String[] jwtSubject = jwtUtil.getSubject(token).split(",");

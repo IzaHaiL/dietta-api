@@ -12,22 +12,23 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name ="schedule_history_child")
-public class ScheduleHistory {
+public class ScheduleHistoryChild {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idScheHistory;
+    private int idScheHistoryChild;
 
     @ManyToOne
     @JoinColumn(name = "id_schedule_child")
     private ScheduleChild scheduleChild;
-
     @Column(insertable=false, updatable=false)
     private int id_schedule_child;
-    private String title;
-    private String date;
+//    private String title;
+//    private String date;
     private int id_video;
-    private int id_user;
-//    private int version;
+    private int id_schedule_parent;
+    @Version
+    private int version;
+
 
 }

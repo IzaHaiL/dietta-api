@@ -1,6 +1,12 @@
-package com.sugadev.culinaryservice.Dto;
+package com.sugadev.scheduleservice.dto;
 
 import lombok.Data;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Data
 public class UserDTO {

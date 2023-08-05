@@ -18,13 +18,19 @@ public class ScheduleHistoryParent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idScheHistoryParent;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+
     @JoinColumn(name = "id_schedule_parent")
     private ScheduleParent scheduleParent;
-
     @Column(insertable=false, updatable=false)
-    private int id_shedule_parent ;
+    private int id_schedule_parent;
     private String title;
     private String description;
+    private String date;
     private int id_user;
+    @Version
+    private int version;
+
+
+
 }

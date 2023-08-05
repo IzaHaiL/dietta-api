@@ -12,6 +12,6 @@ import lombok.Setter;
 public class ResponseDTOV {
 
     private UserDTO user;
-    private ScheduleDTO schedule;
+    private ScheduleChildDTO schedule;
     private VideoDTO video;
 }

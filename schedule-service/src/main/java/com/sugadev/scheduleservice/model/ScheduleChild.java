@@ -7,36 +7,33 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Getter
 @Setter
 @Table(name ="schedule_child")
-public class Schedule {
-
+public class ScheduleChild {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-
+    @Column (name = "id_schedule_child")
     private int id_schedule_child;
-    @Column(name = "title")
-    private String title;
-    @Column(name = "date")
-    private String date;
+//    @Column(name = "title")
+//    private String title;
+//    @Column(name = "date")
+//    private String date;
+//    private String description;
     private int id_video;
-    private int id_user;
     private int id_schedule_parent;
-//    @Version
-//    private int version;
-//    public void createVersion(){
-//        ScheduleHistory scheduleHistory = new ScheduleHistory();
-//        scheduleHistory.setSchedule(this);
-//        scheduleHistory.setId_schedule(this.id_schedule);
-//        scheduleHistory.setTitle(this.title);
-//        scheduleHistory.setDate(this.date);
-//        scheduleHistory.setId_video(this.id_video);
-//        scheduleHistory.setId_user(this.id_user);
-//        scheduleHistory.setVersion(this.version);
-//    }
+    @Version
+    private int version;
+
+    @OneToMany(mappedBy = "scheduleChild", orphanRemoval = false)
+    private List<ScheduleHistoryChild> children = new ArrayList<>();
+
+
 }
