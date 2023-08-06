@@ -2,6 +2,7 @@ package com.sugadev.scheduleservice.controller;
 
 import com.sugadev.scheduleservice.dto.*;
 import com.sugadev.scheduleservice.model.ScheduleChild;
+import com.sugadev.scheduleservice.model.ScheduleHistoryChild;
 import com.sugadev.scheduleservice.service.ScheduleServices;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -43,6 +44,11 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleHistoryParentDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/parent/history/{id}")
+    public ResponseEntity <ScheduleHistoryParentDTO> getScheduleParentHistoryDetailByScheduleParentHistoryId(@PathVariable("id") Integer id){
+        ScheduleHistoryParentDTO scheduleHistoryParentDTO1 = scheduleServices.getScheduleParentHistoryDetailByScheduleParentHistoryId(id);
+        return new ResponseEntity<>(scheduleHistoryParentDTO1,HttpStatus.OK);
+    }
 
 
     @GetMapping("/child/all")
@@ -61,6 +67,12 @@ public class ScheduleController {
     public ResponseEntity<List<ResponseDTO>> getAllScheduleList(@PathVariable("id") Integer id) {
         List<ResponseDTO> responseDTOS = scheduleServices.getAllScheduleList(id);
         return new ResponseEntity<>(responseDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping("/child/history/{id}")
+    public ResponseEntity <ScheduleHistoryChildDTO>getScheduldeChildHistoryDetailByScheduleChildHistoryId (@PathVariable("id") Integer id){
+        ScheduleHistoryChildDTO scheduleHistoryChildDTO = scheduleServices.getScheduldeChildHistoryDetailByScheduleChildHistoryId(id);
+        return new ResponseEntity<>(scheduleHistoryChildDTO,HttpStatus.OK);
     }
 
     @GetMapping("/sche/{id}")

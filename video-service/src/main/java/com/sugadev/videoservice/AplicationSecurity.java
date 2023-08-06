@@ -4,6 +4,7 @@ import com.sugadev.videoservice.JWT.JwtTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -32,6 +33,7 @@ public class AplicationSecurity {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authz) -> authz
+                        .requestMatchers(HttpMethod.POST, "/video/all","/video/{id}").permitAll()
                         .anyRequest().authenticated()
                 ).addFilterBefore(
                         jwtTokenFilter,

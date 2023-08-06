@@ -25,4 +25,5 @@ public interface ScheduleChildRepository extends JpaRepository<ScheduleChild, In
     List <ScheduleChild> getAllScheduleList(@Param("id") int id_schedule);
 
 
+
 }

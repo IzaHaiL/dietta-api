@@ -25,8 +25,7 @@ public interface ScheduleParentRepository extends JpaRepository<ScheduleParent, 
     List<ScheduleHistoryParent> getAllScheduleParentHistoryByScheduleParentId(@Param("id")int idScheduleParent);
 
     @Query("SELECT sc FROM ScheduleHistoryParent sc WHERE sc.idScheHistoryParent =:id")
-    ScheduleHistoryParent getScheduleParentHistoryDetailByScheduleParentHistoryId(@Param("id")int idScheduleParent);
-
+    ScheduleHistoryParent getScheduleParentHistoryDetailByScheduleParentHistoryId(@Param("id")int id);
 
 
 }

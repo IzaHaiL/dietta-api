@@ -6,9 +6,6 @@ import lombok.Data;
 @Data
 public class ScheduleHistoryChildDTO {
     private int idScheHistoryChild;
- //   private int id_schedule_child;
-//    private String title;
-//    private String date;
     private int id_video;
     private int id_schedule_parent;
     private int version;

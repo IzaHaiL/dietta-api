@@ -39,16 +39,12 @@ public class UserServiceImpl implements UserService{
         User savedUser = userRepository.save(user);
         return modelMapper.map(savedUser, UserDTO.class);
     }
-
-
-
     @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public UserDTO getUser(Integer userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
         return modelMapper.map(user, UserDTO.class);
     }
-
     @RolesAllowed({"ROLE_ADMIN"})
     public List<UserDTO> getAllUser() {
         List<User> users = userRepository.findAll();
@@ -56,8 +52,6 @@ public class UserServiceImpl implements UserService{
                 .map(user -> modelMapper.map(user, UserDTO.class))
                 .collect(Collectors.toList());
     }
-
-
     public UserDTO updateUser(int id, UserDTO userDTO) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Detail not found by id : " + id));
@@ -79,7 +73,6 @@ public class UserServiceImpl implements UserService{
         User updatedUser = userRepository.save(existingUser);
         return modelMapper.map(updatedUser, UserDTO.class);
     }
-
     @RolesAllowed({"ROLE_ADMIN"})
     @Override
     public void deleteUser(Integer userId) {

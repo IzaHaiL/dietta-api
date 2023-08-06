@@ -1,6 +1,7 @@
 package com.sugadev.scheduleservice.service;
 
 import com.sugadev.scheduleservice.dto.*;
+import jakarta.annotation.security.RolesAllowed;
 
 import java.util.List;
 
@@ -21,11 +22,10 @@ public interface ScheduleServices {
     List<ScheduleChildDTO> getPrevVersion(Integer scheduleID);
 
     ScheduleChildDTO getPrevVersionDetail(Integer scheduleID);
-
+    ScheduleHistoryParentDTO getScheduleParentHistoryDetailByScheduleParentHistoryId(Integer id);
+    ScheduleHistoryChildDTO getScheduldeChildHistoryDetailByScheduleChildHistoryId(Integer id);
     List<ResponseDTOV> getVideoById (Integer userID);
-
     ScheduleParentDTO createSchedule (ScheduleParentDTO scheduleParentDTO);
-
 
     List<ScheduleParentDTO> getAllscheduleParent();
 
