@@ -1,7 +1,8 @@
 package com.sugadev.scheduleservice.service;
 
 import com.sugadev.scheduleservice.dto.*;
-import jakarta.annotation.security.RolesAllowed;
+import com.sugadev.scheduleservice.model.ScheduleChild;
+import com.sugadev.scheduleservice.model.ScheduleHistoryParent;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface ScheduleServices {
 
     ScheduleParentDTO saveSchedulesAndVersionParent(ScheduleParentDTO scheduleParentDTO);
 
-    ResponseDTO getScheduleById(Integer sheduleID);
+    ResponseScheduleChildParentVideoDTO getScheduleById(Integer sheduleID);
 
     void deleteScheduleChildById(Integer sheduleID);
 
@@ -24,7 +25,7 @@ public interface ScheduleServices {
     ScheduleChildDTO getPrevVersionDetail(Integer scheduleID);
     ScheduleHistoryParentDTO getScheduleParentHistoryDetailByScheduleParentHistoryId(Integer id);
     ScheduleHistoryChildDTO getScheduldeChildHistoryDetailByScheduleChildHistoryId(Integer id);
-    List<ResponseDTOV> getVideoById (Integer userID);
+    List<ResponseScheduleChildUserVideoDTO> getVideoById (Integer userID);
     ScheduleParentDTO createSchedule (ScheduleParentDTO scheduleParentDTO);
 
     List<ScheduleParentDTO> getAllscheduleParent();
@@ -41,12 +42,14 @@ public interface ScheduleServices {
 
 //    List <ResponseDTO> getAllScheduleParentAllRest();
 
-    List <ResponseDTO> getAllScheduleList(Integer scheduleID);
+    List <ResponseScheduleChildParentVideoDTO> getAllScheduleList(Integer scheduleID);
 
-    List<ResponseDTO1> getAllscheduleParentByUser(Integer idUser);
+    List<ResponseScheduleParentAndUserDTO> getAllscheduleParentByUser(Integer idUser);
 
     List<ScheduleHistoryParentDTO> getAllScheduleParentHistoryByScheduleParentId(Integer id);
     //ScheduleHistoryParentDTO getScheduleParentHistoryById(Integer idScheduleParent);
+
+    List<ScheduleHistoryParentDTO> getallScheduleParentHistoryByUser (Integer id);
 
 
 

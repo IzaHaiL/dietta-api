@@ -17,9 +17,9 @@ public interface DiaryService {
 
     List<DiaryDTO> getAllDiary();
 
-   List <ResponseDTO> getCulinaryBy (Integer IdCulinary);
+    List <ResponseDTO> getCulinaryBy (Integer IdCulinary);
 
-   List <ResponseDTO> getUserBy (Integer IdUser);
+    List <ResponseDTO> getUserBy (Integer IdUser);
 
 
 

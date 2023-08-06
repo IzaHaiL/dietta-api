@@ -18,7 +18,6 @@ public class UserAuthDTO {
     private int tinggiBadan;
     private Set<RoleDTO> roles = new HashSet<>();
     private String token;
-
     public List<SimpleGrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (RoleDTO role : roles) {

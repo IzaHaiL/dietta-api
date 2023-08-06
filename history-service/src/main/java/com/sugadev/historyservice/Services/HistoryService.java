@@ -22,5 +22,13 @@ public interface HistoryService {
 //    List<ResponseDTO> getAllHistoryByScheHistoryId(Integer id);
 
 
+    HistoryDTO addBiasa (HistoryDTO historyDTO);
+
+    List<HistoryDTO> getAllBiasaUser (Integer id);
+
+    void deleteBiasa (Integer id);
+
+
+
 
 }

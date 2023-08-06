@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.repository.Modifying;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 public class ScheduleChild {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column (name = "id_schedule_child")
     private int id_schedule_child;
 //    @Column(name = "title")

@@ -21,43 +21,35 @@ public class DiaryController {
     @Autowired
     private DiaryService diaryService;
 
-    private ModelMapper modelMapper;
-
     @PostMapping("/add")
     public ResponseEntity<DiaryDTO> saveDiary(@RequestBody DiaryDTO diaryDTO){
         DiaryDTO createdDiary = diaryService.saveDiary(diaryDTO);
         return new ResponseEntity<>(createdDiary, HttpStatus.CREATED);
     }
-
     @GetMapping("{id}")
     public ResponseEntity<ResponseDTO> getDiary(@PathVariable("id") Integer diaryId){
         ResponseDTO responseDTO = diaryService.getDiary(diaryId);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
-
     @GetMapping("/culinary/{id}")
     public ResponseEntity<List<ResponseDTO>> getCulinaryById(@PathVariable("id") Integer id) {
         List<ResponseDTO> responseDTO = diaryService.getCulinaryBy(id);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
-
     @GetMapping("/user/{id}")
     public ResponseEntity<List<ResponseDTO>> getUserById(@PathVariable("id") Integer id) {
         List<ResponseDTO> responseDTO = diaryService.getUserBy(id);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
-
     @GetMapping("/all") public ResponseEntity<List<DiaryDTO>>getAllDiary(){
        List<DiaryDTO> diaryDTO = diaryService.getAllDiary();
         return new ResponseEntity<>(diaryDTO, HttpStatus.OK);
     }
-
     @PutMapping("/update/{id}")
     public ResponseEntity<DiaryDTO> updateUser( @PathVariable("id") Integer id, @RequestBody DiaryDTO userDTO) {
         DiaryDTO updatedDiary = diaryService.updateDiary(id, userDTO);
         return new ResponseEntity<>(updatedDiary, HttpStatus.OK);
     }
-
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Diary> deleteUser(@PathVariable("id") Integer id) {
         try {

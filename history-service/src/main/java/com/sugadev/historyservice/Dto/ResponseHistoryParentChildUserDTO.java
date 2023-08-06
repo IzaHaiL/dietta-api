@@ -10,8 +10,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseDTO1 {
-    private HistoryParentDTO historyParentDTO;
-    private UserDTO userDTO;
+public class ResponseHistoryParentChildUserDTO {
+    private HistoryParentDTO historyParent;
+    private UserDTO user;
     private HistoryChild historyChild;
 }

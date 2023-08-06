@@ -10,8 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseDTO {
-
     private UserDTO user;
     private VideoDTO videoDTO;
-
 }

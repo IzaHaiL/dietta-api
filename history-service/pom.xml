@@ -11,7 +11,7 @@
 	<groupId>com.sugadev</groupId>
 	<artifactId>history-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>historyChild-service</name>
+	<name>history-service</name>
 	<description>userservice</description>
 	<properties>
 		<java.version>17</java.version>

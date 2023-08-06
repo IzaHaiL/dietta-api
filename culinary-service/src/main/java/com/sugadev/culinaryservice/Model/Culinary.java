@@ -20,20 +20,16 @@ public class Culinary {
 
     @Column(name = "foodname")
     private String foodname;
-
     @Column(name = "Kalori")
     private int kalori;
-
     @Column(name = "Lemak")
     private int lemak;
     @Column(name = "Karbohidrat")
     private int karbohidrat;
     @Column(name = "protein")
     private int protein;
-
     @Column(name = "deskripsi")
     private String deskripsi;
-
     @Column(name = "imgurl")
     private String imgurl;
 

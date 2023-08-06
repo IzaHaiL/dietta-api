@@ -8,8 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 public class ResponseScheduleAndHistoryParentDTO {
 
-    ScheduleHistoryParentDTO scheduleHistoryParentDTO;
-    HistoryParentDTO historyParentDTO;
-    UserDTO userDTO;
+    ScheduleHistoryParentDTO scheduleHistoryParent;
+    HistoryParentDTO historyParent;
+    UserDTO user;
 
 }

@@ -13,7 +13,7 @@ Here is a description of the main features that can be accessed through the API 
     
 2.  Video Feature: The Dietta API grants access to the video library provided by the Dietta application. Developers can use this API to display exercise videos, tutorials, or health guides within their own applications, allowing users to easily access valuable visual content.
     
-3.  History Feature: Through the Dietta API, developers can access user historical data, such as exercise historyChild, previous meal patterns, or other health records. This allows developers to display information about user progress or provide useful analytical features to track changes and health achievements.
+3.  History Feature: Through the Dietta API, developers can access user historical data, such as exercise history, previous meal patterns, or other health records. This allows developers to display information about user progress or provide useful analytical features to track changes and health achievements.
     
 4.  Schedule Feature: The Dietta API enables developers to manage user health activity schedules. Developers can use this API to create, edit, or delete exercise schedules, sleep routines, or other health-related activities. Users of the connected application can view and manage their schedules to maintain consistency and discipline in maintaining a healthy lifestyle.
     
@@ -35,7 +35,7 @@ Here is a description of the main features that can be accessed through the API 
 	User		localhost:8383
  	Video  		localhost:8484
   	Diary 		localhost:8585
-   	historyChild		localhost:8686
+   	history		localhost:8686
     Culinary	localhost:8787
     Schedule	localhost:8989
     	
@@ -72,13 +72,13 @@ Here is a description of the main features that can be accessed through the API 
 
 
  17. Create History Olahraga	Api Untuk Membuat History
-    Olahraga	**/historyChild/add**
+    Olahraga	**/history/add**
  18. Read List History Olahraga	Api Untuk Membaca Daftar History
-    Olahraga	**/historyChild/all**
+    Olahraga	**/history/all**
  19. Read Detail History Olahraga	Api Unuk Membaca Detail History
-    Olahraga	**/historyChild/{id}**
+    Olahraga	**/history/{id}**
  20. Delete History Olahraga	Api Untuk Menghapus History
-    Olahraga	**/historyChild/{id}**
+    Olahraga	**/history/{id}**
 
 
  21. Create Rekomendasi Makanan Sehat	Api Untuk Membuat Rekomendasi
@@ -103,4 +103,4 @@ Here is a description of the main features that can be accessed through the API 
  30. Delete Jadwal Olahraga	Api Untuk Menghapus Jadwal Olahraga
     	**/schedule/{id}**
  30. Read Schedule History	Api Untuk Menghapus Jadwal Olahraga
-    	**/schedule/historyChild/{id}**
+    	**/schedule/history/{id}**

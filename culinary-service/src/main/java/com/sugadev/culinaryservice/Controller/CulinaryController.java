@@ -19,8 +19,6 @@ import java.util.List;
 public class CulinaryController {
     @Autowired
     private CulinaryService culinaryService;
-    private ModelMapper modelMapper;
-
 
     @PostMapping("/add")
     public ResponseEntity<CulinaryDTO> saveCulinary(@RequestBody CulinaryDTO culinaryDTO){
@@ -32,7 +30,6 @@ public class CulinaryController {
         CulinaryDTO culinaryDTO = culinaryService.getCulinary(culinaryId);
         return new ResponseEntity<>(culinaryDTO, HttpStatus.OK);
     }
-
     @GetMapping("/all")
     public ResponseEntity<List<CulinaryDTO>>getAllCulinary(){
         List<CulinaryDTO> culinaryDTO = culinaryService.getAllCulinary();
@@ -43,7 +40,6 @@ public class CulinaryController {
         CulinaryDTO updatedCulinary = culinaryService.updateCulinary(id, culinaryDTO);
         return new ResponseEntity<>(updatedCulinary, HttpStatus.OK);
     }
-
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Culinary> deleteCulinary(@PathVariable("id") Integer id) {
         try {

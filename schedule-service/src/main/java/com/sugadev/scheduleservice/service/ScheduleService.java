@@ -71,12 +71,13 @@ public class ScheduleService implements ScheduleServices {
     @Override
     public List<ScheduleChildDTO> findAll() {
         List<ScheduleChild> schedules = scheduleChildRepository.findAll();
-        return schedules.stream().map(schedule -> modelMapper.map(schedule, ScheduleChildDTO.class)).collect(Collectors.toList());
+        return schedules.stream().map(schedule -> modelMapper.map(schedule, ScheduleChildDTO.class)).
+                collect(Collectors.toList());
     }
     @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     @Override
-    public ResponseDTO getScheduleById(Integer sheduleID) {
-        ResponseDTO responseDTO = new ResponseDTO();
+    public ResponseScheduleChildParentVideoDTO getScheduleById(Integer sheduleID) {
+        ResponseScheduleChildParentVideoDTO responseScheduleChildParentVideoDTO = new ResponseScheduleChildParentVideoDTO();
         ScheduleChild schedule = scheduleChildRepository.findById(sheduleID).get();
         ScheduleChildDTO scheduleChildDTO = modelMapper.map(schedule, ScheduleChildDTO.class);
 
@@ -101,21 +102,21 @@ public class ScheduleService implements ScheduleServices {
         System.out.println(responseEntity.getStatusCode());
         System.out.println(responseEntitypar.getStatusCode());
 
-        responseDTO.setScheduleParent(scheduleParentDTO);
-        responseDTO.setSchedule(scheduleChildDTO);
-        responseDTO.setVideo(videoDTO);
+        responseScheduleChildParentVideoDTO.setScheduleParent(scheduleParentDTO);
+        responseScheduleChildParentVideoDTO.setSchedule(scheduleChildDTO);
+        responseScheduleChildParentVideoDTO.setVideo(videoDTO);
 
-        return responseDTO;
+        return responseScheduleChildParentVideoDTO;
     }
     @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     @Override
-    public List<ResponseDTO> getAllScheduleList(Integer scheduleID) {
-        List<ResponseDTO> responseList = new ArrayList<>();
+    public List<ResponseScheduleChildParentVideoDTO> getAllScheduleList(Integer scheduleID) {
+        List<ResponseScheduleChildParentVideoDTO> responseList = new ArrayList<>();
 
         List<ScheduleChild> schedules = (List<ScheduleChild>) scheduleChildRepository.getAllScheduleList(scheduleID);
 
         for (ScheduleChild schedule : schedules) {
-            ResponseDTO responseDTO = new ResponseDTO(); // Deklarasi dan inisialisasi objek ResponseDTO
+            ResponseScheduleChildParentVideoDTO responseScheduleChildParentVideoDTO = new ResponseScheduleChildParentVideoDTO();
 
             ScheduleChildDTO scheduleChildDTO = modelMapper.map(schedule, ScheduleChildDTO.class);
 
@@ -139,22 +140,22 @@ public class ScheduleService implements ScheduleServices {
             System.out.println(responseEntity.getStatusCode());
             System.out.println(responseEntitypar.getStatusCode());
 
-            responseDTO.setScheduleParent(scheduleParentDTO);
-            responseDTO.setSchedule(scheduleChildDTO);
-            responseDTO.setVideo(videoDTO);
+            responseScheduleChildParentVideoDTO.setScheduleParent(scheduleParentDTO);
+            responseScheduleChildParentVideoDTO.setSchedule(scheduleChildDTO);
+            responseScheduleChildParentVideoDTO.setVideo(videoDTO);
 
-            responseList.add(responseDTO);
+            responseList.add(responseScheduleChildParentVideoDTO);
         }
 
         return responseList;
     }
     @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     @Override
-    public List<ResponseDTO1> getAllscheduleParentByUser(Integer idUser) {
-        List<ResponseDTO1> responseList = new ArrayList<>();
+    public List<ResponseScheduleParentAndUserDTO> getAllscheduleParentByUser(Integer idUser) {
+        List<ResponseScheduleParentAndUserDTO> responseList = new ArrayList<>();
         List<ScheduleParent> scheduleParents = scheduleParentRepository.getAllscheduleParentByUser(idUser);
         for (ScheduleParent scheduleParent : scheduleParents) {
-            ResponseDTO1 responseDTO1 = new ResponseDTO1();
+            ResponseScheduleParentAndUserDTO responseScheduleParentAndUserDTO = new ResponseScheduleParentAndUserDTO();
             ScheduleParentDTO scheduleParentDTO = modelMapper.map(scheduleParent, ScheduleParentDTO.class);
 
             HttpHeaders headers = new HttpHeaders();
@@ -162,38 +163,46 @@ public class ScheduleService implements ScheduleServices {
             headers.setBearerAuth(user.getToken());
             HttpEntity<String> entity = new HttpEntity<>("body", headers);
 
-
-            ResponseEntity<UserDTO> responseEntityUser = restTemplate.exchange("http://user/user/" + scheduleParent.getId_user(),
+            ResponseEntity<UserDTO> responseEntityUser = restTemplate.exchange("http://user/user/" +
+                            scheduleParent.getId_user(),
                     HttpMethod.GET, entity, UserDTO.class);
 
             UserDTO userDTO = responseEntityUser.getBody();
             System.out.println(responseEntityUser.getStatusCode());
 
-            responseDTO1.setUser(userDTO);
-            responseDTO1.setScheduleParent(scheduleParentDTO);
-            responseList.add(responseDTO1);
+            responseScheduleParentAndUserDTO.setUser(userDTO);
+            responseScheduleParentAndUserDTO.setScheduleParent(scheduleParentDTO);
+            responseList.add(responseScheduleParentAndUserDTO);
         }
 
         return responseList;
     }
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public List<ScheduleHistoryParentDTO> getAllScheduleParentHistoryByScheduleParentId(Integer idScheduleParent) {
-        List<ScheduleHistoryParent> schedules = scheduleParentRepository.getAllScheduleParentHistoryByScheduleParentId(idScheduleParent);
-        return schedules.stream().map(schedule -> modelMapper.map(schedule, ScheduleHistoryParentDTO.class)).collect(Collectors.toList());
+        List<ScheduleHistoryParent> schedules = scheduleParentRepository.
+                getAllScheduleParentHistoryByScheduleParentId(idScheduleParent);
+        return schedules.stream().map(schedule -> modelMapper.map(schedule, ScheduleHistoryParentDTO.
+                class)).collect(Collectors.toList());
     }
 
-//    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
-//    public ScheduleHistoryParentDTO getScheduleParentHistoryById(Integer id) {
-//        ScheduleHistoryParent scheduleHistoryParent = scheduleHistoryParentRepository.getScheduleParentHistoryDetailByScheduleParentHistoryId(id)
-//                .orElseThrow(()
-//                -> new RuntimeException("scheudle not found with id: " + id));
-//        return modelMapper.map(scheduleHistoryParent, ScheduleHistoryParentDTO.class);
-//
+//    @Override
+//    public List<ScheduleHistoryParentDTO> getallScheduleParentHistoryByUser(Integer id) {
+//        return null;
 //    }
+
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
+    public List<ScheduleHistoryParentDTO> getallScheduleParentHistoryByUser(Integer id) {
+        List<ScheduleHistoryParent> schedules = scheduleParentRepository.
+                getallScheduleParentHistoryByUser(id);
+        return schedules.stream().map(schedule -> modelMapper.map(schedule, ScheduleHistoryParentDTO.
+                class)).collect(Collectors.toList());
+    }
 
     @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     @Override
     public ScheduleHistoryParentDTO getScheduleParentHistoryDetailByScheduleParentHistoryId(Integer id) {
-        ScheduleHistoryParent scheduleHistoryParent = scheduleParentRepository.getScheduleParentHistoryDetailByScheduleParentHistoryId(id);
+        ScheduleHistoryParent scheduleHistoryParent = scheduleParentRepository.
+                getScheduleParentHistoryDetailByScheduleParentHistoryId(id);
         return modelMapper.map(scheduleHistoryParent, ScheduleHistoryParentDTO.class);
     }
 
@@ -201,14 +210,15 @@ public class ScheduleService implements ScheduleServices {
     @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     @Override
     public ScheduleHistoryChildDTO getScheduldeChildHistoryDetailByScheduleChildHistoryId(Integer id) {
-        ScheduleHistoryChild scheduleHistoryChild = scheduleHistoryChildRepository.getScheduldeChildHistoryDetailByScheduleChildHistoryId(id);
+        ScheduleHistoryChild scheduleHistoryChild = scheduleHistoryChildRepository.
+                getScheduldeChildHistoryDetailByScheduleChildHistoryId(id);
         return modelMapper.map(scheduleHistoryChild, ScheduleHistoryChildDTO.class);
     }
 
     @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     @Override
-    public List<ResponseDTOV> getVideoById(Integer userID) {
-        List<ResponseDTOV> responseList = new ArrayList<>();
+    public List<ResponseScheduleChildUserVideoDTO> getVideoById(Integer userID) {
+        List<ResponseScheduleChildUserVideoDTO> responseList = new ArrayList<>();
 
         List<ScheduleChild> scheduleList = (List<ScheduleChild>) scheduleChildRepository.getVideoById(userID);
 
@@ -225,11 +235,11 @@ public class ScheduleService implements ScheduleServices {
 
             System.out.println(responseEntity1.getStatusCode());
 
-            ResponseDTOV responseDTOV = new ResponseDTOV();
-            responseDTOV.setSchedule(scheduleChildDTO);
-            responseDTOV.setVideo(videoDTO);
+            ResponseScheduleChildUserVideoDTO responseScheduleChildUserVideoDTO = new ResponseScheduleChildUserVideoDTO();
+            responseScheduleChildUserVideoDTO.setSchedule(scheduleChildDTO);
+            responseScheduleChildUserVideoDTO.setVideo(videoDTO);
 
-            responseList.add(responseDTOV);
+            responseList.add(responseScheduleChildUserVideoDTO);
         }
 
         return responseList;
@@ -247,18 +257,21 @@ public class ScheduleService implements ScheduleServices {
     @Override
     public List<ScheduleParentDTO> getAllscheduleParent() {
         List<ScheduleParent> scheduleParents = scheduleParentRepository.findAll();
-        return scheduleParents.stream().map(scheduleParent -> modelMapper.map(scheduleParent, ScheduleParentDTO.class)).collect(Collectors.toList());
+        return scheduleParents.stream().map(scheduleParent -> modelMapper.map(scheduleParent,
+                ScheduleParentDTO.class)).collect(Collectors.toList());
     }
     @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     @Override
     public ScheduleParentDTO getScheduleParentDetailById(Integer scheduleID) {
-        ScheduleParent scheduleParent = scheduleParentRepository.findById(scheduleID).orElseThrow(() -> new RuntimeException("scheudle not found with id: " + scheduleID));
+        ScheduleParent scheduleParent = scheduleParentRepository.findById(scheduleID).orElseThrow(() ->
+                new RuntimeException("scheudle not found with id: " + scheduleID));
         return modelMapper.map(scheduleParent, ScheduleParentDTO.class);
     }
     @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     @Override
     public ScheduleParentDTO updateScheduleParentById(int scheduleID, ScheduleParentDTO scheduleParentDTO) {
-        ScheduleParent existing = scheduleParentRepository.findById(scheduleID).orElseThrow(() -> new IllegalArgumentException("Detail not found by id : " + scheduleParentDTO.getId_schedule_parent()));
+        ScheduleParent existing = scheduleParentRepository.findById(scheduleID).orElseThrow(() ->
+                new IllegalArgumentException("Detail not found by id : " + scheduleParentDTO.getId_schedule_parent()));
         existing.setTitle(scheduleParentDTO.getTitle());
         existing.setDescription(scheduleParentDTO.getDescription());
         ScheduleParent updatedSchedule = scheduleParentRepository.save(existing);
@@ -281,15 +294,11 @@ public class ScheduleService implements ScheduleServices {
         ScheduleParent scheduleParent = scheduleParentRepository.findById(scheduleID)
                 .orElseThrow(() -> new EntityNotFoundException("ScheduleParent not found with id: " + scheduleID));
 
-        // Hapus relasi antara ScheduleParent dan ScheduleChild
         for (ScheduleHistoryParent child : scheduleParent.getChildren()) {
-            child.setScheduleParent(null);  // Menghapus relasi parent di entitas ScheduleChild
+            child.setScheduleParent(null);
         }
-
-        // Hapus relasi parent di entitas ScheduleParent
         scheduleParent.getChildren().clear();
 
-        // Simpan perubahan relasi
         scheduleParentRepository.save(scheduleParent);
 
         scheduleParentRepository.delete(scheduleParent);
@@ -325,7 +334,8 @@ public class ScheduleService implements ScheduleServices {
     @Override
     public List<ScheduleChildDTO> getPrevVersion(Integer scheduleID) {
         List<ScheduleHistoryChild> schedules = scheduleChildRepository.getProductVersionHistory(scheduleID);
-        return schedules.stream().map(schedule -> modelMapper.map(schedule, ScheduleChildDTO.class)).collect(Collectors.toList());
+        return schedules.stream().map(schedule -> modelMapper.map(schedule, ScheduleChildDTO.class))
+                .collect(Collectors.toList());
     }
     @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     @Override
@@ -341,14 +351,11 @@ public class ScheduleService implements ScheduleServices {
         ScheduleChild scheduleChild = scheduleChildRepository.findById(scheduleID)
                 .orElseThrow(() -> new EntityNotFoundException("ScheduleParent not found with id: " + scheduleID));
 
-        // Hapus relasi antara ScheduleParent dan ScheduleChild
         for (ScheduleHistoryChild child : scheduleChild.getChildren()) {
-            child.setScheduleChild(null);  // Menghapus relasi parent di entitas ScheduleChild
+            child.setScheduleChild(null);
         }
-
         scheduleChild.getChildren().clear();
 
-        // Simpan perubahan relasi
         scheduleChildRepository.save(scheduleChild);
 
         scheduleChildRepository.delete(scheduleChild);
@@ -358,7 +365,14 @@ public class ScheduleService implements ScheduleServices {
 
 
 
-
+//    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
+//    public ScheduleHistoryParentDTO getScheduleParentHistoryById(Integer id) {
+//        ScheduleHistoryParent scheduleHistoryParent = scheduleHistoryParentRepository.getScheduleParentHistoryDetailByScheduleParentHistoryId(id)
+//                .orElseThrow(()
+//                -> new RuntimeException("scheudle not found with id: " + id));
+//        return modelMapper.map(scheduleHistoryParent, ScheduleHistoryParentDTO.class);
+//
+//    }
 //    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
 //    @Override
 //    public List<ResponseDTO> getAllScheduleParentAllRest() {
@@ -429,7 +443,8 @@ public class ScheduleService implements ScheduleServices {
     // Update Biasa
 //    @Override
 //    public ScheduleDTO updateSchedule(int sheduleID, ScheduleDTO scheduleDTO) {
-//        Schedule existing = scheduleRepository.findById(sheduleID).orElseThrow(() -> new IllegalArgumentException("Detail not found by id : " + scheduleDTO.getId_schedule()));
+//        Schedule existing = scheduleRepository.findById(sheduleID).orElseThrow(() ->
+//        new IllegalArgumentException("Detail not found by id : " + scheduleDTO.getId_schedule()));
 //        existing.setTitle(scheduleDTO.getTitle());
 //        existing.setDate(scheduleDTO.getDate());
 //        Schedule updatedSchedule = scheduleRepository.save(existing);

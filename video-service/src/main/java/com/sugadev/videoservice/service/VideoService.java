@@ -30,17 +30,20 @@ public class VideoService implements VideoServices{
     }
     @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public VideoDTO getVideoById(Integer videoID) {
-        Video video = videoRepository.findById(videoID).orElseThrow(() -> new RuntimeException("User not found with id: " + videoID));
+        Video video = videoRepository.findById(videoID).orElseThrow(() ->
+                new RuntimeException("User not found with id: " + videoID));
         return modelMapper.map(video, VideoDTO.class);
     }
-    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
+    @Override
     public List<VideoDTO> findAll() {
         List<Video> videos = videoRepository.findAll();
-        return videos.stream().map(video -> modelMapper.map(video, VideoDTO.class)).collect(Collectors.toList());
+        return videos.stream().map(video -> modelMapper.map(video, VideoDTO.class))
+                .collect(Collectors.toList());
     }
     @RolesAllowed({"ROLE_ADMIN"})
     public VideoDTO updateVideo(int videoID,VideoDTO videoDTO) {
-        Video existing = videoRepository.findById(videoID).orElseThrow(() -> new IllegalArgumentException("Detail not found by id : " + videoDTO.getId_video()));
+        Video existing = videoRepository.findById(videoID).orElseThrow(()
+                -> new IllegalArgumentException("Detail not found by id : " + videoDTO.getId_video()));
         existing.setTitle(videoDTO.getTitle());
         existing.setDescription(videoDTO.getDescription());
         existing.setCategory(videoDTO.getCategory());
@@ -51,7 +54,8 @@ public class VideoService implements VideoServices{
     @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public List<VideoDTO> getVideoCategory(String category) {
         List<Video> videos = videoRepository.getVideoByCategory(category);
-        return videos.stream().map(video -> modelMapper.map(video, VideoDTO.class)).collect(Collectors.toList());
+        return videos.stream().map(video -> modelMapper.map(video, VideoDTO.class))
+                .collect(Collectors.toList());
     }
     @Override
     public void deleteById(Integer videoID) {

@@ -1,18 +1,16 @@
 package com.sugadev.historyservice.Repository;
 
+import com.sugadev.historyservice.Dto.HistoryDTO;
+import com.sugadev.historyservice.Model.History;
 import com.sugadev.historyservice.Model.HistoryParent;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-public interface HistoryParentRepository extends JpaRepository<HistoryParent,Integer> {
+public interface HistoryRepository extends JpaRepository<History,Integer> {
 
-
-    @Query("SELECT sv FROM HistoryParent sv WHERE sv.idUser=:id")
-    List<HistoryParent> getHistoryParentByUserId(@Param("id") int id);
-
+    @Query("SELECT sv FROM History sv WHERE sv.idUser=:id")
+    List<History> getAllBiasaUser(@Param("id") int id);
 }

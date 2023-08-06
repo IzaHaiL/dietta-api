@@ -18,12 +18,8 @@ import java.util.List;
 @RestController
 public class VideoController {
 
-
     @Autowired
     private VideoServices videoServices;
-
-    private ModelMapper modelMapper;
-
 
     @PostMapping("/add")
     public ResponseEntity<VideoDTO> saveVideo(@RequestBody VideoDTO videoDTO){
@@ -50,7 +46,8 @@ public class VideoController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<VideoDTO> updateVideo( @PathVariable("id") Integer id, @RequestBody VideoDTO videoDTO) {
+    public ResponseEntity<VideoDTO> updateVideo( @PathVariable("id") Integer id,
+                                                 @RequestBody VideoDTO videoDTO) {
         VideoDTO updateVideo = videoServices.updateVideo(id, videoDTO);
         return new ResponseEntity<>(updateVideo, HttpStatus.OK);
     }
@@ -64,9 +61,5 @@ public class VideoController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
-
-
 
 }

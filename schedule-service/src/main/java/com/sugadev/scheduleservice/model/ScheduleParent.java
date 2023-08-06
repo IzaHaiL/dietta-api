@@ -22,7 +22,6 @@ import java.util.List;
 public class ScheduleParent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column (name = "id_schedule_parent")
 
     private int id_schedule_parent;

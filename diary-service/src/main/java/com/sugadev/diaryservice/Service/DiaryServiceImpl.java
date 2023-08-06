@@ -46,7 +46,6 @@ public class DiaryServiceImpl implements DiaryService{
         HttpHeaders headers = new HttpHeaders();
         UserAuthDTO user = (UserAuthDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         headers.setBearerAuth(user.getToken());
-
         HttpEntity<String> entity = new HttpEntity<>("body", headers);
 
         ResponseEntity<UserDTO> responseEntity = restTemplate
@@ -72,43 +71,6 @@ public class DiaryServiceImpl implements DiaryService{
     }
 
 
-
-//    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
-//    @Override
-//    public ResponseDTO getDiary(Integer diaryId) {
-//        ResponseDTO responseDTO = new ResponseDTO();
-//        Diary diary = diaryRepository.findById(diaryId).get();
-//        DiaryDTO diaryDTO = modelMapper.map(diary, DiaryDTO.class);
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        UserAuthDTO user = (UserAuthDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        headers.setBearerAuth(user.getToken());
-//
-//        HttpEntity<String> entity = new HttpEntity<>("body", headers);
-//
-//        ResponseEntity<UserDTO> responseEntity = restTemplate
-//                .exchange("http://user/user/" + diary.getIdUser(),
-//                        HttpMethod.GET, entity, UserDTO.class);
-//
-//        UserDTO userDTO = responseEntity.getBody();
-//
-//        ResponseEntity<CulinaryDTO> responseEntitypar = restTemplate
-//                .exchange("http://culinary/culinary/" + diary.getIdCulinary(),
-//                        HttpMethod.GET, entity, CulinaryDTO.class);
-//
-//        CulinaryDTO culinaryDTO = responseEntitypar.getBody();
-//
-//        System.out.println(responseEntity.getStatusCode());
-//        System.out.println(responseEntitypar.getStatusCode());
-//
-//        responseDTO.setDiary(diaryDTO);
-//        responseDTO.setUser(userDTO);
-//        responseDTO.setCulinary(culinaryDTO);
-//
-//        return responseDTO;
-//    }
-
-
     @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     public List<ResponseDTO> getCulinaryBy(Integer IdCulinary) {
         List<ResponseDTO> responseList = new ArrayList<>();
@@ -121,7 +83,6 @@ public class DiaryServiceImpl implements DiaryService{
             HttpHeaders headers = new HttpHeaders();
             UserAuthDTO user = (UserAuthDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             headers.setBearerAuth(user.getToken());
-
             HttpEntity<String> entity = new HttpEntity<>("body", headers);
 
             ResponseEntity<UserDTO> responseEntityUser = restTemplate
@@ -163,7 +124,6 @@ public class DiaryServiceImpl implements DiaryService{
             HttpHeaders headers = new HttpHeaders();
             UserAuthDTO user = (UserAuthDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             headers.setBearerAuth(user.getToken());
-
             HttpEntity<String> entity = new HttpEntity<>("body", headers);
 
             ResponseEntity<UserDTO> responseEntityUser = restTemplate
@@ -214,6 +174,43 @@ public class DiaryServiceImpl implements DiaryService{
         List<Diary> diaries = diaryRepository.findAll();
         return diaries.stream().map(diary -> modelMapper.map(diary, DiaryDTO.class)).collect(Collectors.toList());
     }
+
+
+
+//    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
+//    @Override
+//    public ResponseDTO getDiary(Integer diaryId) {
+//        ResponseDTO responseDTO = new ResponseDTO();
+//        Diary diary = diaryRepository.findById(diaryId).get();
+//        DiaryDTO diaryDTO = modelMapper.map(diary, DiaryDTO.class);
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        UserAuthDTO user = (UserAuthDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        headers.setBearerAuth(user.getToken());
+//
+//        HttpEntity<String> entity = new HttpEntity<>("body", headers);
+//
+//        ResponseEntity<UserDTO> responseEntity = restTemplate
+//                .exchange("http://user/user/" + diary.getIdUser(),
+//                        HttpMethod.GET, entity, UserDTO.class);
+//
+//        UserDTO userDTO = responseEntity.getBody();
+//
+//        ResponseEntity<CulinaryDTO> responseEntitypar = restTemplate
+//                .exchange("http://culinary/culinary/" + diary.getIdCulinary(),
+//                        HttpMethod.GET, entity, CulinaryDTO.class);
+//
+//        CulinaryDTO culinaryDTO = responseEntitypar.getBody();
+//
+//        System.out.println(responseEntity.getStatusCode());
+//        System.out.println(responseEntitypar.getStatusCode());
+//
+//        responseDTO.setDiary(diaryDTO);
+//        responseDTO.setUser(userDTO);
+//        responseDTO.setCulinary(culinaryDTO);
+//
+//        return responseDTO;
+//    }
 
 
 

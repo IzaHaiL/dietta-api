@@ -3,10 +3,12 @@ package com.sugadev.historyservice.Services;
 
 import com.sugadev.historyservice.Dto.*;
 
+import com.sugadev.historyservice.Model.History;
 import com.sugadev.historyservice.Model.HistoryChild;
 import com.sugadev.historyservice.Model.HistoryParent;
 import com.sugadev.historyservice.Repository.HistoryParentRepository;
 import com.sugadev.historyservice.Repository.HistoryChildRepository;
+import com.sugadev.historyservice.Repository.HistoryRepository;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,10 +37,14 @@ public class HistoryServiceImpl implements HistoryService {
     HistoryChildRepository historyChildRepository;
     @Autowired
     HistoryParentRepository historyParentRepository;
+
+    @Autowired
+    HistoryRepository historyRepository;
     @Autowired
     ModelMapper modelMapper;
     @Autowired
     RestTemplate restTemplate;
+
     @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     public HistoryChildDTO createHistoryChild(HistoryChildDTO historyChildDto) {
         HistoryChild historyChild = modelMapper.map(historyChildDto, HistoryChild.class);
@@ -52,13 +58,7 @@ public class HistoryServiceImpl implements HistoryService {
         HistoryParent savedHistoryParent = historyParentRepository.save(historyParent);
         return modelMapper.map(savedHistoryParent, HistoryParentDTO.class);
     }
-    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
-    public List<HistoryChildDTO> getAllHistory() {
-        List<HistoryChild> histories = historyChildRepository.findAll();
-        return histories.stream()
-                .map(historyChild -> modelMapper.map(historyChild, HistoryChildDTO.class))
-                .collect(Collectors.toList());
-    }
+
     @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
     public List<ResponseScheduleAndHistoryParentDTO> getHistoryParentByUserId(Integer id) {
         List<ResponseScheduleAndHistoryParentDTO> responseScheduleAndHistoryParentDTOList = new ArrayList<>();
@@ -74,23 +74,39 @@ public class HistoryServiceImpl implements HistoryService {
 
             ResponseEntity<UserDTO> responseEntityUser = restTemplate.exchange
                     ("http://user/user/" + historyParent.getIdUser(),
-                    HttpMethod.GET, entity, UserDTO.class);
+                            HttpMethod.GET, entity, UserDTO.class);
             UserDTO userDTO = responseEntityUser.getBody();
             System.out.println(responseEntityUser.getStatusCode());
 
             ResponseEntity<ScheduleHistoryParentDTO> responseEntity = restTemplate.exchange
                     ("http://schedule/schedule/parent/history/" + historyParent.getIdScheHistoryParent(),
-                    HttpMethod.GET, entity, ScheduleHistoryParentDTO.class);
+                            HttpMethod.GET, entity, ScheduleHistoryParentDTO.class);
             ScheduleHistoryParentDTO scheduleHistoryParentDTO = responseEntity.getBody();
             System.out.println(responseEntity.getStatusCode());
 
-            responseScheduleAndHistoryParentDTO.setScheduleHistoryParentDTO(scheduleHistoryParentDTO);
-            responseScheduleAndHistoryParentDTO.setUserDTO(userDTO);
-            responseScheduleAndHistoryParentDTO.setHistoryParentDTO(historyParentDTO);
+            responseScheduleAndHistoryParentDTO.setScheduleHistoryParent(scheduleHistoryParentDTO);
+            responseScheduleAndHistoryParentDTO.setUser(userDTO);
+            responseScheduleAndHistoryParentDTO.setHistoryParent(historyParentDTO);
             responseScheduleAndHistoryParentDTOList.add(responseScheduleAndHistoryParentDTO);
         }
         return responseScheduleAndHistoryParentDTOList;
     }
+
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+    public List<HistoryChildDTO> getAllHistory() {
+        List<HistoryChild> histories = historyChildRepository.findAll();
+        return histories.stream()
+                .map(historyChild -> modelMapper.map(historyChild, HistoryChildDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
+
+
+
+
+
+
     @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
     public List<ResponseScheduleAndHistoryChildDTO> getHistoryChildByHistoryParentId(Integer id) {
         List<ResponseScheduleAndHistoryChildDTO> responseScheduleAndHistoryChildDTOList = new ArrayList<>();
@@ -123,10 +139,39 @@ public class HistoryServiceImpl implements HistoryService {
         historyParentRepository.deleteAllById(Collections.singleton(id));
     }
 
+//    @Override
+//    public HistoryDTO addBiasa(HistoryDTO historyDTO) {
+//        return null;
+//    }
+
+
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+    public HistoryDTO addBiasa(HistoryDTO historyDTO) {
+        History history = modelMapper.map(historyDTO, History.class);
+        History savedHistory = historyRepository.save(history);
+        return modelMapper.map(savedHistory, HistoryDTO.class);
+
+    }
+
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
+    public List<HistoryDTO> getAllBiasaUser(Integer id) {
+        List<History> culinaries = historyRepository.getAllBiasaUser(id);
+        return culinaries.stream()
+                .map(culinary -> modelMapper.map(culinary, HistoryDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
+        @RolesAllowed({"ROLE_ADMIN"})
+        @Override
+        public void deleteBiasa(Integer id)
+        {historyRepository.deleteById(id);}
+
+
+    }
 
 
 
-}
 
 
 //    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})

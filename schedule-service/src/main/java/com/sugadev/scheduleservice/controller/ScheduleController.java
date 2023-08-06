@@ -2,7 +2,6 @@ package com.sugadev.scheduleservice.controller;
 
 import com.sugadev.scheduleservice.dto.*;
 import com.sugadev.scheduleservice.model.ScheduleChild;
-import com.sugadev.scheduleservice.model.ScheduleHistoryChild;
 import com.sugadev.scheduleservice.service.ScheduleServices;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -44,6 +43,14 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleHistoryParentDTOS, HttpStatus.OK);
     }
 
+
+    @GetMapping("/history/user/{id}")
+    public ResponseEntity<List<ScheduleHistoryParentDTO>> getallScheduleParentHistoryByUser(@PathVariable("id") Integer id) {
+        List<ScheduleHistoryParentDTO> scheduleHistoryParentDTOS = scheduleServices.getallScheduleParentHistoryByUser(id);
+        return new ResponseEntity<>(scheduleHistoryParentDTOS, HttpStatus.OK);
+    }
+
+
     @GetMapping("/parent/history/{id}")
     public ResponseEntity <ScheduleHistoryParentDTO> getScheduleParentHistoryDetailByScheduleParentHistoryId(@PathVariable("id") Integer id){
         ScheduleHistoryParentDTO scheduleHistoryParentDTO1 = scheduleServices.getScheduleParentHistoryDetailByScheduleParentHistoryId(id);
@@ -58,15 +65,15 @@ public class ScheduleController {
     }
 
     @GetMapping(    "/child/{id}")
-    public ResponseEntity<ResponseDTO> getScheduleById(@PathVariable("id") Integer id) {
-        ResponseDTO responseDTO = scheduleServices.getScheduleById(id);
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    public ResponseEntity<ResponseScheduleChildParentVideoDTO> getScheduleById(@PathVariable("id") Integer id) {
+        ResponseScheduleChildParentVideoDTO responseScheduleChildParentVideoDTO = scheduleServices.getScheduleById(id);
+        return new ResponseEntity<>(responseScheduleChildParentVideoDTO, HttpStatus.OK);
     }
 
     @GetMapping("/child/all/{id}")
-    public ResponseEntity<List<ResponseDTO>> getAllScheduleList(@PathVariable("id") Integer id) {
-        List<ResponseDTO> responseDTOS = scheduleServices.getAllScheduleList(id);
-        return new ResponseEntity<>(responseDTOS, HttpStatus.OK);
+    public ResponseEntity<List<ResponseScheduleChildParentVideoDTO>> getAllScheduleList(@PathVariable("id") Integer id) {
+        List<ResponseScheduleChildParentVideoDTO> responseScheduleChildParentVideoDTOS = scheduleServices.getAllScheduleList(id);
+        return new ResponseEntity<>(responseScheduleChildParentVideoDTOS, HttpStatus.OK);
     }
 
     @GetMapping("/child/history/{id}")
@@ -88,8 +95,8 @@ public class ScheduleController {
     }
 
     @GetMapping("/video/{id}")
-    public ResponseEntity<List<ResponseDTOV>> getVideoById(@PathVariable("id") Integer id) {
-        List<ResponseDTOV> responseDTO = scheduleServices.getVideoById(id);
+    public ResponseEntity<List<ResponseScheduleChildUserVideoDTO>> getVideoById(@PathVariable("id") Integer id) {
+        List<ResponseScheduleChildUserVideoDTO> responseDTO = scheduleServices.getVideoById(id);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
@@ -130,9 +137,9 @@ public class ScheduleController {
     }
 
     @GetMapping("/parent/user/{id}")
-    public ResponseEntity<List<ResponseDTO1>> getAllscheduleParentByUser(@PathVariable("id") Integer id) {
-        List<ResponseDTO1> responseDTO1 = scheduleServices.getAllscheduleParentByUser(id);
-        return new ResponseEntity<>(responseDTO1, HttpStatus.OK);
+    public ResponseEntity<List<ResponseScheduleParentAndUserDTO>> getAllscheduleParentByUser(@PathVariable("id") Integer id) {
+        List<ResponseScheduleParentAndUserDTO> responseScheduleParentAndUserDTO = scheduleServices.getAllscheduleParentByUser(id);
+        return new ResponseEntity<>(responseScheduleParentAndUserDTO, HttpStatus.OK);
     }
 
 

@@ -3,12 +3,9 @@ package com.sugadev.historyservice.Controller;
 
 import com.sugadev.historyservice.Dto.*;
 
-
-import com.sugadev.historyservice.Model.HistoryChild;
+import com.sugadev.historyservice.Model.History;
 import com.sugadev.historyservice.Model.HistoryParent;
 import com.sugadev.historyservice.Services.HistoryService;
-import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,13 +30,11 @@ public class HistoryController {
         HistoryChildDTO createdHistory = historyService.createHistoryChild(historyChildDto);
         return new ResponseEntity<>(createdHistory, HttpStatus.CREATED);
     }
-
     @GetMapping("/all")
     public ResponseEntity<List<HistoryChildDTO>> getAllHistory() {
         List<HistoryChildDTO> historyChildDto = historyService.getAllHistory();
         return new ResponseEntity<>(historyChildDto, HttpStatus.OK);
     }
-
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<HistoryParent> deleteAllByUserId(@PathVariable("id") Integer idHistory) {
         try {
@@ -62,20 +57,40 @@ public class HistoryController {
         return new ResponseEntity<>(responseScheduleAndHistoryChildDTOList, HttpStatus.OK);
     }
 
+    @PostMapping("/add/biasa")
+    public ResponseEntity<HistoryDTO> addBiasa(@RequestBody HistoryDTO historyDTO){
+        HistoryDTO createdCulinary = historyService.addBiasa(historyDTO);
+        return new ResponseEntity<>(createdCulinary, HttpStatus.CREATED);
+    }
 
+    @GetMapping("/get/biasa/{id}")
+    public ResponseEntity<List<HistoryDTO>>getAllBiasaUser(@PathVariable("id") Integer id){
+        List<HistoryDTO> historyDTOS = historyService.getAllBiasaUser(id);
+        return new ResponseEntity<>(historyDTOS, HttpStatus.OK);
+    }
 
- //    @GetMapping("{id}")
+    @DeleteMapping("/delete/biasa")
+    public ResponseEntity<History> deleteBiasa(@PathVariable("id") Integer id) {
+        try {
+            historyService.deleteBiasa(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    // @GetMapping("{id}")
 //    public ResponseEntity<ResponseDTO> getHistory(@PathVariable("id") Integer historyId) {
 //        ResponseDTO responseDTO = historyService.getHistory(historyId);
 //        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 //    }
-    //    @PutMapping("/update/{id}")
+//    @PutMapping("/update/{id}")
 //    public ResponseEntity<HistoryDto> updateHistory( @PathVariable("id") Integer id, @RequestBody HistoryDto historyDto) {
 //        HistoryDto updatedHistory = historyService.updateHistory(id, historyDto);
 //        return new ResponseEntity<>(updatedHistory, HttpStatus.OK);
 //    }
-
-    //    @GetMapping("/user/{id}")
+//    @GetMapping("/user/{id}")
 //    public ResponseEntity<List<ResponseDTO>> getHistoryByUser(@PathVariable("id") Integer id) {
 //        List<ResponseDTO> responseDTO = historyService.getHistoriesByUser(id);
 //        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
