@@ -1,12 +1,11 @@
 package com.sugadev.historyservice.Controller;
 
 
-import com.sugadev.historyservice.Dto.HistoryDTO;
+import com.sugadev.historyservice.Dto.*;
 
 
-import com.sugadev.historyservice.Dto.ResponseDTO;
-import com.sugadev.historyservice.Dto.ResponseDTO1;
-import com.sugadev.historyservice.Model.History;
+import com.sugadev.historyservice.Model.HistoryChild;
+import com.sugadev.historyservice.Model.HistoryParent;
 import com.sugadev.historyservice.Services.HistoryService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -17,76 +16,74 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/history")
-@AllArgsConstructor
-
 public class HistoryController {
 
     @Autowired
     private HistoryService historyService;
-
-    private ModelMapper modelMapper;
-
-
-    @PostMapping("/add")
-
-    public ResponseEntity<HistoryDTO> saveHistory(@RequestBody HistoryDTO historyDto) {
-        HistoryDTO createdHistory = historyService.saveHistory(historyDto);
-
+    @PostMapping("/parent/add")
+    public ResponseEntity<HistoryParentDTO> createHistoryParent(@RequestBody HistoryParentDTO historyParentDTO) {
+        HistoryParentDTO createdHistory = historyService.createHistoryParent(historyParentDTO);
+        return new ResponseEntity<>(createdHistory, HttpStatus.CREATED);
+    }
+    @PostMapping("/child/add")
+    public ResponseEntity<HistoryChildDTO> createHistoryChild(@RequestBody HistoryChildDTO historyChildDto) {
+        HistoryChildDTO createdHistory = historyService.createHistoryChild(historyChildDto);
         return new ResponseEntity<>(createdHistory, HttpStatus.CREATED);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<ResponseDTO> getHistory(@PathVariable("id") Integer historyId) {
-        ResponseDTO responseDTO = historyService.getHistory(historyId);
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
-    }
-
-
     @GetMapping("/all")
-
-    public ResponseEntity<List<HistoryDTO>> getAllHistory() {
-        List<HistoryDTO> historyDto = historyService.getAllHistory();
-
-        return new ResponseEntity<>(historyDto, HttpStatus.OK);
+    public ResponseEntity<List<HistoryChildDTO>> getAllHistory() {
+        List<HistoryChildDTO> historyChildDto = historyService.getAllHistory();
+        return new ResponseEntity<>(historyChildDto, HttpStatus.OK);
     }
 
-//    @PutMapping("/update/{id}")
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<HistoryParent> deleteAllByUserId(@PathVariable("id") Integer idHistory) {
+        try {
+            historyService.deleteAllByIdUser(idHistory);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/parent/{id}")
+    public ResponseEntity<List<ResponseScheduleAndHistoryParentDTO>> getHistoryParentByUserId(@PathVariable("id") Integer id) {
+        List<ResponseScheduleAndHistoryParentDTO> responseScheduleAndHistoryParentDTOList = historyService.getHistoryParentByUserId(id);
+        return new ResponseEntity<>(responseScheduleAndHistoryParentDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping("/child/{id}")
+    public ResponseEntity<List<ResponseScheduleAndHistoryChildDTO>> getHistoryChildByHistoryParentId(@PathVariable("id") Integer id) {
+        List<ResponseScheduleAndHistoryChildDTO> responseScheduleAndHistoryChildDTOList = historyService.getHistoryChildByHistoryParentId(id);
+        return new ResponseEntity<>(responseScheduleAndHistoryChildDTOList, HttpStatus.OK);
+    }
+
+
+
+ //    @GetMapping("{id}")
+//    public ResponseEntity<ResponseDTO> getHistory(@PathVariable("id") Integer historyId) {
+//        ResponseDTO responseDTO = historyService.getHistory(historyId);
+//        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+//    }
+    //    @PutMapping("/update/{id}")
 //    public ResponseEntity<HistoryDto> updateHistory( @PathVariable("id") Integer id, @RequestBody HistoryDto historyDto) {
 //        HistoryDto updatedHistory = historyService.updateHistory(id, historyDto);
 //        return new ResponseEntity<>(updatedHistory, HttpStatus.OK);
 //    }
 
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<History> deleteCulinary(@PathVariable("id") Integer id) {
-        try {
-            historyService.deleteHistory(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    //    @GetMapping("/user/{id}")
+//    public ResponseEntity<List<ResponseDTO>> getHistoryByUser(@PathVariable("id") Integer id) {
+//        List<ResponseDTO> responseDTO = historyService.getHistoriesByUser(id);
+//        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+//    }
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<List<ResponseDTO>> getHistoryByUser(@PathVariable("id") Integer id) {
-        List<ResponseDTO> responseDTO = historyService.getHistoriesByUser(id);
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
-    }
-
-
-
-    @GetMapping("/parent/{id}")
-    public ResponseEntity<List<ResponseDTO1>> getAllHistoryParentByuser(@PathVariable("id") Integer id) {
-        List<ResponseDTO1> responseDTO1s = historyService.getAllHistoryParentByuser(id);
-        return new ResponseEntity<>(responseDTO1s, HttpStatus.OK);
-    }
-
-
-
-    @GetMapping("/child/{id}")
-    public ResponseEntity<List<ResponseDTO>> getAllHistoryByScheHistoryId(@PathVariable("id") Integer id) {
-        List<ResponseDTO> responseDTOS = historyService.getAllHistoryByScheHistoryId(id);
-        return new ResponseEntity<>(responseDTOS, HttpStatus.OK);
-    }
+//    @GetMapping("/child/{id}")
+//    public ResponseEntity<List<ResponseDTO>> getAllHistoryByScheHistoryId(@PathVariable("id") Integer id) {
+//        List<ResponseDTO> responseDTOS = historyService.getAllHistoryByScheHistoryId(id);
+//        return new ResponseEntity<>(responseDTOS, HttpStatus.OK);
+//    }
 }

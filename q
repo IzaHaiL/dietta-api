@@ -30,7 +30,7 @@ Date:   Wed Aug 2 13:35:41 2023 +0700
 Author: Rizaldi Farhan <rizaldifarhan28@gmail.com>
 Date:   Wed Aug 2 13:32:58 2023 +0700
 
-    update history api
+    update historyChild api
 
 [33mcommit a55e5920ab2bc1920580125dffc3117c8537e9fa[m
 Author: Rizaldi Farhan <rizaldifarhan28@gmail.com>
@@ -248,7 +248,7 @@ Date:   Fri Jun 23 11:35:01 2023 +0700
 Author: Rizaldi Farhan <rizaldifarhan28@gmail.com>
 Date:   Thu Jun 22 10:22:41 2023 +0700
 
-     add versioning history and update app propperties
+     add versioning historyChild and update app propperties
 
 [33mcommit 2f43040c83a53adfb9d757dce283d89154a4a590[m
 Merge: af980f9 0c8e89b
@@ -257,7 +257,7 @@ Date:   Thu Jun 22 08:48:38 2023 +0700
 
     Merge pull request #7 from bukansaddam/main
     
-    update schedule, add culinary & history
+    update schedule, add culinary & historyChild
 
 [33mcommit 0c8e89b065ed8c97faa126395c6a2ae1da7a10d3[m
 Merge: 61230a8 af980f9
@@ -270,7 +270,7 @@ Date:   Thu Jun 22 08:48:29 2023 +0700
 Author: Firlana Saddam <firlanasaddamp@gmail.com>
 Date:   Thu Jun 22 07:25:59 2023 +0700
 
-    update schedule, add culinary & history
+    update schedule, add culinary & historyChild
 
 [33mcommit af980f989c3b3e0c17df0b412d982ae31b521da8[m
 Merge: 95a23b2 456c963
@@ -294,13 +294,13 @@ Date:   Wed Jun 21 22:14:26 2023 +0700
 
     Merge pull request #5 from galangwahyu/main
     
-    add history-service, culinary-service
+    add historyChild-service, culinary-service
 
 [33mcommit 9a475e08fd5d1b8324a4bddd70fc0f6948e00bd1[m
 Author: GalangWahyu <galangwahyu2001@gmail.com>
 Date:   Wed Jun 21 22:09:26 2023 +0700
 
-    add history-service, culinary-service
+    add historyChild-service, culinary-service
 
 [33mcommit 578d120ac4415f1c9f695297336cf0e575c83980[m
 Merge: de236eb b54a5d2

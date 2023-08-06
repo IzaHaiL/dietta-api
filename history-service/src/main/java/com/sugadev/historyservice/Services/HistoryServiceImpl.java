@@ -3,19 +3,25 @@ package com.sugadev.historyservice.Services;
 
 import com.sugadev.historyservice.Dto.*;
 
-import com.sugadev.historyservice.Model.History;
+import com.sugadev.historyservice.Model.HistoryChild;
 import com.sugadev.historyservice.Model.HistoryParent;
 import com.sugadev.historyservice.Repository.HistoryParentRepository;
-import com.sugadev.historyservice.Repository.HistoryRepository;
+import com.sugadev.historyservice.Repository.HistoryChildRepository;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,171 +31,178 @@ import java.util.stream.Collectors;
 
 public class HistoryServiceImpl implements HistoryService {
 
-    HistoryRepository historyRepository;
-    ModelMapper modelMapper;
-    RestTemplate restTemplate;
-
-
+    @Autowired
+    HistoryChildRepository historyChildRepository;
+    @Autowired
     HistoryParentRepository historyParentRepository;
-
-
-    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
-    public HistoryDTO saveHistory(HistoryDTO historyDto) {
-        History history = modelMapper.map(historyDto, History.class);
-        History savedHistory = historyRepository.save(history);
-        return modelMapper.map(savedHistory, HistoryDTO.class);
+    @Autowired
+    ModelMapper modelMapper;
+    @Autowired
+    RestTemplate restTemplate;
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+    public HistoryChildDTO createHistoryChild(HistoryChildDTO historyChildDto) {
+        HistoryChild historyChild = modelMapper.map(historyChildDto, HistoryChild.class);
+        HistoryChild savedHistoryChild = historyChildRepository.save(historyChild);
+        return modelMapper.map(savedHistoryChild, HistoryChildDTO.class);
 
     }
-    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
-    public ResponseDTO getHistory(Integer historyId) {
-        ResponseDTO responseDTO = new ResponseDTO();
-        History history = historyRepository.findById(historyId).get();
-
-        HistoryDTO historyDto = modelMapper.map(history, HistoryDTO.class);
-
-
-        ResponseEntity<UserDTO> responseEntity = restTemplate
-                .getForEntity("Http://user/user/" + history.getIdUser(),
-                        UserDTO.class);
-
-        UserDTO userDTO = responseEntity.getBody();
-
-        ResponseEntity<ScheduleHistoryDTO> responseEntity2 = restTemplate
-                .getForEntity("Http://schedule/schedule/version/" + history.getIdScheduleHistory(),
-                        ScheduleHistoryDTO.class);
-
-        ScheduleHistoryDTO scheduleHistoryDTO = responseEntity2.getBody();
-
-        System.out.println(responseEntity.getStatusCode());
-
-        responseDTO.setUser(userDTO);
-        responseDTO.setHistory(historyDto);
-        responseDTO.setScheduleHistory(scheduleHistoryDTO);
-
-        return responseDTO;
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    public HistoryParentDTO createHistoryParent(HistoryParentDTO historyParentDTO) {
+        HistoryParent historyParent = modelMapper.map(historyParentDTO, HistoryParent.class);
+        HistoryParent savedHistoryParent = historyParentRepository.save(historyParent);
+        return modelMapper.map(savedHistoryParent, HistoryParentDTO.class);
     }
-
-
-
-
-    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
-    public List<HistoryDTO> getAllHistory() {
-        List<History> histories = historyRepository.findAll();
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+    public List<HistoryChildDTO> getAllHistory() {
+        List<HistoryChild> histories = historyChildRepository.findAll();
         return histories.stream()
-                .map(history -> modelMapper.map(history, HistoryDTO.class))
+                .map(historyChild -> modelMapper.map(historyChild, HistoryChildDTO.class))
                 .collect(Collectors.toList());
     }
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    public List<ResponseScheduleAndHistoryParentDTO> getHistoryParentByUserId(Integer id) {
+        List<ResponseScheduleAndHistoryParentDTO> responseScheduleAndHistoryParentDTOList = new ArrayList<>();
+        List<HistoryParent> historyParents = historyParentRepository.getHistoryParentByUserId(id);
+        for (HistoryParent historyParent : historyParents) {
+            ResponseScheduleAndHistoryParentDTO responseScheduleAndHistoryParentDTO = new ResponseScheduleAndHistoryParentDTO();
+            HistoryParentDTO historyParentDTO = modelMapper.map(historyParent, HistoryParentDTO.class);
 
-    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
-    public void deleteHistory(Integer historyId) {historyRepository.deleteById(historyId);}
+            HttpHeaders headers = new HttpHeaders();
+            UserAuthDTO userAuthDTO = (UserAuthDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            headers.setBearerAuth(userAuthDTO.getToken());
+            HttpEntity<String> entity = new HttpEntity<>("body", headers);
 
+            ResponseEntity<UserDTO> responseEntityUser = restTemplate.exchange
+                    ("http://user/user/" + historyParent.getIdUser(),
+                    HttpMethod.GET, entity, UserDTO.class);
+            UserDTO userDTO = responseEntityUser.getBody();
+            System.out.println(responseEntityUser.getStatusCode());
 
+            ResponseEntity<ScheduleHistoryParentDTO> responseEntity = restTemplate.exchange
+                    ("http://schedule/schedule/parent/history/" + historyParent.getIdScheHistoryParent(),
+                    HttpMethod.GET, entity, ScheduleHistoryParentDTO.class);
+            ScheduleHistoryParentDTO scheduleHistoryParentDTO = responseEntity.getBody();
+            System.out.println(responseEntity.getStatusCode());
 
-    @Override
-    public List<ResponseDTO> getHistoriesByUser(Integer id) {
-        return null;
+            responseScheduleAndHistoryParentDTO.setScheduleHistoryParentDTO(scheduleHistoryParentDTO);
+            responseScheduleAndHistoryParentDTO.setUserDTO(userDTO);
+            responseScheduleAndHistoryParentDTO.setHistoryParentDTO(historyParentDTO);
+            responseScheduleAndHistoryParentDTOList.add(responseScheduleAndHistoryParentDTO);
+        }
+        return responseScheduleAndHistoryParentDTOList;
     }
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    public List<ResponseScheduleAndHistoryChildDTO> getHistoryChildByHistoryParentId(Integer id) {
+        List<ResponseScheduleAndHistoryChildDTO> responseScheduleAndHistoryChildDTOList = new ArrayList<>();
+        List<HistoryChild> historyParents = historyChildRepository.getHistoryChildByHistoryParentId(id);
+        for (HistoryChild historyChild : historyParents) {
+            ResponseScheduleAndHistoryChildDTO responseScheduleAndHistoryChildDTO = new ResponseScheduleAndHistoryChildDTO();
+            HistoryChildDTO historyChildDTO = modelMapper.map(historyChild, HistoryChildDTO.class);
+
+            HttpHeaders headers = new HttpHeaders();
+            UserAuthDTO userAuthDTO = (UserAuthDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            headers.setBearerAuth(userAuthDTO.getToken());
+            HttpEntity<String> entity = new HttpEntity<>("body", headers);
+
+            ResponseEntity<ScheduleHistoryChildDTO> responseEntity = restTemplate.exchange
+                    ("http://schedule/schedule/child/history/" + historyChild.getIdScheHistoryChild(),
+                    HttpMethod.GET, entity, ScheduleHistoryChildDTO.class);
+            ScheduleHistoryChildDTO scheduleHistoryChildDTO = responseEntity.getBody();
+            System.out.println(responseEntity.getStatusCode());
+
+            responseScheduleAndHistoryChildDTO.setHistoryChildDTO(historyChildDTO);
+            responseScheduleAndHistoryChildDTO.setScheduleHistoryChildDTO(scheduleHistoryChildDTO);
+            responseScheduleAndHistoryChildDTOList.add(responseScheduleAndHistoryChildDTO);
+
+        }
+        return responseScheduleAndHistoryChildDTOList;
+    }
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    @Override
+    public void deleteAllByIdUser(Integer id) {
+        historyParentRepository.deleteAllById(Collections.singleton(id));
+    }
+
+
+
+
+}
+
+
+//    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+//    @Override
+//    public void deleteAllByUserId(Integer id) {
+//        historyParentRepository.deleteAllById(Collections.singleton(id));
+//    }
+//
+//    @Override
+//    public void deleteHistoryParent(Integer id) {
+//    }
+//    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
+//    public ResponseDTO getHistory(Integer historyId) {
+//        ResponseDTO responseDTO = new ResponseDTO();
+//        HistoryChild historyChild = historyChildRepository.findById(historyId).get();
+//
+//        HistoryChildDTO historyChildDto = modelMapper.map(historyChild, HistoryChildDTO.class);
+//
+//
+//        ResponseEntity<UserDTO> responseEntity = restTemplate
+//                .getForEntity("Http://user/user/" + historyChild.getIdUser(),
+//                        UserDTO.class);
+//
+//        UserDTO userDTO = responseEntity.getBody();
+//
+//        ResponseEntity<ScheduleHistoryChild> responseEntity2 = restTemplate
+//                .getForEntity("Http://schedule/schedule/version/" + historyChild.getIdScheduleHistory(),
+//                        ScheduleHistoryChild.class);
+//
+//        ScheduleHistoryChild scheduleHistoryDTO = responseEntity2.getBody();
+//
+//        System.out.println(responseEntity.getStatusCode());
+//
+//        responseDTO.setUser(userDTO);
+//        responseDTO.setHistory(historyChildDto);
+//        responseDTO.setScheduleHistory(scheduleHistoryDTO);
+//
+//        return responseDTO;
+//    }
+
+//    @Override
+//    public List<ResponseDTO> getAllHistoryByScheHistoryId(Integer id) {
 //        List<ResponseDTO> responseList = new ArrayList<>();
 //
-//        List<History> historyList = (List<History>) historyRepository.getHistoriesByUser(id);
+//        List<HistoryChild> historyChildParents = historyRepository.getAllHistoryByScheHistoryId(id);
 //
-//        for (History history : historyList) {
-//            HistoryDTO historyDTO = modelMapper.map(history, HistoryDTO.class);
-//
-//            ResponseEntity<UserDTO> responseEntity = restTemplate.getForEntity(
-//                    "http://user/user/" + history.getIdUser(),
-//                    UserDTO.class);
-//
-//            ResponseEntity<ScheduleHistoryDTO> responseEntity2 = restTemplate.getForEntity(
-//                    "Http://schedule/schedule/sche/" + history.getIdScheduleHistory(),
-//                    ScheduleHistoryDTO.class);
-//
-//
-//            ScheduleHistoryDTO scheduleHistoryDTO = responseEntity2.getBody();
-//            UserDTO userDTO = responseEntity.getBody();
-//
-//            System.out.println(responseEntity.getStatusCode());
-//
+//        for (HistoryChild historyChild : historyChildParents) {
 //            ResponseDTO responseDTO = new ResponseDTO();
-//            responseDTO.setUser(userDTO);
+//
+//            HistoryDTO historyDTO = modelMapper.map(historyChild, HistoryDTO.class);
+//
+//            ResponseEntity<UserDTO> responseEntityUser = restTemplate
+//                    .getForEntity("http://user/user/" + historyChild.getIdUser(),
+//                            UserDTO.class);
+//
+//            UserDTO userDTO = responseEntityUser.getBody();
+//
+//            System.out.println(responseEntityUser.getStatusCode());
+//
+//            ResponseEntity<ScheduleHistoryDTO> responseEntitysch = restTemplate
+//                    .getForEntity("http://schedule/schedule/sch/" + historyChild.getIdScheduleHistory(),
+//                            ScheduleHistoryDTO.class);
+//
+//            ScheduleHistoryDTO scheduleHistoryDTO = responseEntitysch.getBody();
+//
+//            System.out.println(responseEntityUser.getStatusCode());
+//
+//
+//
 //            responseDTO.setHistory(historyDTO);
-//            responseDTO.setScheduleHistory(scheduleHistoryDTO);
+//            responseDTO.setUser(userDTO);
 //            responseList.add(responseDTO);
 //        }
 //
 //        return responseList;
 //    }
-
-
-    @Override
-    public List<ResponseDTO1> getAllHistoryParentByuser(Integer idUser) {
-        List<ResponseDTO1> responseList = new ArrayList<>();
-
-        List<HistoryParent> historyParents = historyParentRepository.getAllHistoryParentByuser(idUser);
-
-        for (HistoryParent historyParent : historyParents) {
-            ResponseDTO1 responseDTO1 = new ResponseDTO1();
-
-            HistoryParentDTO historyParentDTO = modelMapper.map(historyParent, HistoryParentDTO.class);
-
-            ResponseEntity<UserDTO> responseEntityUser = restTemplate
-                    .getForEntity("http://user/user/" + historyParent.getId_user(),
-                            UserDTO.class);
-
-            UserDTO userDTO = responseEntityUser.getBody();
-
-            System.out.println(responseEntityUser.getStatusCode());
-
-            // Add this part to fetch and map the schedule
-            Integer historyID = historyParent.getIdHistory();
-            History history = historyRepository.findById(historyID).orElse(null);
-            HistoryDTO historyDTO = modelMapper.map(history, HistoryDTO.class);
-
-            responseDTO1.setUserDTO(userDTO);
-            responseDTO1.setHistoryParentDTO(historyParentDTO);
-            responseDTO1.setHistory(history); // Set the scheduleDTO
-            responseList.add(responseDTO1);
-        }
-
-        return responseList;
-    }
-
-    @Override
-    public List<ResponseDTO> getAllHistoryByScheHistoryId(Integer id) {
-        List<ResponseDTO> responseList = new ArrayList<>();
-
-        List<History> historyParents = historyRepository.getAllHistoryByScheHistoryId(id);
-
-        for (History history : historyParents) {
-            ResponseDTO responseDTO = new ResponseDTO();
-
-            HistoryDTO historyDTO = modelMapper.map(history, HistoryDTO.class);
-
-            ResponseEntity<UserDTO> responseEntityUser = restTemplate
-                    .getForEntity("http://user/user/" + history.getIdUser(),
-                            UserDTO.class);
-
-            UserDTO userDTO = responseEntityUser.getBody();
-
-            System.out.println(responseEntityUser.getStatusCode());
-
-            ResponseEntity<ScheduleHistoryDTO> responseEntitysch = restTemplate
-                    .getForEntity("http://schedule/schedule/sch/" + history.getIdScheduleHistory(),
-                            ScheduleHistoryDTO.class);
-
-            ScheduleHistoryDTO scheduleHistoryDTO = responseEntitysch.getBody();
-
-            System.out.println(responseEntityUser.getStatusCode());
-
-
-
-            responseDTO.setHistory(historyDTO);
-            responseDTO.setUser(userDTO);
-            responseList.add(responseDTO);
-        }
-
-        return responseList;
-    }
 
 
 //    @Override
@@ -209,8 +222,8 @@ public class HistoryServiceImpl implements HistoryService {
 //
 //        History updatedHistory = historyRepository.save(existingHistory);
 //        return modelMapper.map(updatedHistory, HistoryDto.class);
-
-
+//
+//
 //    }
 
-}
+

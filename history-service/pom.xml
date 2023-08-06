@@ -11,7 +11,7 @@
 	<groupId>com.sugadev</groupId>
 	<artifactId>history-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>history-service</name>
+	<name>historyChild-service</name>
 	<description>userservice</description>
 	<properties>
 		<java.version>17</java.version>
@@ -76,7 +76,11 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+    </dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

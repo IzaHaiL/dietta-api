@@ -1,25 +1,24 @@
 package com.sugadev.historyservice.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Table(name ="history_parent")
 public class HistoryParent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_history_parent")
-    private int id_history_parent;
+    private int idHistoryParent;
+    @Column(name = "title")
     private String title;
+    @Column(name = "description")
     private String description;
-    private int idHistory;
-    private int id_user;
-    private int id_sche_history_parent;
+    @Column(name = "id_user")
+    private int idUser;
+    @Column(name = "id_sche_history_parent")
+    private int idScheHistoryParent;
 
 }
